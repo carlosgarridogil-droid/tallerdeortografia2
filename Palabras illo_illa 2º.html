@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lengua Castellana - Palabras terminadas en -illo e -illa</title>
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tipografía redondeada infantil -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <!-- Librería de Confeti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-outer: #FFFDE7;
+            --border-yellow: #F57F17;
+            --main-yellow: #FBC02D;
+            --dark-yellow: #F57F17;
+            --accent-yellow: #FFF176;
+            --text-dark: #3E2723;
+            --light-yellow: #FFF9C4;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Fredoka', 'Quicksand', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-outer);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- MARCO Y CONTENEDOR PRINCIPAL --- */
+        .app-container {
+            width: 100%;
+            max-width: 860px;
+            background: #FFFFFF;
+            border: 14px solid var(--border-yellow);
+            border-radius: 40px;
+            box-shadow: 0 12px 30px rgba(245, 127, 23, 0.25);
+            padding: 35px 30px 25px 30px;
+            position: relative;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- PANTALLA INICIAL --- */
+        .title-block {
+            text-align: center;
+            width: 100%;
+        }
+
+        .colorful-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin: 0;
+            line-height: 1.2;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2px;
+        }
+
+        .c-y1 { color: #E65100; }
+        .c-y2 { color: #F57F17; }
+        .c-y3 { color: #FBC02D; }
+        .c-y4 { color: #F57F17; }
+        .c-y5 { color: #E65100; }
+
+        .sub-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: var(--dark-yellow);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 18px 0 12px 0;
+        }
+
+        .grade-pill {
+            background-color: #FFE082;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 6px 24px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+
+        .cards-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card-box {
+            padding: 12px 24px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+
+        .card-y1 { background-color: #FFE082; color: #E65100; }
+        .card-y2 { background-color: #FFD54F; color: #BF360C; }
+        .card-y3 { background-color: #FFCA28; color: #E65100; }
+
+        .btn-start-main {
+            background-color: #F57F17;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(245, 127, 23, 0.4);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-start-main:hover {
+            background-color: #E65100;
+            transform: translateY(-2px);
+        }
+
+        .footer-line {
+            width: 100%;
+            border-top: 1.5px dashed #FFE082;
+            margin-top: 25px;
+            padding-top: 15px;
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 0.92rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .author-tag {
+            font-weight: 700;
+            color: var(--border-yellow);
+            font-size: 0.98rem;
+        }
+
+        /* --- CONTENEDORES DE AUDIO Y AYUDA --- */
+        .audio-btn {
+            background: #FFE082;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--text-dark);
+            box-shadow: 0 4px 0 #FFB300;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .audio-btn:active { transform: scale(0.92); }
+
+        .instruction-box {
+            display: flex;
+            align-items: center;
+            background: #FFF9C4;
+            padding: 12px 20px;
+            border-radius: 20px;
+            width: 100%;
+            margin-bottom: 20px;
+            border-left: 6px solid var(--border-yellow);
+        }
+
+        .instruction-text {
+            font-size: 1.15rem;
+            color: var(--text-dark);
+            font-weight: 700;
+            flex-grow: 1;
+        }
+
+        .help-btn {
+            background: var(--dark-yellow);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #E65100;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        .help-btn:hover { background: #E65100; }
+
+        /* --- MODALES --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal-card {
+            background: #FFFFFF;
+            border: 8px solid var(--border-yellow);
+            border-radius: 35px;
+            padding: 30px;
+            max-width: 520px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: var(--dark-yellow);
+            margin-top: 0;
+        }
+
+        .modal-body {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            line-height: 1.5;
+            margin-bottom: 25px;
+            background: #FFF9C4;
+            padding: 20px;
+            border-radius: 20px;
+            border: 2px dashed #FFE082;
+            text-align: center;
+        }
+
+        .btn-close-modal {
+            background: var(--dark-yellow);
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: 12px 35px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #E65100;
+        }
+
+        .btn-close-modal:hover { background-color: #E65100; }
+
+        /* --- INPUTS Y SELECTS --- */
+        select.custom-select, input.custom-input {
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: 3px solid var(--border-yellow);
+            border-radius: 14px;
+            padding: 6px 10px;
+            color: var(--text-dark);
+            outline: none;
+            background: #FFF;
+            box-shadow: 0 4px 0 #FFE082;
+        }
+
+        .correct { background-color: #C8E6C9 !important; border-color: #2E7D32 !important; color: #1B5E20 !important; box-shadow: none !important; }
+        .incorrect { background-color: #FFCDD2 !important; border-color: #C62828 !important; color: #B71C1C !important; box-shadow: none !important; }
+
+        /* --- ESTILOS ACTIVIDADES --- */
+        .activity-card {
+            background: var(--light-yellow);
+            border: 3px solid #FFE082;
+            border-radius: 22px;
+            padding: 20px;
+            width: 100%;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .grid-3-col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
+        }
+
+        .item-box {
+            background: #FFF;
+            border: 2px solid #FFD54F;
+            border-radius: 18px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-align: center;
+        }
+
+        .item-icon {
+            font-size: 3rem;
+        }
+
+        .word-bank-box {
+            background: #FFF;
+            border: 2px dashed #F57F17;
+            border-radius: 15px;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .word-tag {
+            background: #FFE082;
+            color: #E65100;
+            font-weight: bold;
+            padding: 6px 16px;
+            border-radius: 12px;
+            border: 2px solid #FFB300;
+        }
+
+        .text-reading {
+            font-size: 1.25rem;
+            line-height: 2.2;
+            color: #3E2723;
+        }
+
+        /* BOTONES Y NAVEGACIÓN */
+        .btn-check {
+            background: var(--dark-yellow);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #E65100;
+        }
+
+        .btn-check:hover { background-color: #E65100; }
+
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .btn-nav {
+            background-color: #FFB300;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #FB8C00;
+        }
+
+        .btn-nav:hover { background-color: #FB8C00; }
+
+        .btn-next {
+            background-color: var(--border-yellow);
+            box-shadow: 0 4px 0 #E65100;
+        }
+
+        .btn-next:hover { background-color: #E65100; }
+
+        /* PANTALLA FINAL */
+        .congrats-box {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .congrats-title {
+            font-size: 2.8rem;
+            color: var(--border-yellow);
+            margin-bottom: 10px;
+        }
+
+        .trophy-icon {
+            font-size: 5.5rem;
+            color: #FBC02D;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-15px); }
+        }
+
+        @media (max-width: 600px) {
+            .grid-3-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+
+    <!-- PANTALLA 0: PORTADA -->
+    <div id="screen-0" class="screen active">
+        <div class="title-block">
+            <div class="colorful-title">
+                <span class="c-y1">L</span><span class="c-y2">E</span><span class="c-y3">N</span><span class="c-y4">G</span><span class="c-y5">U</span><span class="c-y1">A</span>
+                &nbsp;
+                <span class="c-y2">C</span><span class="c-y3">A</span><span class="c-y4">S</span><span class="c-y5">T</span><span class="c-y1">E</span><span class="c-y2">L</span><span class="c-y3">L</span><span class="c-y4">A</span><span class="c-y5">N</span><span class="c-y1">A</span>
+            </div>
+
+            <div class="sub-header">
+                <i class="fa-solid fa-sun"></i>
+                PALABRAS EN -ILLO Y -ILLA
+                <i class="fa-solid fa-star"></i>
+            </div>
+
+            <div class="grade-pill">Educación Primaria - Ortografía del Diminutivo</div>
+        </div>
+
+        <div class="cards-row">
+            <div class="card-box card-y1">-illo</div>
+            <div class="card-box card-y2">-illa</div>
+            <div class="card-box card-y3">-illos / -illas</div>
+        </div>
+
+        <button class="btn-start-main" onclick="goToScreen(1)">
+            ¡COMENZAR EL RETO! <i class="fa-solid fa-angle-right"></i>
+        </button>
+
+        <div class="footer-line">
+            <span>Material didáctico interactivo adaptado de la ficha de ejercicios</span>
+            <span class="author-tag">Aplicación en tonos amarillos</span>
+        </div>
+    </div>
+
+    <!-- PANTALLA 1: ACTIVIDAD 1 - ESCRIBE SUS NOMBRES -->
+    <div id="screen-1" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 1. Escribe el nombre de cada uno de los elementos de las imágenes.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">1. ESCRIBE SUS NOMBRES.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-lightbulb"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div class="grid-3-col">
+                <div class="item-box">
+                    <div class="item-icon">🥄</div>
+                    <select id="a1-1" class="custom-select" style="width: 100%;">
+                        <option value="">-- Selecciona --</option>
+                        <option value="cucharilla">cucharilla</option>
+                        <option value="tornillo">tornillo</option>
+                        <option value="rosquillas">rosquillas</option>
+                    </select>
+                </div>
+                <div class="item-box">
+                    <div class="item-icon">🔩</div>
+                    <select id="a1-2" class="custom-select" style="width: 100%;">
+                        <option value="">-- Selecciona --</option>
+                        <option value="cucharilla">cucharilla</option>
+                        <option value="tornillo">tornillo</option>
+                        <option value="rosquillas">rosquillas</option>
+                    </select>
+                </div>
+                <div class="item-box">
+                    <div class="item-icon">🍩</div>
+                    <select id="a1-3" class="custom-select" style="width: 100%;">
+                        <option value="">-- Selecciona --</option>
+                        <option value="cucharilla">cucharilla</option>
+                        <option value="tornillo">tornillo</option>
+                        <option value="rosquillas">rosquillas</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkAct1()"><i class="fa-solid fa-check"></i> Comprobar nombres</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(0)">Inicio</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(2)">Actividad 2 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 2: ACTIVIDAD 2 - COMPLETA CON EL BANCO -->
+    <div id="screen-2" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 2. Completa las frases eligiendo la palabra adecuada del recuadro.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">2. COMPLETA LAS FRASES CON EL BANCO DE PALABRAS.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-lightbulb"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div class="word-bank-box">
+                <span class="word-tag">arcilla</span>
+                <span class="word-tag">manzanilla</span>
+                <span class="word-tag">cerillas</span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 15px; font-size: 1.2rem; color: #3E2723;">
+                <div>
+                    📦 Una caja de 
+                    <select id="a2-1" class="custom-select">
+                        <option value="">-- Selecciona --</option>
+                        <option value="cerillas">cerillas</option>
+                        <option value="manzanilla">manzanilla</option>
+                        <option value="arcilla">arcilla</option>
+                    </select>
+                </div>
+                <div>
+                    ☕ Una taza de 
+                    <select id="a2-2" class="custom-select">
+                        <option value="">-- Selecciona --</option>
+                        <option value="cerillas">cerillas</option>
+                        <option value="manzanilla">manzanilla</option>
+                        <option value="arcilla">arcilla</option>
+                    </select>
+                </div>
+                <div>
+                    🏺 Un jarrón de 
+                    <select id="a2-3" class="custom-select">
+                        <option value="">-- Selecciona --</option>
+                        <option value="cerillas">cerillas</option>
+                        <option value="manzanilla">manzanilla</option>
+                        <option value="arcilla">arcilla</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkAct2()"><i class="fa-solid fa-check"></i> Comprobar frases</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(1)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(3)">Actividad 3 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 3: ACTIVIDAD 3 - FORMA PALABRAS EN -ILLO O -ILLA -->
+    <div id="screen-3" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 3. Forma y escribe palabras que terminen en -illo o en -illa.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">3. FORMA PALABRAS EN -ILLO O EN -ILLA.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-lightbulb"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div class="grid-3-col" style="grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div style="font-size: 1.15rem; color: #3E2723; display: flex; flex-direction: column; gap: 12px;">
+                    <div>🔔 campana ➔ <select id="a3-1" class="custom-select"><option value="">--</option><option value="campanilla">campanilla</option><option value="molinillo">molinillo</option></select></div>
+                    <div>🥧 empanada ➔ <select id="a3-2" class="custom-select"><option value="">--</option><option value="empanadilla">empanadilla</option><option value="ventanilla">ventanilla</option></select></div>
+                    <div>🥗 ensalada ➔ <select id="a3-3" class="custom-select"><option value="">--</option><option value="ensaladilla">ensaladilla</option><option value="farolillo">farolillo</option></select></div>
+                </div>
+                <div style="font-size: 1.15rem; color: #3E2723; display: flex; flex-direction: column; gap: 12px;">
+                    <div>⚙️ molino ➔ <select id="a3-4" class="custom-select"><option value="">--</option><option value="molinillo">molinillo</option><option value="campanilla">campanilla</option></select></div>
+                    <div>🪟 ventana ➔ <select id="a3-5" class="custom-select"><option value="">--</option><option value="ventanilla">ventanilla</option><option value="empanadilla">empanadilla</option></select></div>
+                    <div>🏮 farol ➔ <select id="a3-6" class="custom-select"><option value="">--</option><option value="farolillo">farolillo</option><option value="ensaladilla">ensaladilla</option></select></div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkAct3()"><i class="fa-solid fa-check"></i> Comprobar diminutivos</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(2)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(4)">Actividad 4 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 4: ACTIVIDAD 4 - COMPLETA EL TEXTO -->
+    <div id="screen-4" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 4. Completa el texto de la playa con las palabras del banco superior.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">4. COMPLETA EL TEXTO DE LA PLAYA.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-lightbulb"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div class="word-bank-box">
+                <span class="word-tag" style="background:#FFE0B2;">arenilla</span>
+                <span class="word-tag" style="background:#C8E6C9;">sombrilla</span>
+                <span class="word-tag" style="background:#E1BEE7;">castillos</span>
+                <span class="word-tag" style="background:#F8BBD0;">brillo</span>
+            </div>
+
+            <div class="text-reading">
+                Me encanta la playa: ver el 
+                <select id="a4-1" class="custom-select"><option value="">--</option><option value="brillo">brillo</option><option value="castillos">castillos</option><option value="sombrilla">sombrilla</option><option value="arenilla">arenilla</option></select> 
+                del sol en el mar, jugar a hacer 
+                <select id="a4-2" class="custom-select"><option value="">--</option><option value="brillo">brillo</option><option value="castillos">castillos</option><option value="sombrilla">sombrilla</option><option value="arenilla">arenilla</option></select>... 
+                Después hay que recoger la 
+                <select id="a4-3" class="custom-select"><option value="">--</option><option value="brillo">brillo</option><option value="castillos">castillos</option><option value="sombrilla">sombrilla</option><option value="arenilla">arenilla</option></select>, 
+                sacudir las toallas y quitarse la 
+                <select id="a4-4" class="custom-select"><option value="">--</option><option value="brillo">brillo</option><option value="castillos">castillos</option><option value="sombrilla">sombrilla</option><option value="arenilla">arenilla</option></select> 
+                de los pies. Pero vale la pena. 🏖️
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkAct4()"><i class="fa-solid fa-check"></i> Comprobar texto</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(3)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(5)">Finalizar 🏆</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 5: FELICITACIÓN Y CONFETI -->
+    <div id="screen-5" class="screen">
+        <div class="congrats-box">
+            <div class="trophy-icon">🏆</div>
+            <h1 class="congrats-title">¡ENHORABUENA!</h1>
+            <p style="font-size: 1.4rem; color: #3E2723;">
+                ¡Lo has hecho genial! <br>
+                Has aprendido a escribir correctamente las palabras terminadas en <br>
+                <strong>-illo e -illa</strong>.
+            </p>
+            <button class="btn-start-main" style="margin: 25px auto;" onclick="goToScreen(0)">
+                <i class="fa-solid fa-rotate-right"></i> Volver a empezar
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<!-- VENTANA MODAL EMERGENTE GENERAL -->
+<div id="customAlertModal" class="modal-overlay">
+    <div class="modal-card">
+        <h2 id="alertModalTitle" class="modal-title">🌟 ¡Atención!</h2>
+        <div id="alertModalBody" class="modal-body">
+            Mensaje
+        </div>
+        <button class="btn-close-modal" onclick="closeAlertModal()">¡Entendido!</button>
+    </div>
+</div>
+
+<!-- VENTANA MODAL DE AYUDA -->
+<div id="helpModal" class="modal-overlay">
+    <div class="modal-card">
+        <h2 class="modal-title">💡 Recordatorio</h2>
+        <div class="modal-body">
+            • Se escriben con <strong>LL</strong> todas las palabras terminadas en <strong>-illo</strong> e <strong>-illa</strong>.<br>
+            • Ejemplos: <em>cucharilla, tornillo, manzanilla, molinillo, sombrilla</em>.
+        </div>
+        <button class="btn-close-modal" onclick="closeHelpModal()">¡Entendido!</button>
+    </div>
+</div>
+
+<script>
+    // Síntesis de voz
+    function speak(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.9;
+            utterance.pitch = 1.05;
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    // Modales
+    function showAlertModal(title, message, audioText) {
+        document.getElementById('alertModalTitle').innerText = title;
+        document.getElementById('alertModalBody').innerHTML = message;
+        document.getElementById('customAlertModal').classList.add('active');
+        if (audioText) speak(audioText);
+    }
+
+    function closeAlertModal() {
+        document.getElementById('customAlertModal').classList.remove('active');
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    function openHelpModal() {
+        document.getElementById('helpModal').classList.add('active');
+        speak("Recuerda que todas las palabras terminadas en illo e illa se escriben con doble ele.");
+    }
+
+    function closeHelpModal() {
+        document.getElementById('helpModal').classList.remove('active');
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    function goToScreen(index) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(`screen-${index}`);
+        if(target) target.classList.add('active');
+
+        if (index === 5) {
+            launchConfetti();
+            speak("¡Excelente trabajo! Has completado todas las actividades sobre las palabras en illo e illa.");
+        }
+    }
+
+    /* --- COMPROBACIÓN ACTIVIDAD 1 --- */
+    function checkAct1() {
+        const answers = {
+            'a1-1': 'cucharilla',
+            'a1-2': 'tornillo',
+            'a1-3': 'rosquillas'
+        };
+
+        let ok = true;
+        for (let key in answers) {
+            const el = document.getElementById(key);
+            if (el.value === answers[key]) {
+                el.classList.add('correct'); el.classList.remove('incorrect');
+            } else {
+                el.classList.add('incorrect'); el.classList.remove('correct'); ok = false;
+            }
+        }
+
+        if (ok) {
+            showAlertModal("¡Excelente! 🥄", "¡Has identificado correctamente todos los nombres!", "¡Muy bien! Nombres correctos.");
+        } else {
+            showAlertModal("Revisa las respuestas 🧐", "Asegúrate de seleccionar el nombre que corresponde a cada imagen.", "Revisa tus respuestas.");
+        }
+    }
+
+    /* --- COMPROBACIÓN ACTIVIDAD 2 --- */
+    function checkAct2() {
+        const answers = {
+            'a2-1': 'cerillas',
+            'a2-2': 'manzanilla',
+            'a2-3': 'arcilla'
+        };
+
+        let ok = true;
+        for (let key in answers) {
+            const el = document.getElementById(key);
+            if (el.value === answers[key]) {
+                el.classList.add('correct'); el.classList.remove('incorrect');
+            } else {
+                el.classList.add('incorrect'); el.classList.remove('correct'); ok = false;
+            }
+        }
+
+        if (ok) {
+            showAlertModal("¡Fantástico! ☕", "¡Has completado las tres frases correctamente!", "¡Frases completadas de forma correcta!");
+        } else {
+            showAlertModal("Atención 💡", "Revisa qué objeto o producto corresponde mejor en cada frase.", "Revisa tus selecciones.");
+        }
+    }
+
+    /* --- COMPROBACIÓN ACTIVIDAD 3 --- */
+    function checkAct3() {
+        const answers = {
+            'a3-1': 'campanilla',
+            'a3-2': 'empanadilla',
+            'a3-3': 'ensaladilla',
+            'a3-4': 'molinillo',
+            'a3-5': 'ventanilla',
+            'a3-6': 'farolillo'
+        };
+
+        let ok = true;
+        for (let key in answers) {
+            const el = document.getElementById(key);
+            if (el.value === answers[key]) {
+                el.classList.add('correct'); el.classList.remove('incorrect');
+            } else {
+                el.classList.add('incorrect'); el.classList.remove('correct'); ok = false;
+            }
+        }
+
+        if (ok) {
+            showAlertModal("¡Magnífico! 🔔", "¡Has formado todos los diminutivos correctamente!", "¡Diminutivos perfectos!");
+        } else {
+            showAlertModal("Revisa los diminutivos 🔍", "Fíjate bien en si corresponden a la terminación -illo o -illa.", "Revisa las respuestas marcadas.");
+        }
+    }
+
+    /* --- COMPROBACIÓN ACTIVIDAD 4 --- */
+    function checkAct4() {
+        const answers = {
+            'a4-1': 'brillo',
+            'a4-2': 'castillos',
+            'a4-3': 'sombrilla',
+            'a4-4': 'arenilla'
+        };
+
+        let ok = true;
+        for (let key in answers) {
+            const el = document.getElementById(key);
+            if (el.value === answers[key]) {
+                el.classList.add('correct'); el.classList.remove('incorrect');
+            } else {
+                el.classList.add('incorrect'); el.classList.remove('correct'); ok = false;
+            }
+        }
+
+        if (ok) {
+            showAlertModal("¡Estupendo! 🏖️", "¡Has completado el texto de la playa a la perfección!", "¡Texto completado con éxito!");
+        } else {
+            showAlertModal("Casi lo tienes 💡", "Lee atentamente la historia para situar cada palabra en su lugar.", "Revisa los errores en el texto.");
+        }
+    }
+
+    /* CONFETI */
+    function launchConfetti() {
+        if (typeof confetti === 'function') {
+            var count = 200;
+            var defaults = { origin: { y: 0.7 } };
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+        }
+    }
+</script>
+
+</body>
+</html>

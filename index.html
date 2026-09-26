@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TALLER DE ORTOGRAFÍA - Centro de Mando</title>
+    <!-- Fuentes modernas e infantiles-juveniles -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Paleta en tonos morados y azules */
+            --morado-oscuro: #2D1B4E;
+            --morado-principal: #5B2C6F;
+            --azul-violeta: #4A235A;
+            --azul-marino: #1B4F72;
+            --azul-brillante: #2980B9;
+            --fondo-tarjeta: #F4ECF7;
+            --fondo-tarjeta-hover: #E8DAEF;
+            --sombra-caja: rgba(45, 27, 78, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #2d1b4e 0%, #4a235a 40%, #1b4f72 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #1e293b;
+        }
+
+        /* Ventana principal con marco morado oscuro */
+        .ventana-principal {
+            background-color: #ffffff;
+            border: 12px solid var(--morado-oscuro);
+            border-radius: 35px;
+            box-shadow: 0 20px 40px var(--sombra-caja);
+            width: 100%;
+            max-width: 1100px;
+            padding: 30px;
+            position: relative;
+            animation: aparecer 0.5s ease-out;
+        }
+
+        @keyframes aparecer {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Header del Menú */
+        .header-inicio {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .titulo-animado {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.8rem;
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 0px #2D1B4E;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2px;
+            margin-bottom: 5px;
+        }
+
+        .letra {
+            display: inline-block;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .letra:hover {
+            transform: translateY(-8px) rotate(5deg) scale(1.15);
+        }
+
+        /* Colores alternados del título en tonos morados y azules */
+        .l-1 { color: #5B2C6F; }
+        .l-2 { color: #2980B9; }
+        .l-3 { color: #8E44AD; }
+        .l-4 { color: #1B4F72; }
+
+        .subtitulo {
+            font-family: 'Fredoka One', cursive;
+            color: var(--azul-marino);
+            font-size: 1.6rem;
+            text-transform: uppercase;
+        }
+
+        .instruccion {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #334155;
+            margin: 15px 0 25px 0;
+            font-weight: 700;
+        }
+
+        /* Grid de Fichas */
+        .grid-fichas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        .tarjeta-ficha {
+            background: linear-gradient(145deg, #F4ECF7, #E8DAEF);
+            border: 4px solid var(--morado-principal);
+            border-radius: 22px;
+            padding: 18px 12px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 190px;
+            box-shadow: 0 6px 12px rgba(91, 44, 111, 0.15);
+            text-align: center;
+        }
+
+        .tarjeta-ficha:hover {
+            transform: translateY(-8px) scale(1.03);
+            background: linear-gradient(145deg, #E8DAEF, #D2B4DE);
+            box-shadow: 0 12px 22px rgba(45, 27, 78, 0.3);
+            border-color: var(--azul-brillante);
+        }
+
+        .numero-ficha {
+            background: var(--morado-oscuro);
+            color: #FFFFFF;
+            font-family: 'Fredoka One', cursive;
+            padding: 4px 14px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .icono-ficha {
+            font-size: 2.2rem;
+            margin-top: 6px;
+            line-height: 1;
+        }
+
+        .titulo-ficha {
+            font-weight: 700;
+            color: var(--morado-principal);
+            font-size: 1.05rem;
+            margin: 8px 0;
+            line-height: 1.3;
+        }
+
+        .valor-tag {
+            font-size: 0.8rem;
+            background: #FFFFFF;
+            color: var(--azul-marino);
+            padding: 5px 10px;
+            border-radius: 12px;
+            border: 2px solid var(--azul-brillante);
+            font-weight: 700;
+        }
+
+        .creditos {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.95rem;
+            color: #475569;
+            border-top: 2px dashed #D2B4DE;
+            padding-top: 12px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 600px) {
+            .titulo-animado { font-size: 2rem; }
+            .subtitulo { font-size: 1.3rem; }
+            .ventana-principal { border-width: 8px; padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ventana-principal">
+        
+        <div class="header-inicio">
+            <h1 class="titulo-animado">
+                <span class="letra l-1">T</span>
+                <span class="letra l-2">A</span>
+                <span class="letra l-3">L</span>
+                <span class="letra l-4">L</span>
+                <span class="letra l-1">E</span>
+                <span class="letra l-2">R</span>
+                <span style="width: 12px;"></span>
+                <span class="letra l-3">D</span>
+                <span class="letra l-4">E</span>
+                <span style="width: 12px;"></span>
+                <span class="letra l-1">O</span>
+                <span class="letra l-2">R</span>
+                <span class="letra l-3">T</span>
+                <span class="letra l-4">O</span>
+                <span class="letra l-1">G</span>
+                <span class="letra l-2">R</span>
+                <span class="letra l-3">A</span>
+                <span class="letra l-4">F</span>
+                <span class="letra l-1">Í</span>
+                <span class="letra l-2">A</span>
+            </h1>
+            <div class="subtitulo">✨ 2º EDUCACIÓN PRIMARIA ✨</div>
+        </div>
+
+        <p class="instruccion">Selecciona una ficha para practicar tu ortografía</p>
+
+        <!-- Rejilla con las 13 Aplicaciones de Ortografía -->
+        <div class="grid-fichas">
+
+            <!-- Ficha 1 -->
+            <a href="Ga_go_gu_gue_gui 2º.html" class="tarjeta-ficha" target="_blank">
+                <span class="numero-ficha">FICHA 01</span>
+                <div class="icono-ficha">🐱</div>
+                <div class="titulo-ficha">Ga, go, gu, gue, gui</div>
+                <span class="valor-tag">Abrir App ➔</span>
+            </a>
+
+            <!-- Ficha 2 -->
+            <a href="Interrogación y exclamación 2º.html" class="tarjeta-ficha" target="_blank">
+                <span class="numero-ficha">FICHA 02</span>
+                <div class="icono-ficha">⁉️</div>
+                <div class="titulo-ficha">Interrogación y exclamación</div>
+                <span class="valor-tag">Abrir App ➔</span>
+            </a>
+
+            <!-- Ficha 3 -->
+            <a href="Palabras br y bl 2º.html" class="tarjeta-ficha" target="_blank">
+                <span class="numero-ficha">FICHA 03</span>
+                <div class="icono-ficha">🧱</div>
+                <div class="titulo-ficha">Palabras con br y bl</div>
+                <span class="valor-tag">Abrir App ➔</span>
+            </a>
+
+            <!-- Ficha 4 -->
+            <a href="Palabras ca_co_cu_que_qui 2º.html" class="tarjeta-ficha" target="_blank">
+                <span class="numero-ficha">FICHA 04</span>
+                <div class="icono-ficha">🧀</div>
+                <div class="titulo-ficha">Palabras ca, co, cu, que, qui</div>
+                <span class="valor-tag">Abrir App ➔</span>
+            </a>
+
+            <!-- Ficha 5 -->
+            <a href="Palabras con mayúsculas.html" class="tarjeta-ficha" target="_blank">
+                <span class="numero-ficha">FICHA 05</span>
+                <div class="icono-ficha">🔠</div>
+                <div class="titulo-ficha">Palabras con mayúsculas</div>
+                <span class="valor-tag">Abrir App ➔</span>
+            </a>
+
+            <!-- Ficha 6 -->
+            <a href="Palabras con r_rr 2º.html" class="tarjeta-ficha" target="_blank">
+                <span class="numero-ficha">FICHA 06</span>
+                <div class="icono-ficha">🚗</div>
+                <div class="titulo-ficha">Palabras con r y rr</div>
+                <span class="valor-tag">Abrir App ➔</span>
+            </a>
+
+            <!-- Ficha 7 -->
+            <a href="Palabras illo_illa 2º.html" class="tarjeta-ficha" target="_blank">
+                <span class="numero-ficha">FICHA 07</span>
+                <div class="icono-ficha">🪑</div>
+                <div class="titulo-ficha">Palabras con -illo e -illa</div>
+                <span class="valor-tag">Abrir App ➔</span>
+            </a>
+
+            <!-- Ficha 8 -->
+            <a href="Palabras ja_jo_ju 2º.html" class="tarjeta-ficha" target="_blank">
+                <span class="numero-ficha">FICHA 08</span>
+                <div class="icono-ficha">🦒</div>
+                <div class="titulo-ficha">Palabras con ja, jo, ju</div>
+                <span class="valor-tag">Abrir App ➔</span>
+            </a>
+
+            <!-- Ficha 9 -->
+            <a href="Palabras je_ji_ge_gi.html" class="tarjeta-ficha" target="_blank">
+                <span class="numero-ficha">FICHA 09</span>
+                <div class="icono-ficha">🌻</div>
+                <div class="titulo-ficha">Palabras con je, ji, ge, gi</div>
+                <span class="valor-tag">Abrir App ➔</span>
+            </a>
+
+            <!-- Ficha 10 -->
+            <a href="Palabras mp_mb 2º.html" class="tarjeta-ficha" target="_blank">
+                <span class="numero-ficha">FICHA 10</span>
+                <div class="icono-ficha">🎺</div>
+                <div class="titulo-ficha">Palabras con mp y mb</div>
+                <span class="valor-tag">Abrir App ➔</span>
+            </a>
+
+            <!-- Ficha 11 -->
+            <a href="Palabras za_zo_zu_ce_ci 2º.html" class="tarjeta-ficha" target="_blank">
+                <span class="numero-ficha">FICHA 11</span>
+                <div class="icono-ficha">🍏</div>
+                <div class="titulo-ficha">Palabras za, zo, zu, ce, ci</div>
+                <span class="valor-tag">Abrir App ➔</span>
+            </a>
+
+            <!-- Ficha 12 -->
+            <a href="Uso de la coma 2º.html" class="tarjeta-ficha" target="_blank">
+                <span class="numero-ficha">FICHA 12</span>
+                <div class="icono-ficha">💬</div>
+                <div class="titulo-ficha">Uso de la coma</div>
+                <span class="valor-tag">Abrir App ➔</span>
+            </a>
+
+            <!-- Ficha 13 -->
+            <a href="uso de mayúsculas 2º.html" class="tarjeta-ficha" target="_blank">
+                <span class="numero-ficha">FICHA 13</span>
+                <div class="icono-ficha">👑</div>
+                <div class="titulo-ficha">Uso de mayúsculas</div>
+                <span class="valor-tag">Abrir App ➔</span>
+            </a>
+
+        </div>
+
+        <div class="creditos">
+            <strong>Centro de mando para el Taller de Ortografía</strong><br>
+            Elaborado por Carlos Garrido - septiembre 2026
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lengua Castellana - Uso de ga, go, gu, gue, gui, güe, güi</title>
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tipografía redondeada infantil -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <!-- Librería de Confeti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-outer: #E8F5E9;
+            --border-green: #2E7D32;
+            --main-green: #388E3C;
+            --dark-green: #1B5E20;
+            --accent-green: #4CAF50;
+            --yellow-badge: #FFF59D;
+            --text-gray: #263238;
+            --light-green: #F1F8E9;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Fredoka', 'Quicksand', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-outer);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- MARCO Y CONTENEDOR PRINCIPAL --- */
+        .app-container {
+            width: 100%;
+            max-width: 860px;
+            background: #FFFFFF;
+            border: 14px solid var(--border-green);
+            border-radius: 40px;
+            box-shadow: 0 12px 30px rgba(46, 125, 50, 0.25);
+            padding: 35px 30px 25px 30px;
+            position: relative;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- PANTALLA INICIAL --- */
+        .title-block {
+            text-align: center;
+            width: 100%;
+        }
+
+        .colorful-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin: 0;
+            line-height: 1.2;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2px;
+        }
+
+        .c-g1 { color: #1B5E20; }
+        .c-g2 { color: #2E7D32; }
+        .c-g3 { color: #388E3C; }
+        .c-g4 { color: #4CAF50; }
+        .c-g5 { color: #66BB6A; }
+
+        .sub-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: var(--dark-green);
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin: 18px 0 12px 0;
+        }
+
+        .grade-pill {
+            background-color: var(--yellow-badge);
+            color: #37474F;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 6px 24px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+
+        .cards-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card-box {
+            padding: 10px 18px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+
+        .card-g1 { background-color: #E8F5E9; color: #1B5E20; }
+        .card-g2 { background-color: #C8E6C9; color: #2E7D32; }
+        .card-g3 { background-color: #A5D6A7; color: #388E3C; }
+
+        .btn-start-main {
+            background-color: var(--main-green);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(56, 142, 60, 0.4);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-start-main:hover {
+            background-color: #1B5E20;
+            transform: translateY(-2px);
+        }
+
+        .footer-line {
+            width: 100%;
+            border-top: 1.5px dashed #A5D6A7;
+            margin-top: 25px;
+            padding-top: 15px;
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 0.92rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .author-tag {
+            font-weight: 700;
+            color: var(--border-green);
+            font-size: 0.98rem;
+        }
+
+        /* --- CONTENEDORES DE AUDIO Y AYUDA --- */
+        .audio-btn {
+            background: var(--yellow-badge);
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: #37474F;
+            box-shadow: 0 4px 0 #FBC02D;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .audio-btn:active { transform: scale(0.92); }
+
+        .instruction-box {
+            display: flex;
+            align-items: center;
+            background: #E8F5E9;
+            padding: 12px 20px;
+            border-radius: 20px;
+            width: 100%;
+            margin-bottom: 20px;
+            border-left: 6px solid var(--border-green);
+        }
+
+        .instruction-text {
+            font-size: 1.15rem;
+            color: var(--dark-green);
+            font-weight: 700;
+            flex-grow: 1;
+        }
+
+        .help-btn {
+            background: var(--main-green);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #1B5E20;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        .help-btn:hover { background: #2E7D32; }
+
+        /* --- MODALES PERSONALES (AYUDA Y FEEDBACK) --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal-card {
+            background: #FFFFFF;
+            border: 8px solid var(--main-green);
+            border-radius: 35px;
+            padding: 30px;
+            max-width: 520px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: var(--dark-green);
+            margin-top: 0;
+        }
+
+        .modal-body {
+            font-size: 1.2rem;
+            color: #1B5E20;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            background: #E8F5E9;
+            padding: 20px;
+            border-radius: 20px;
+            border: 2px dashed #A5D6A7;
+            text-align: center;
+        }
+
+        .btn-close-modal {
+            background: var(--main-green);
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: 12px 35px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #1B5E20;
+        }
+
+        .btn-close-modal:hover { background-color: #2E7D32; }
+
+        /* --- SELECTS Y ELEMENTOS INTERACTIVOS --- */
+        select.custom-select {
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: 3px solid var(--main-green);
+            border-radius: 14px;
+            padding: 6px 10px;
+            color: var(--dark-green);
+            outline: none;
+            background: #FFF;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #C8E6C9;
+            transition: all 0.2s;
+        }
+
+        .correct { background-color: #C8E6C9 !important; border-color: #2E7D32 !important; color: #1B5E20 !important; box-shadow: none !important; }
+        .incorrect { background-color: #FFCDD2 !important; border-color: #C62828 !important; color: #B71C1C !important; box-shadow: none !important; }
+
+        /* --- ESTILOS ACTIVIDADES --- */
+        .activity-card {
+            background: var(--light-green);
+            border: 3px solid #A5D6A7;
+            border-radius: 22px;
+            padding: 20px;
+            width: 100%;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .text-reading {
+            font-size: 1.25rem;
+            line-height: 2.2;
+            color: #1B5E20;
+        }
+
+        /* BOTONES Y NAVEGACIÓN */
+        .btn-check {
+            background: var(--main-green);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #1B5E20;
+        }
+
+        .btn-check:hover { background-color: #2E7D32; }
+
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .btn-nav {
+            background-color: #78909C;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #546E7A;
+        }
+
+        .btn-nav:hover { background-color: #90A4AE; }
+
+        .btn-next {
+            background-color: var(--border-green);
+            box-shadow: 0 4px 0 #1B5E20;
+        }
+
+        .btn-next:hover { background-color: #2E7D32; }
+
+        /* PANTALLA FINAL */
+        .congrats-box {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .congrats-title {
+            font-size: 2.8rem;
+            color: var(--border-green);
+            margin-bottom: 10px;
+        }
+
+        .trophy-icon {
+            font-size: 5.5rem;
+            color: #FFD700;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+
+    <!-- PANTALLA 0: PORTADA -->
+    <div id="screen-0" class="screen active">
+        <div class="title-block">
+            <div class="colorful-title">
+                <span class="c-g1">L</span><span class="c-g2">E</span><span class="c-g3">N</span><span class="c-g4">G</span><span class="c-g5">U</span><span class="c-g1">A</span>
+                &nbsp;
+                <span class="c-g2">C</span><span class="c-g3">A</span><span class="c-g4">S</span><span class="c-g5">T</span><span class="c-g1">E</span><span class="c-g2">L</span><span class="c-g3">L</span><span class="c-g4">A</span><span class="c-g5">N</span><span class="c-g1">A</span>
+            </div>
+
+            <div class="sub-header">
+                <i class="fa-solid fa-leaf"></i>
+                APRENDE GA, GO, GU, GUE, GUI, GÜE, GÜI
+                <i class="fa-solid fa-seedling"></i>
+            </div>
+
+            <div class="grade-pill">Educación Primaria - Ortografía de la G</div>
+        </div>
+
+        <div class="cards-row">
+            <div class="card-box card-g1">ga, go, gu</div>
+            <div class="card-box card-g2">gue, gui</div>
+            <div class="card-box card-g3">güe, güi</div>
+        </div>
+
+        <button class="btn-start-main" onclick="goToScreen(1)">
+            ¡COMENZAR EL RETO! <i class="fa-solid fa-angle-right"></i>
+        </button>
+
+        <div class="footer-line">
+            <span>Material didáctico interactivo adaptado de la ficha de ejercicios</span>
+            <span class="author-tag">Aplicación en tonos verdosos</span>
+        </div>
+    </div>
+
+    <!-- PANTALLA 1: REGLA Y EXPLICACIÓN -->
+    <div id="screen-1" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Recuerda la regla. Usamos ga, go, gu para el sonido suave. Para gue y gui la u no suena. Si queremos que la u suene, le ponemos diéresis: güe, güi.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">¡RECUERDA CÓMO SE ESCRIBEN!</div>
+        </div>
+
+        <div style="background: #E8F5E9; border: 3px solid #A5D6A7; padding: 25px; border-radius: 25px; text-align: center; margin: 15px 0; max-width: 680px;">
+            <p style="font-size: 1.3rem; color: #1B5E20; margin-top: 0;">
+                🟢 <strong>Reglas ortográficas de la letra G:</strong>
+            </p>
+            <ul style="text-align: left; font-size: 1.15rem; color: #2E7D32; line-height: 1.8;">
+                <li><strong>ga, go, gu:</strong> Sonido suave directo. <br><em>Ejemplo: gato, gorro, gusano.</em></li>
+                <li><strong>gue, gui:</strong> La <strong>'u'</strong> es muda, no se pronuncia. <br><em>Ejemplo: manguera, águila.</em></li>
+                <li><strong>güe, güi:</strong> Llevan <strong>diéresis (¨)</strong> cuando queremos que la <strong>'u'</strong> SÍ se pronuncie. <br><em>Ejemplo: cigüeña, piragüista.</em></li>
+            </ul>
+        </div>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(0)">Inicio</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(2)">Actividad 1 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 2: ACTIVIDAD 1 - COMPLETA EL TEXTO -->
+    <div id="screen-2" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 1. Completa el texto sobre las golondrinas y cigüeñas eligiendo la sílaba correcta en cada hueco.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">1. COMPLETA EL TEXTO CON GA, GO, GU, GUE, GUI, GÜE, GÜI.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div class="text-reading">
+                A las 
+                <select id="a1-1" class="custom-select"><option value="">--</option><option value="go">go</option><option value="ga">ga</option><option value="gue">gue</option></select>londrinas y a las ci
+                <select id="a1-2" class="custom-select"><option value="">--</option><option value="gue">gue</option><option value="güe">güe</option><option value="go">go</option></select>ñas les 
+                <select id="a1-3" class="custom-select"><option value="">--</option><option value="gu">gu</option><option value="go">go</option><option value="ga">ga</option></select>sta pasar el invierno cada año en el mismo lu
+                <select id="a1-4" class="custom-select"><option value="">--</option><option value="gar">gar</option><option value="gar">gar</option><option value="gar">gar</option></select>gar.<br>
+                Cuando lle
+                <select id="a1-5" class="custom-select"><option value="">--</option><option value="ga">ga</option><option value="gue">gue</option><option value="gui">gui</option></select> el frío, levantan el vuelo y empiezan un viaje lar
+                <select id="a1-6" class="custom-select"><option value="">--</option><option value="gui">gui</option><option value="güi">güi</option><option value="gue">gue</option></select>simo. Solo paran para comer al
+                <select id="a1-7" class="custom-select"><option value="">--</option><option value="go">go</option><option value="gu">gu</option><option value="ga">ga</option></select> y para beber un poco de a
+                <select id="a1-8" class="custom-select"><option value="">--</option><option value="gua">gua</option><option value="güe">güe</option><option value="ga">ga</option></select>ta. Es muy duro, pero siempre consi
+                <select id="a1-9" class="custom-select"><option value="">--</option><option value="guen">guen</option><option value="güen">güen</option><option value="gon">gon</option></select> lle
+                <select id="a1-10" class="custom-select"><option value="">--</option><option value="gar">gar</option><option value="guer">guer</option><option value="gor">gor</option></select>.
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkAct1()"><i class="fa-solid fa-check"></i> Comprobar texto</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(1)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(3)">Actividad 2 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 3: ACTIVIDAD 2 - ¿QUÉ SE HA PUESTO MARGARITA? -->
+    <div id="screen-3" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 2. ¿Qué se ha puesto Margarita? Selecciona las palabras que contienen ga, go y gu.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">2. ¿QUÉ SE HA PUESTO MARGARITA? (PALABRAS CON GA, GO, GU)</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <p style="margin: 0; color: #1B5E20; font-size: 1.1rem;">Selecciona la prenda o accesorio correspondiente a cada flecha:</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px;">
+                <div>
+                    <label><strong>1. En la cabeza:</strong></label>
+                    <select id="a2-1" class="custom-select" style="width: 100%; margin-top: 4px;">
+                        <option value="">-- Selecciona --</option>
+                        <option value="gorro">gorro</option>
+                        <option value="gorra">gorra</option>
+                        <option value="sombrero">sombrero</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label><strong>2. En los ojos:</strong></label>
+                    <select id="a2-2" class="custom-select" style="width: 100%; margin-top: 4px;">
+                        <option value="">-- Selecciona --</option>
+                        <option value="gafas">gafas</option>
+                        <option value="lentes">lentes</option>
+                        <option value="visera">visera</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label><strong>3. En las manos:</strong></label>
+                    <select id="a2-3" class="custom-select" style="width: 100%; margin-top: 4px;">
+                        <option value="">-- Selecciona --</option>
+                        <option value="guantes">guantes</option>
+                        <option value="anillos">anillos</option>
+                        <option value="pulseras">pulseras</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label><strong>4. Abrigo / Gabardina:</strong></label>
+                    <select id="a2-4" class="custom-select" style="width: 100%; margin-top: 4px;">
+                        <option value="">-- Selecciona --</option>
+                        <option value="gabardina">gabardina</option>
+                        <option value="chaqueta">chaqueta</option>
+                        <option value="jersey">jersey</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="margin-top: 10px; border-top: 2px dashed #A5D6A7; padding-top: 10px;">
+                <label><strong>5. En los pies (ejemplo de la ficha):</strong></label>
+                <select id="a2-5" class="custom-select" style="width: 100%; margin-top: 4px;">
+                    <option value="">-- Selecciona --</option>
+                    <option value="botas de agua">botas de agua</option>
+                    <option value="zapatillas">zapatillas</option>
+                    <option value="sandalias">sandalias</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkAct2()"><i class="fa-solid fa-check"></i> Comprobar ropa</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(2)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(4)">Actividad 3 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 4: ACTIVIDAD 3 - COMPLETA CON PALABRAS DESTACADAS -->
+    <div id="screen-4" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 3. Relaciona cada frase con su palabra correspondiente: piragüista, bilingüe o arqueólogo.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">3. COMPLETA CADA ORACIÓN CON LA PALABRA CORRECTA.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Ayuda
+            </button>
+        </div>
+
+        <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap;">
+            <span style="background: #F8BBD0; color: #880E4F; padding: 8px 16px; border-radius: 15px; font-weight: bold;">piragüista</span>
+            <span style="background: #C8E6C9; color: #1B5E20; padding: 8px 16px; border-radius: 15px; font-weight: bold;">bilingüe</span>
+            <span style="background: #FFE0B2; color: #E65100; padding: 8px 16px; border-radius: 15px; font-weight: bold;">arqueólogo</span>
+        </div>
+
+        <div class="activity-card">
+            <div style="font-size: 1.15rem; color: #1B5E20;">
+                • Gabriela habla dos lenguas. Es 
+                <select id="a3-1" class="custom-select">
+                    <option value="">-- Elige --</option>
+                    <option value="bilingüe">bilingüe</option>
+                    <option value="piragüista">piragüista</option>
+                    <option value="arqueólogo">arqueólogo</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="activity-card">
+            <div style="font-size: 1.15rem; color: #1B5E20;">
+                • Guido estudia la Antigüedad. Es 
+                <select id="a3-2" class="custom-select">
+                    <option value="">-- Elige --</option>
+                    <option value="arqueólogo">arqueólogo</option>
+                    <option value="bilingüe">bilingüe</option>
+                    <option value="piragüista">piragüista</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="activity-card">
+            <div style="font-size: 1.15rem; color: #1B5E20;">
+                • Ágata rema en su piragua. Es 
+                <select id="a3-3" class="custom-select">
+                    <option value="">-- Elige --</option>
+                    <option value="piragüista">piragüista</option>
+                    <option value="arqueólogo">arqueólogo</option>
+                    <option value="bilingüe">bilingüe</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkAct3()"><i class="fa-solid fa-check"></i> Comprobar oraciones</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(3)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(5)">Finalizar 🏆</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 5: FELICITACIÓN Y CONFETI -->
+    <div id="screen-5" class="screen">
+        <div class="congrats-box">
+            <div class="trophy-icon">🏆</div>
+            <h1 class="congrats-title">¡LO HAS LOGRADO!</h1>
+            <p style="font-size: 1.4rem; color: #1B5E20;">
+                ¡Enhorabuena! <br>
+                Has aprendido a escribir perfectamente las palabras con <br>
+                <strong>ga, go, gu, gue, gui, güe y güi</strong>.
+            </p>
+            <button class="btn-start-main" style="margin: 25px auto;" onclick="goToScreen(0)">
+                <i class="fa-solid fa-rotate-right"></i> Volver a empezar
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<!-- VENTANA MODAL EMERGENTE GENERAL -->
+<div id="customAlertModal" class="modal-overlay">
+    <div class="modal-card">
+        <h2 id="alertModalTitle" class="modal-title">🌟 ¡Atención!</h2>
+        <div id="alertModalBody" class="modal-body">
+            Mensaje
+        </div>
+        <button class="btn-close-modal" onclick="closeAlertModal()">¡Entendido!</button>
+    </div>
+</div>
+
+<!-- VENTANA MODAL DE AYUDA -->
+<div id="helpModal" class="modal-overlay">
+    <div class="modal-card">
+        <h2 class="modal-title">💡 Recordatorio</h2>
+        <div class="modal-body">
+            • <strong>ga, go, gu:</strong> No llevan 'u' intermedia.<br>
+            • <strong>gue, gui:</strong> Llevan 'u' muda que no se lee.<br>
+            • <strong>güe, güi:</strong> Llevan diéresis (¨) para leer la 'u'.
+        </div>
+        <button class="btn-close-modal" onclick="closeHelpModal()">¡Entendido!</button>
+    </div>
+</div>
+
+<script>
+    // Síntesis de voz
+    function speak(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.9;
+            utterance.pitch = 1.05;
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    // Modal emergente
+    function showAlertModal(title, message, audioText) {
+        document.getElementById('alertModalTitle').innerText = title;
+        document.getElementById('alertModalBody').innerHTML = message;
+        document.getElementById('customAlertModal').classList.add('active');
+        if (audioText) speak(audioText);
+    }
+
+    function closeAlertModal() {
+        document.getElementById('customAlertModal').classList.remove('active');
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    function openHelpModal() {
+        document.getElementById('helpModal').classList.add('active');
+        speak("Recuerda la diferencia entre gue, gui y güe, güi.");
+    }
+
+    function closeHelpModal() {
+        document.getElementById('helpModal').classList.remove('active');
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    function goToScreen(index) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(`screen-${index}`);
+        if(target) target.classList.add('active');
+
+        if (index === 5) {
+            launchConfetti();
+            speak("¡Excelente trabajo! Has completado con éxito todas las actividades de ortografía.");
+        }
+    }
+
+    /* --- COMPROBACIÓN ACTIVIDAD 1 --- */
+    function checkAct1() {
+        const answers = {
+            'a1-1': 'go',   // golondrinas
+            'a1-2': 'güe',  // cigüeñas
+            'a1-3': 'gu',   // gusta
+            'a1-4': 'gar',  // lugar
+            'a1-5': 'ga',   // llega
+            'a1-6': 'gui',  // larguísimo
+            'a1-7': 'go',   // algo
+            'a1-8': 'gua',  // agüita / agua
+            'a1-9': 'guen', // consiguen
+            'a1-10': 'gar'  // llegar
+        };
+
+        let ok = true;
+        for (let key in answers) {
+            const el = document.getElementById(key);
+            if (el.value === answers[key]) {
+                el.classList.add('correct'); el.classList.remove('incorrect');
+            } else {
+                el.classList.add('incorrect'); el.classList.remove('correct'); ok = false;
+            }
+        }
+
+        if (ok) {
+            showAlertModal("¡Magnífico! 🐦", "¡Has completado el texto sobre las golondrinas y cigüeñas sin errores!", "¡Has completado el texto correctamente!");
+        } else {
+            showAlertModal("Revisa de nuevo 🧐", "Comprueba las sílabas marcadas en rojo e inténtalo otra vez.", "Revisa las respuestas marcadas en rojo.");
+        }
+    }
+
+    /* --- COMPROBACIÓN ACTIVIDAD 2 --- */
+    function checkAct2() {
+        const answers = {
+            'a2-1': 'gorro',
+            'a2-2': 'gafas',
+            'a2-3': 'guantes',
+            'a2-4': 'gabardina',
+            'a2-5': 'botas de agua'
+        };
+
+        let ok = true;
+        for (let key in answers) {
+            const el = document.getElementById(key);
+            if (el.value === answers[key]) {
+                el.classList.add('correct'); el.classList.remove('incorrect');
+            } else {
+                el.classList.add('incorrect'); el.classList.remove('correct'); ok = false;
+            }
+        }
+
+        if (ok) {
+            showAlertModal("¡Excelente! 🧥", "¡Has identificado todas las prendas de Margarita con ga, go y gu!", "¡Has identificado todas las prendas correctamente!");
+        } else {
+            showAlertModal("Atención 💡", "Revisa la prenda que señala cada flecha.", "Revisa las opciones marcadas en rojo.");
+        }
+    }
+
+    /* --- COMPROBACIÓN ACTIVIDAD 3 --- */
+    function checkAct3() {
+        const answers = {
+            'a3-1': 'bilingüe',
+            'a3-2': 'arqueólogo',
+            'a3-3': 'piragüista'
+        };
+
+        let ok = true;
+        for (let key in answers) {
+            const el = document.getElementById(key);
+            if (el.value === answers[key]) {
+                el.classList.add('correct'); el.classList.remove('incorrect');
+            } else {
+                el.classList.add('incorrect'); el.classList.remove('correct'); ok = false;
+            }
+        }
+
+        if (ok) {
+            showAlertModal("¡Fantástico! 🌟", "¡Has relacionado las profesiones y características a la perfección!", "¡Has relacionado las palabras a la perfección!");
+        } else {
+            showAlertModal("Casi... 🔍", "Comprueba qué palabra corresponde a cada persona.", "Revisa los desplegables en rojo.");
+        }
+    }
+
+    /* CONFETI */
+    function launchConfetti() {
+        if (typeof confetti === 'function') {
+            var count = 200;
+            var defaults = { origin: { y: 0.7 } };
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+        }
+    }
+</script>
+
+</body>
+</html>

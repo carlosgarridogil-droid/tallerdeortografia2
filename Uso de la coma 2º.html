@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uso de la Coma - Lengua Castellana</title>
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tipografía infantil -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <!-- Librería de Confeti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-outer: #E8F5E9;
+            --border-green: #2E7D32;
+            --main-green: #4CAF50;
+            --dark-green: #1B5E20;
+            --accent-green: #66BB6A;
+            --text-dark: #1E3A1E;
+            --light-green: #C8E6C9;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Fredoka', 'Quicksand', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-outer);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 880px;
+            background: #FFFFFF;
+            border: 14px solid var(--border-green);
+            border-radius: 40px;
+            box-shadow: 0 12px 30px rgba(46, 125, 50, 0.25);
+            padding: 35px 30px 25px 30px;
+            position: relative;
+            min-height: 620px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- PORTADA --- */
+        .title-block { text-align: center; width: 100%; }
+
+        .colorful-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin: 0;
+            line-height: 1.2;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2px;
+        }
+
+        .c-g1 { color: #1B5E20; }
+        .c-g2 { color: #2E7D32; }
+        .c-g3 { color: #388E3C; }
+        .c-g4 { color: #4CAF50; }
+        .c-g5 { color: #66BB6A; }
+
+        .sub-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: var(--dark-green);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 18px 0 12px 0;
+        }
+
+        .grade-pill {
+            background-color: var(--light-green);
+            color: var(--dark-green);
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 6px 24px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+
+        .cards-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card-box {
+            padding: 12px 24px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+
+        .card-g1 { background-color: #C8E6C9; color: #1B5E20; }
+        .card-g2 { background-color: #A5D6A7; color: #2E7D32; }
+        .card-g3 { background-color: #81C784; color: #FFFFFF; }
+
+        .btn-start-main {
+            background-color: var(--border-green);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(46, 125, 50, 0.4);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-start-main:hover {
+            background-color: var(--dark-green);
+            transform: translateY(-2px);
+        }
+
+        .footer-line {
+            width: 100%;
+            border-top: 1.5px dashed var(--accent-green);
+            margin-top: 25px;
+            padding-top: 15px;
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 0.92rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .author-tag {
+            font-weight: 700;
+            color: var(--border-green);
+            font-size: 0.98rem;
+        }
+
+        /* --- BARRAS DE INSTRUCCIÓN Y AUDIO --- */
+        .audio-btn {
+            background: var(--light-green);
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--dark-green);
+            box-shadow: 0 4px 0 #A5D6A7;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .audio-btn:active { transform: scale(0.92); }
+
+        .instruction-box {
+            display: flex;
+            align-items: center;
+            background: var(--bg-outer);
+            padding: 12px 20px;
+            border-radius: 20px;
+            width: 100%;
+            margin-bottom: 20px;
+            border-left: 6px solid var(--border-green);
+        }
+
+        .instruction-text {
+            font-size: 1.15rem;
+            color: var(--text-dark);
+            font-weight: 700;
+            flex-grow: 1;
+        }
+
+        .help-btn {
+            background: var(--border-green);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 var(--dark-green);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        .help-btn:hover { background: var(--dark-green); }
+
+        /* --- MODALES --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal-card {
+            background: #FFFFFF;
+            border: 8px solid var(--border-green);
+            border-radius: 35px;
+            padding: 30px;
+            max-width: 520px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-title { font-size: 2rem; color: var(--border-green); margin-top: 0; }
+        .modal-body {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            line-height: 1.5;
+            margin-bottom: 25px;
+            background: var(--bg-outer);
+            padding: 20px;
+            border-radius: 20px;
+            border: 2px dashed var(--accent-green);
+            text-align: center;
+        }
+
+        .btn-close-modal {
+            background: var(--border-green);
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: 12px 35px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 var(--dark-green);
+        }
+
+        /* --- TARJETAS DE ACTIVIDAD --- */
+        .activity-card {
+            background: var(--bg-outer);
+            border: 3px solid var(--light-green);
+            border-radius: 22px;
+            padding: 22px;
+            width: 100%;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* DESPLEGABLES */
+        .custom-select {
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: 3px solid var(--border-green);
+            border-radius: 14px;
+            padding: 6px 12px;
+            color: var(--text-dark);
+            outline: none;
+            background: #FFF;
+            box-shadow: 0 4px 0 var(--light-green);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .custom-select.correct { 
+            background-color: #C8E6C9 !important; 
+            border-color: #2E7D32 !important; 
+            color: #1B5E20 !important; 
+            box-shadow: 0 4px 0 #81C784 !important;
+        }
+        
+        .custom-select.incorrect { 
+            background-color: #FFCDD2 !important; 
+            border-color: #C62828 !important; 
+            color: #B71C1C !important; 
+            box-shadow: 0 4px 0 #EF9A9A !important;
+        }
+
+        .inline-select {
+            display: inline-block;
+            margin: 0 4px;
+            padding: 4px 8px;
+            font-size: 1.05rem;
+        }
+
+        /* ACTIVIDAD 1: SUSTITUIR DIBUJOS */
+        .pictogram-sentence {
+            background: #FFF;
+            border: 2px solid var(--accent-green);
+            border-radius: 18px;
+            padding: 18px;
+            width: 100%;
+            font-size: 1.3rem;
+            line-height: 2.2;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .pic-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .emoji-icon {
+            font-size: 1.8rem;
+            vertical-align: middle;
+            margin: 0 4px;
+        }
+
+        /* ACTIVIDAD 2: SEPARAR PALABRAS */
+        .sticky-words-card {
+            background: #FFF;
+            border: 2px solid var(--accent-green);
+            border-radius: 18px;
+            padding: 18px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sticky-box {
+            background: #FFEBEE;
+            border: 2px dashed #EF5350;
+            padding: 10px 15px;
+            border-radius: 12px;
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #C62828;
+            letter-spacing: 0.5px;
+        }
+
+        /* ACTIVIDAD 3: ENUMERACIONES (FLORES Y ÁRBOLES) */
+        .enum-box {
+            width: 100%;
+            background: #FFF;
+            border: 2px solid var(--accent-green);
+            border-radius: 18px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .word-pool {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            background: var(--bg-outer);
+            padding: 12px;
+            border-radius: 14px;
+        }
+
+        .word-tag {
+            background: #FFF;
+            border: 2px solid var(--border-green);
+            color: var(--dark-green);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .category-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .cat-pill {
+            background: #FF7043;
+            color: white;
+            font-weight: 700;
+            padding: 6px 18px;
+            border-radius: 20px;
+            min-width: 100px;
+            text-align: center;
+            box-shadow: 0 3px 0 #E65100;
+        }
+
+        .cat-pill.trees {
+            background: #26A69A;
+            box-shadow: 0 3px 0 #00695C;
+        }
+
+        /* ACTIVIDAD 4: ORDENAR ORACIÓN */
+        .order-container {
+            width: 100%;
+            background: #FFF;
+            border: 2px solid var(--accent-green);
+            border-radius: 18px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .scrambled-words {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .draggable-word {
+            background: #FFF3E0;
+            border: 2px solid #FF9800;
+            color: #E65100;
+            padding: 10px 18px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #FB8C00;
+            transition: all 0.2s;
+        }
+
+        .draggable-word.used {
+            opacity: 0.3;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: translateY(4px);
+        }
+
+        .drop-sentence-box {
+            background: var(--bg-outer);
+            border: 3px dashed var(--border-green);
+            border-radius: 18px;
+            padding: 18px;
+            width: 100%;
+            min-height: 80px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .placed-word {
+            background: var(--border-green);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1.15rem;
+            cursor: pointer;
+            box-shadow: 0 3px 0 var(--dark-green);
+        }
+
+        /* BOTONES DE NAVEGACIÓN Y COMPROBACIÓN */
+        .btn-check {
+            background: var(--border-green);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 20px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 var(--dark-green);
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-check:hover { background-color: var(--dark-green); }
+
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .btn-nav {
+            background-color: #66BB6A;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #2E7D32;
+        }
+
+        .btn-nav:hover { background-color: #388E3C; }
+        .btn-next { background-color: var(--border-green); box-shadow: 0 4px 0 var(--dark-green); }
+        .btn-next:hover { background-color: var(--dark-green); }
+
+        /* PANTALLA FINAL */
+        .congrats-box { text-align: center; padding: 20px; }
+        .congrats-title { font-size: 2.8rem; color: var(--border-green); margin-bottom: 10px; }
+        .trophy-icon {
+            font-size: 5.5rem;
+            color: var(--main-green);
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-15px); }
+        }
+
+        @media (max-width: 680px) {
+            .category-row { flex-direction: column; align-items: flex-start; }
+            .pic-row { font-size: 1.1rem; }
+            .custom-select { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+
+    <!-- PANTALLA 0: PORTADA -->
+    <div id="screen-0" class="screen active">
+        <div class="title-block">
+            <div class="colorful-title">
+                <span class="c-g1">L</span><span class="c-g2">E</span><span class="c-g3">N</span><span class="c-g4">G</span><span class="c-g5">U</span><span class="c-g1">A</span>
+                &nbsp;
+                <span class="c-g2">C</span><span class="c-g3">A</span><span class="c-g4">S</span><span class="c-g5">T</span><span class="c-g1">E</span><span class="c-g2">L</span><span class="c-g3">L</span><span class="c-g4">A</span><span class="c-g5">N</span><span class="c-g1">A</span>
+            </div>
+
+            <div class="sub-header">
+                <i class="fa-solid fa-pen-fancy"></i>
+                EL USO DE LA COMA ( , )
+                <i class="fa-solid fa-star"></i>
+            </div>
+
+            <div class="grade-pill">Educación Primaria - Signos de Puntuación</div>
+        </div>
+
+        <div class="cards-row">
+            <div class="card-box card-g1">Enumeraciones</div>
+            <div class="card-box card-g2">Separar Palabras</div>
+            <div class="card-box card-g3">Conjunción «Y»</div>
+        </div>
+
+        <button class="btn-start-main" onclick="goToScreen(1)">
+            ¡COMENZAR EL RETO! <i class="fa-solid fa-angle-right"></i>
+        </button>
+
+        <div class="footer-line">
+            <span>Material didáctico interactivo adaptado sin escritura con teclado</span>
+            <span class="author-tag">Aplicación en tonos verdes</span>
+        </div>
+    </div>
+
+    <!-- PANTALLA 1: ACTIVIDAD 1 -->
+    <div id="screen-1" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 1. Completa las oraciones sustituyendo los dibujos por las palabras correctas con su coma.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">1. SUSTITUYE LOS DIBUJOS POR PALABRAS CON SUS COMAS.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-lightbulb"></i> Regla
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div class="pictogram-sentence">
+                <div class="pic-row">
+                    <span>• En la granja hay</span>
+                    <span class="emoji-icon">🐔</span>
+                    <select id="a1-q1" class="custom-select" data-ans="gallinas,">
+                        <option value="">-- Selecciona --</option>
+                        <option value="gallinas,">gallinas,</option>
+                        <option value="gallinas y">gallinas y</option>
+                        <option value="gallinas">gallinas</option>
+                    </select>
+                    <span class="emoji-icon">🐄</span>
+                    <select id="a1-q2" class="custom-select" data-ans="vacas">
+                        <option value="">-- Selecciona --</option>
+                        <option value="vacas,">vacas,</option>
+                        <option value="vacas">vacas</option>
+                        <option value="vacas y">vacas y</option>
+                    </select>
+                    <span>y</span>
+                    <span class="emoji-icon">🐴</span>.
+                </div>
+
+                <hr style="border: 0; border-top: 1.5px dashed var(--accent-green); width: 100%; margin: 10px 0;">
+
+                <div class="pic-row">
+                    <span>• La artista compró</span>
+                    <span class="emoji-icon">🖌️</span>
+                    <select id="a1-q3" class="custom-select" data-ans="pinceles,">
+                        <option value="">-- Selecciona --</option>
+                        <option value="pinceles">pinceles</option>
+                        <option value="pinceles,">pinceles,</option>
+                        <option value="pinceles y">pinceles y</option>
+                    </select>
+                    <span class="emoji-icon">🎨</span>
+                    <select id="a1-q4" class="custom-select" data-ans="pinturas">
+                        <option value="">-- Selecciona --</option>
+                        <option value="pinturas,">pinturas,</option>
+                        <option value="pinturas y">pinturas y</option>
+                        <option value="pinturas">pinturas</option>
+                    </select>
+                    <span>y</span>
+                    <span class="emoji-icon">📄</span>.
+                </div>
+            </div>
+
+            <button class="btn-check" onclick="checkAct1()"><i class="fa-solid fa-check"></i> Comprobar Actividad 1</button>
+        </div>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(0)">Inicio</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(2)">Actividad 2 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 2: ACTIVIDAD 2 -->
+    <div id="screen-2" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 2. Selecciona la frase bien separada con sus comas y la letra y final.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">2. SEPARA LAS PALABRAS Y SELECCIONA LA OPCIÓN CORRECTA.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-lightbulb"></i> Regla
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div class="sticky-words-card">
+                <div>
+                    <span>📌 Palabras pegadas:</span>
+                    <div class="sticky-box">Traigotoallabañadorgorroychanclas.</div>
+                    <div style="margin-top: 10px;">
+                        <strong>Selecciona la oración correcta:</strong><br>
+                        <select id="a2-q1" class="custom-select" style="width: 100%; margin-top: 6px;" data-ans="correcto">
+                            <option value="">-- Selecciona la oración con comas --</option>
+                            <option value="incorrecto1">Traigo toalla bañador gorro y chanclas.</option>
+                            <option value="correcto">Traigo toalla, bañador, gorro y chanclas.</option>
+                            <option value="incorrecto2">Traigo, toalla, bañador, gorro, y, chanclas.</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr style="border: 0; border-top: 1.5px dashed var(--accent-green); width: 100%;">
+
+                <div>
+                    <span>📌 Palabras pegadas:</span>
+                    <div class="sticky-box">Traigotortillacroquetasfrutayhelados.</div>
+                    <div style="margin-top: 10px;">
+                        <strong>Selecciona la oración correcta:</strong><br>
+                        <select id="a2-q2" class="custom-select" style="width: 100%; margin-top: 6px;" data-ans="correcto">
+                            <option value="">-- Selecciona la oración con comas --</option>
+                            <option value="incorrecto1">Traigo tortilla croquetas fruta y helados.</option>
+                            <option value="incorrecto2">Traigo tortilla, croquetas, fruta, y helados.</option>
+                            <option value="correcto">Traigo tortilla, croquetas, fruta y helados.</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-check" onclick="checkAct2()"><i class="fa-solid fa-check"></i> Comprobar Oraciones</button>
+        </div>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(1)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(3)">Actividad 3 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 3: ACTIVIDAD 3 -->
+    <div id="screen-3" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 3. Clasifica las palabras en listas separadas por comas en Flores o Árboles.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">3. ESCRIBE ENUMERACIONES SEPARANDO CON COMAS.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-lightbulb"></i> Regla
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div class="enum-box">
+                <div>
+                    <strong>Palabras disponibles:</strong>
+                    <div class="word-pool">
+                        <span class="word-tag">geranio</span>
+                        <span class="word-tag">manzano</span>
+                        <span class="word-tag">palmera</span>
+                        <span class="word-tag">jazmín</span>
+                        <span class="word-tag">pino</span>
+                        <span class="word-tag">clavel</span>
+                        <span class="word-tag">amapola</span>
+                        <span class="word-tag">peral</span>
+                    </div>
+                </div>
+
+                <div class="category-row">
+                    <span class="cat-pill">🌸 Flores</span>
+                    <select id="a3-q1" class="custom-select" style="flex-grow: 1;" data-ans="correcto">
+                        <option value="">-- Selecciona la lista de flores con comas --</option>
+                        <option value="incorrecto1">geranio, manzano, jazmín y pino.</option>
+                        <option value="correcto">geranio, jazmín, clavel y amapola.</option>
+                        <option value="incorrecto2">geranio, clavel, amapola y peral.</option>
+                    </select>
+                </div>
+
+                <div class="category-row">
+                    <span class="cat-pill trees">🌲 Árboles</span>
+                    <select id="a3-q2" class="custom-select" style="flex-grow: 1;" data-ans="correcto">
+                        <option value="">-- Selecciona la lista de árboles con comas --</option>
+                        <option value="correcto">manzano, palmera, pino y peral.</option>
+                        <option value="incorrecto1">manzano, palmera, pino y jazmín.</option>
+                        <option value="incorrecto2">manzano, palmera, clavel y pino.</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn-check" onclick="checkAct3()"><i class="fa-solid fa-check"></i> Comprobar Listas</button>
+        </div>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(2)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(4)">Actividad 4 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 4: ACTIVIDAD 4 -->
+    <div id="screen-4" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 4. Pulsa sobre las palabras desordenadas para formar la oración con las comas y el punto final.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">4. ORDENA LAS PALABRAS PARA FORMAR LA ORACIÓN.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-lightbulb"></i> Regla
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div class="order-container">
+                <div><strong>Pulsa las tarjetas para construir la oración:</strong></div>
+                <div class="scrambled-words" id="scrambledWordsBox">
+                    <!-- Se genera dinámicamente -->
+                </div>
+
+                <div style="width: 100%;">
+                    <strong>Tu oración formada:</strong>
+                    <div class="drop-sentence-box" id="userSentenceBox">
+                        <span style="color: #9E9E9E; font-style: italic;" id="placeholderText">Pulsa sobre las tarjetas de arriba...</span>
+                    </div>
+                </div>
+                <button class="btn-nav" style="background-color: #81C784;" onclick="resetSentence()"><i class="fa-solid fa-rotate-left"></i> Reiniciar frase</button>
+            </div>
+
+            <button class="btn-check" onclick="checkAct4()"><i class="fa-solid fa-check"></i> Comprobar Oración</button>
+        </div>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(3)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(5)">Finalizar 🏆</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 5: FELICITACIÓN -->
+    <div id="screen-5" class="screen">
+        <div class="congrats-box">
+            <div class="trophy-icon">🏆</div>
+            <h1 class="congrats-title">¡¡MAGNÍFICO TRABAJO!!</h1>
+            <p style="font-size: 1.4rem; color: var(--text-dark);">
+                ¡Has completado con éxito todas las actividades sobre el <strong>Uso de la Coma</strong>!
+            </p>
+            <button class="btn-start-main" style="margin: 25px auto;" onclick="goToScreen(0)">
+                <i class="fa-solid fa-rotate-right"></i> Volver a empezar
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<!-- MODAL EMERGENTE -->
+<div id="customAlertModal" class="modal-overlay">
+    <div class="modal-card">
+        <h2 id="alertModalTitle" class="modal-title">🌟 ¡Atención!</h2>
+        <div id="alertModalBody" class="modal-body">Mensaje</div>
+        <button class="btn-close-modal" onclick="closeAlertModal()">¡Entendido!</button>
+    </div>
+</div>
+
+<!-- MODAL DE REGLA ORTOGRÁFICA -->
+<div id="helpModal" class="modal-overlay">
+    <div class="modal-card">
+        <h2 class="modal-title">💡 Uso de la Coma</h2>
+        <div class="modal-body">
+            • La <strong>coma ( , )</strong> se utiliza para separar los elementos de una <strong>enumeración</strong> o lista.<br><br>
+            • Delante del último elemento no se pone coma, sino la palabra <strong>y</strong>.
+        </div>
+        <button class="btn-close-modal" onclick="closeHelpModal()">¡Entendido!</button>
+    </div>
+</div>
+
+<script>
+    // Voz
+    function speak(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.9;
+            utterance.pitch = 1.05;
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    function showAlertModal(title, message, audioText) {
+        document.getElementById('alertModalTitle').innerText = title;
+        document.getElementById('alertModalBody').innerHTML = message;
+        document.getElementById('customAlertModal').classList.add('active');
+        if (audioText) speak(audioText);
+    }
+
+    function closeAlertModal() {
+        document.getElementById('customAlertModal').classList.remove('active');
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    }
+
+    function openHelpModal() {
+        document.getElementById('helpModal').classList.add('active');
+        speak("La coma se usa para separar palabras en una enumeración. Antes de la última palabra se escribe la letra y.");
+    }
+
+    function closeHelpModal() {
+        document.getElementById('helpModal').classList.remove('active');
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    }
+
+    function goToScreen(index) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(`screen-${index}`);
+        if(target) target.classList.add('active');
+
+        if (index === 4) {
+            initAct4();
+        }
+
+        if (index === 5) {
+            launchConfetti();
+            speak("¡Enhorabuena! Has aprendido a usar la coma perfectamente.");
+        }
+    }
+
+    /* ===================================================
+       COMPROBACIÓN ACTIVIDAD 1
+    =================================================== */
+    function checkAct1() {
+        let correctCount = 0;
+        let unanswered = false;
+
+        for (let i = 1; i <= 4; i++) {
+            const select = document.getElementById(`a1-q${i}`);
+            const val = select.value;
+            const expected = select.dataset.ans;
+
+            if (!val) {
+                unanswered = true;
+                select.className = 'custom-select';
+            } else if (val === expected) {
+                select.className = 'custom-select correct';
+                correctCount++;
+            } else {
+                select.className = 'custom-select incorrect';
+            }
+        }
+
+        if (unanswered) {
+            showAlertModal("¡Incompleto! 📋", "Por favor, selecciona las palabras correspondientes para todos los pictogramas.", "Completa todos los desplegables.");
+        } else if (correctCount === 4) {
+            showAlertModal("¡Excelente! 🐮", "¡Has sustituido los dibujos por palabras con sus comas correctamente!", "¡Muy bien! Actividad completada.");
+        } else {
+            showAlertModal("Revisa las comas 💡", "Recuerda que los primeros elementos llevan coma y el penúltimo se une con 'y'.", "Revisa las respuestas marcadas en rojo.");
+        }
+    }
+
+    /* ===================================================
+       COMPROBACIÓN ACTIVIDAD 2
+    =================================================== */
+    function checkAct2() {
+        let correctCount = 0;
+        let unanswered = false;
+
+        for (let i = 1; i <= 2; i++) {
+            const select = document.getElementById(`a2-q${i}`);
+            const val = select.value;
+
+            if (!val) {
+                unanswered = true;
+                select.className = 'custom-select';
+            } else if (val === 'correcto') {
+                select.className = 'custom-select correct';
+                correctCount++;
+            } else {
+                select.className = 'custom-select incorrect';
+            }
+        }
+
+        if (unanswered) {
+            showAlertModal("¡Faltan opciones! 🔍", "Selecciona una oración bien redactada para cada ejemplo.", "Por favor selecciona ambas oraciones.");
+        } else if (correctCount === 2) {
+            showAlertModal("¡Perfecto! 🏖️", "¡Has separado las palabras unidas añadiendo comas y la 'y' correctamente!", "¡Excelente! Oraciones separadas correctamente.");
+        } else {
+            showAlertModal("Atención 💡", "Fíjate bien en poner comas entre cada palabra y usar 'y' antes del último elemento.", "Revisa tus opciones.");
+        }
+    }
+
+    /* ===================================================
+       COMPROBACIÓN ACTIVIDAD 3
+    =================================================== */
+    function checkAct3() {
+        let correctCount = 0;
+        let unanswered = false;
+
+        for (let i = 1; i <= 2; i++) {
+            const select = document.getElementById(`a3-q${i}`);
+            const val = select.value;
+
+            if (!val) {
+                unanswered = true;
+                select.className = 'custom-select';
+            } else if (val === 'correcto') {
+                select.className = 'custom-select correct';
+                correctCount++;
+            } else {
+                select.className = 'custom-select incorrect';
+            }
+        }
+
+        if (unanswered) {
+            showAlertModal("¡Incompleto! 🌺", "Selecciona las enumeraciones correspondientes para Flores y Árboles.", "Completa ambas clasificaciones.");
+        } else if (correctCount === 2) {
+            showAlertModal("¡Magnífico! 🌲", "¡Has clasificado las flores y árboles en enumeraciones perfectas con comas!", "¡Muy bien! Clasificación correcta.");
+        } else {
+            showAlertModal("Casi lo tienes 💡", "Asegúrate de que cada lista contenga sólo las plantas de su tipo.", "Revisa las listas en rojo.");
+        }
+    }
+
+    /* ===================================================
+       LÓGICA ACTIVIDAD 4 (ORDENAR FRASE)
+    =================================================== */
+    const rawWords = [
+        { id: 1, text: "Tenemos" },
+        { id: 2, text: "aros," },
+        { id: 3, text: "pelotas," },
+        { id: 4, text: "colchonetas," },
+        { id: 5, text: "cuerdas" },
+        { id: 6, text: "y" },
+        { id: 7, text: "picas." }
+    ];
+
+    let userOrder = [];
+
+    function initAct4() {
+        const scrambledBox = document.getElementById('scrambledWordsBox');
+        scrambledBox.innerHTML = '';
+        
+        // Copia para desordenar en la pantalla
+        const shuffled = [...rawWords].sort(() => 0.5 - Math.random());
+
+        shuffled.forEach(item => {
+            const btn = document.createElement('div');
+            btn.className = 'draggable-word';
+            btn.id = `word-btn-${item.id}`;
+            btn.innerText = item.text;
+            btn.onclick = () => selectWord(item);
+            scrambledBox.appendChild(btn);
+        });
+
+        resetSentence();
+    }
+
+    function selectWord(item) {
+        if (userOrder.some(w => w.id === item.id)) return;
+
+        userOrder.push(item);
+        document.getElementById(`word-btn-${item.id}`).classList.add('used');
+        renderUserSentence();
+    }
+
+    function removeWord(index) {
+        const removed = userOrder.splice(index, 1)[0];
+        document.getElementById(`word-btn-${removed.id}`).classList.remove('used');
+        renderUserSentence();
+    }
+
+    function resetSentence() {
+        userOrder = [];
+        document.querySelectorAll('.draggable-word').forEach(btn => btn.classList.remove('used'));
+        renderUserSentence();
+    }
+
+    function renderUserSentence() {
+        const box = document.getElementById('userSentenceBox');
+        box.innerHTML = '';
+
+        if (userOrder.length === 0) {
+            box.innerHTML = '<span style="color: #9E9E9E; font-style: italic;" id="placeholderText">Pulsa sobre las tarjetas de arriba...</span>';
+            return;
+        }
+
+        userOrder.forEach((item, idx) => {
+            const wordElem = document.createElement('div');
+            wordElem.className = 'placed-word';
+            wordElem.innerText = item.text;
+            wordElem.title = 'Haz clic para quitar';
+            wordElem.onclick = () => removeWord(idx);
+            box.appendChild(wordElem);
+        });
+    }
+
+    function checkAct4() {
+        if (userOrder.length < rawWords.length) {
+            showAlertModal("¡Incompleto! 🧩", "Utiliza todas las palabras para construir la oración.", "Coloca todas las palabras.");
+            return;
+        }
+
+        const currentText = userOrder.map(w => w.text).join(' ');
+        const expectedText = "Tenemos aros, pelotas, colchonetas, cuerdas y picas.";
+
+        if (currentText === expectedText) {
+            showAlertModal("¡Oración Perfecta! 🎉", "¡Has ordenado la frase correctamente con sus comas y su punto!", "¡Excelente! Frase bien construida.");
+        } else {
+            showAlertModal("Revisa el orden 💡", "Recuerda empezar con mayúscula 'Tenemos' e ir enumerando los objetos con coma.", "Comprueba el orden de las palabras.");
+        }
+    }
+
+    /* CONFETI FINAL */
+    function launchConfetti() {
+        if (typeof confetti === 'function') {
+            var count = 200;
+            var defaults = { origin: { y: 0.7 } };
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+        }
+    }
+</script>
+
+</body>
+</html>

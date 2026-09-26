@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lengua Castellana - Uso de Ca, Co, Cu, Que, Qui</title>
+    <!-- FontAwesome para iconos de la interfaz -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tipografía redondeada infantil -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <!-- Librería de Confeti para la pantalla final -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-outer: #E8F5E9;
+            --border-green: #2E7D32;
+            --main-green: #4CAF50;
+            --dark-green: #1B5E20;
+            --accent-green: #00E676;
+            --yellow-badge: #FFD54F;
+            --text-gray: #424242;
+            --light-green: #F1F8E9;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Fredoka', 'Quicksand', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-outer);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- MARCO Y CONTENEDOR PRINCIPAL --- */
+        .app-container {
+            width: 100%;
+            max-width: 860px;
+            background: #FFFFFF;
+            border: 14px solid var(--border-green);
+            border-radius: 40px;
+            box-shadow: 0 12px 30px rgba(46, 125, 50, 0.2);
+            padding: 35px 30px 25px 30px;
+            position: relative;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- PANTALLA INICIAL --- */
+        .title-block {
+            text-align: center;
+            width: 100%;
+        }
+
+        .colorful-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin: 0;
+            line-height: 1.2;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2px;
+        }
+
+        .c-g1 { color: #2E7D32; }
+        .c-g2 { color: #4CAF50; }
+        .c-g3 { color: #81C784; }
+        .c-g4 { color: #00A86B; }
+        .c-g5 { color: #388E3C; }
+
+        .sub-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: var(--dark-green);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 18px 0 12px 0;
+        }
+
+        .grade-pill {
+            background-color: var(--yellow-badge);
+            color: #332A00;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 6px 24px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+
+        .cards-row {
+            display: flex;
+            gap: 22px;
+            margin-bottom: 30px;
+        }
+
+        .card-box {
+            width: 95px;
+            height: 95px;
+            border-radius: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.2rem;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+
+        .card-green1 { background-color: #C8E6C9; color: #1B5E20; }
+        .card-green2 { background-color: #A5D6A7; color: #2E7D32; }
+        .card-green3 { background-color: #81C784; color: #004D40; }
+
+        .btn-start-main {
+            background-color: var(--main-green);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(76, 175, 80, 0.4);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-start-main:hover {
+            background-color: #388E3C;
+            transform: translateY(-2px);
+        }
+
+        .footer-line {
+            width: 100%;
+            border-top: 1.5px dashed #A5D6A7;
+            margin-top: 25px;
+            padding-top: 15px;
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 0.92rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .author-tag {
+            font-weight: 700;
+            color: var(--border-green);
+            font-size: 0.98rem;
+        }
+
+        /* --- CONTENEDORES DE AUDIO Y AYUDA --- */
+        .audio-btn {
+            background: var(--yellow-badge);
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: #332A00;
+            box-shadow: 0 4px 0 #FBC02D;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .audio-btn:active { transform: scale(0.92); }
+
+        .instruction-box {
+            display: flex;
+            align-items: center;
+            background: #E8F5E9;
+            padding: 12px 20px;
+            border-radius: 20px;
+            width: 100%;
+            margin-bottom: 20px;
+            border-left: 6px solid var(--border-green);
+        }
+
+        .instruction-text {
+            font-size: 1.15rem;
+            color: var(--dark-green);
+            font-weight: 700;
+            flex-grow: 1;
+        }
+
+        .help-btn {
+            background: #66BB6A;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #388E3C;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        .help-btn:hover { background: #4CAF50; }
+
+        /* --- MODAL DE AYUDA --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal-card {
+            background: #FFFFFF;
+            border: 8px solid var(--main-green);
+            border-radius: 35px;
+            padding: 30px;
+            max-width: 520px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: var(--dark-green);
+            margin-top: 0;
+        }
+
+        .modal-body {
+            font-size: 1.2rem;
+            color: #1B5E20;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            background: #E8F5E9;
+            padding: 20px;
+            border-radius: 20px;
+            border: 2px dashed #81C784;
+            text-align: left;
+        }
+
+        .btn-close-modal {
+            background: var(--main-green);
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: 12px 35px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #2E7D32;
+        }
+
+        /* --- ACTIVIDAD 1: GRID DE PALABRAS --- */
+        .act1-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .word-card {
+            background: var(--light-green);
+            border: 3px solid #A5D6A7;
+            border-radius: 22px;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            min-height: 120px;
+        }
+
+        .word-card i {
+            font-size: 2.3rem;
+            color: var(--border-green);
+        }
+
+        .fill-line {
+            display: flex;
+            align-items: center;
+            font-size: 1.35rem;
+            font-weight: bold;
+            color: #2E7D32;
+        }
+
+        .syllable-select {
+            font-size: 1.15rem;
+            font-weight: 700;
+            border: 2px solid var(--main-green);
+            border-radius: 10px;
+            background: #FFF;
+            color: var(--dark-green);
+            padding: 4px 8px;
+            outline: none;
+            margin: 0 4px;
+            cursor: pointer;
+        }
+
+        .correct { background-color: #C8E6C9 !important; border-color: #388E3C !important; }
+        .incorrect { background-color: #FFCDD2 !important; border-color: #E53935 !important; }
+
+        /* --- ACTIVIDAD 2: ADIVINANZAS CON DRAG & DROP --- */
+        .drag-words-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            background: #E8F5E9;
+            padding: 15px;
+            border-radius: 20px;
+            border: 2px dashed #81C784;
+            width: 100%;
+            margin-bottom: 20px;
+            min-height: 65px;
+        }
+
+        .draggable-word {
+            background-color: var(--main-green);
+            color: white;
+            font-size: 1.15rem;
+            font-weight: 700;
+            padding: 8px 18px;
+            border-radius: 15px;
+            cursor: grab;
+            box-shadow: 0 4px 0 #2E7D32;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .draggable-word:active {
+            cursor: grabbing;
+            transform: scale(0.95);
+        }
+
+        .draggable-word.selected {
+            background-color: #FFB300;
+            box-shadow: 0 4px 0 #FF8F00;
+        }
+
+        .riddles-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .riddle-item {
+            background: #F1F8E9;
+            border: 2px solid #C8E6C9;
+            border-radius: 18px;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .riddle-text {
+            font-size: 1.1rem;
+            color: #2E7D32;
+            font-weight: 700;
+        }
+
+        .drop-zone {
+            width: 170px;
+            height: 44px;
+            border: 2px dashed #81C784;
+            background: #FFFFFF;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #1B5E20;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .drop-zone.hovered {
+            background: #C8E6C9;
+            border-color: var(--border-green);
+        }
+
+        .drop-zone .draggable-word {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            box-shadow: none;
+        }
+
+        /* --- ACTIVIDAD 3: COMPLETA EL TEXTO --- */
+        .story-fill-container {
+            background: #F1F8E9;
+            border: 3px solid #81C784;
+            border-radius: 20px;
+            padding: 25px;
+            font-size: 1.25rem;
+            line-height: 2.2;
+            color: #1B5E20;
+            width: 100%;
+            margin-bottom: 15px;
+            max-height: 320px;
+            overflow-y: auto;
+        }
+
+        .inline-select {
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: 2px solid var(--main-green);
+            border-radius: 8px;
+            background: #FFFFFF;
+            color: var(--dark-green);
+            padding: 2px 6px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* BOTONES Y NAVEGACIÓN */
+        .btn-check {
+            background: var(--main-green);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #2E7D32;
+        }
+
+        .btn-check:hover { background-color: #388E3C; }
+
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .btn-nav {
+            background-color: #78909C;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #546E7A;
+        }
+
+        .btn-nav:hover { background-color: #90A4AE; }
+
+        .btn-next {
+            background-color: var(--border-green);
+            box-shadow: 0 4px 0 #1B5E20;
+        }
+
+        .btn-next:hover { background-color: #388E3C; }
+
+        /* PANTALLA FINAL */
+        .congrats-box {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .congrats-title {
+            font-size: 2.8rem;
+            color: var(--border-green);
+            margin-bottom: 10px;
+        }
+
+        .trophy-icon {
+            font-size: 5.5rem;
+            color: #FFD700;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+
+    <!-- PANTALLA 0: PORTADA -->
+    <div id="screen-0" class="screen active">
+        <div class="title-block">
+            <div class="colorful-title">
+                <span class="c-g1">L</span><span class="c-g2">E</span><span class="c-g3">N</span><span class="c-g4">G</span><span class="c-g5">U</span><span class="c-g1">A</span>
+                &nbsp;
+                <span class="c-g2">C</span><span class="c-g3">A</span><span class="c-g4">S</span><span class="c-g5">T</span><span class="c-g1">E</span><span class="c-g2">L</span><span class="c-g3">L</span><span class="c-g4">A</span><span class="c-g5">N</span><span class="c-g1">A</span>
+            </div>
+
+            <div class="sub-header">
+                <i class="fa-solid fa-pen-fancy"></i>
+                CA, CO, CU, QUE, QUI
+                <i class="fa-solid fa-spell-check"></i>
+            </div>
+
+            <div class="grade-pill">2º Educación Primaria - Ortografía</div>
+        </div>
+
+        <div class="cards-row">
+            <div class="card-box card-green1">ca</div>
+            <div class="card-box card-green2">que</div>
+            <div class="card-box card-green3">co</div>
+        </div>
+
+        <button class="btn-start-main" onclick="goToScreen(1)">
+            ¡COMENZAR EL RETO! <i class="fa-solid fa-angle-right"></i>
+        </button>
+
+        <div class="footer-line">
+            <span>Material didáctico interactivo de Ortografía para 2.º de Primaria</span>
+            <span class="author-tag">Aplicación elaborada por Carlos Garrido</span>
+        </div>
+    </div>
+
+    <!-- PANTALLA 1: REGLA ORTOGRÁFICA -->
+    <div id="screen-1" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Recuerda la regla. El sonido K se escribe con C delante de a, o, u: ca, co, cu. Y con Qu delante de e, i: que, qui.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">¡RECUERDA LA REGLA DEL SONIDO K!</div>
+        </div>
+
+        <div style="background: #E8F5E9; border: 3px solid #81C784; padding: 25px; border-radius: 25px; text-align: center; margin: 20px 0; max-width: 650px;">
+            <p style="font-size: 1.5rem; color: #1B5E20; margin-top: 0;">
+                ✍️ <strong>¿Cómo se escribe el sonido K?</strong>
+            </p>
+            <ul style="text-align: left; font-size: 1.3rem; color: #2E7D32; line-height: 2;">
+                <li>Escribimos <strong>C</strong> delante de <em>a, o, u</em> ➔ <strong>ca, co, cu</strong> (ej: <em>casa, coche, cuna</em>).</li>
+                <li>Escribimos <strong>QU</strong> delante de <em>e, i</em> ➔ <strong>que, qui</strong> (ej: <em>queso, quiosco</em>).</li>
+            </ul>
+        </div>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(0)">Inicio</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(2)">Actividad 1 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 2: ACTIVIDAD 1 - COMPLETA PALABRAS -->
+    <div id="screen-2" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 1. Utiliza ca, co, cu, que, qui para escribir las dos sílabas que faltan en cada palabra.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">1. SELECCIONA LA SÍLABA CORRECTA EN CADA PALABRA.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="act1-grid">
+            <!-- Quiosco -->
+            <div class="word-card">
+                <i class="fa-solid fa-store"></i>
+                <div class="fill-line">
+                    <select id="a1-s1" class="syllable-select"><option value="">--</option><option value="ca">ca</option><option value="co">co</option><option value="cu">cu</option><option value="que">que</option><option value="qui">qui</option></select>osco
+                </div>
+            </div>
+
+            <!-- Albaricoque -->
+            <div class="word-card">
+                <i class="fa-solid fa-apple-whole"></i>
+                <div class="fill-line">
+                    albari<select id="a1-s2" class="syllable-select"><option value="">--</option><option value="ca">ca</option><option value="co">co</option><option value="cu">cu</option><option value="que">que</option><option value="qui">qui</option></select><select id="a1-s3" class="syllable-select"><option value="">--</option><option value="ca">ca</option><option value="co">co</option><option value="cu">cu</option><option value="que">que</option><option value="qui">qui</option></select>
+                </div>
+            </div>
+
+            <!-- Cucaracha -->
+            <div class="word-card">
+                <i class="fa-solid fa-bug"></i>
+                <div class="fill-line">
+                    <select id="a1-s4" class="syllable-select"><option value="">--</option><option value="ca">ca</option><option value="co">co</option><option value="cu">cu</option><option value="que">que</option><option value="qui">qui</option></select><select id="a1-s5" class="syllable-select"><option value="">--</option><option value="ca">ca</option><option value="co">co</option><option value="cu">cu</option><option value="que">que</option><option value="qui">qui</option></select>racha
+                </div>
+            </div>
+
+            <!-- Cocodrilo -->
+            <div class="word-card">
+                <i class="fa-solid fa-dragon"></i>
+                <div class="fill-line">
+                    <select id="a1-s6" class="syllable-select"><option value="">--</option><option value="ca">ca</option><option value="co">co</option><option value="cu">cu</option><option value="que">que</option><option value="qui">qui</option></select>drilo
+                </div>
+            </div>
+
+            <!-- Cucurucho -->
+            <div class="word-card" style="grid-column: span 2;">
+                <i class="fa-solid fa-ice-cream"></i>
+                <div class="fill-line">
+                    <select id="a1-s7" class="syllable-select"><option value="">--</option><option value="ca">ca</option><option value="co">co</option><option value="cu">cu</option><option value="que">que</option><option value="qui">qui</option></select><select id="a1-s8" class="syllable-select"><option value="">--</option><option value="ca">ca</option><option value="co">co</option><option value="cu">cu</option><option value="que">que</option><option value="qui">qui</option></select>rucho
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkAct1()"><i class="fa-solid fa-check"></i> Comprobar respuestas</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(1)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(3)">Actividad 2 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 3: ACTIVIDAD 2 - ADIVINANZAS (ARRASTRAR PALABRAS) -->
+    <div id="screen-3" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 2. Arrastra la respuesta o tócala para colocarla en la adivinanza correspondiente.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">2. ARRASTRA Y ARRASTRA O TOCA CADA PALABRA A SU ADIVINANZA.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Ayuda
+            </button>
+        </div>
+
+        <!-- BANCO DE PALABRAS PARA ARRASTRAR -->
+        <div class="drag-words-container" id="wordsBank" ondragover="allowDrop(event)" ondrop="dropToBank(event)">
+            <div class="draggable-word" draggable="true" id="word-cosquillas" ondragstart="drag(event)" onclick="selectWord(this)">cosquillas</div>
+            <div class="draggable-word" draggable="true" id="word-caracola" ondragstart="drag(event)" onclick="selectWord(this)">caracola</div>
+            <div class="draggable-word" draggable="true" id="word-parque" ondragstart="drag(event)" onclick="selectWord(this)">parque</div>
+            <div class="draggable-word" draggable="true" id="word-cuchara" ondragstart="drag(event)" onclick="selectWord(this)">cuchara</div>
+        </div>
+
+        <div class="riddles-list">
+            <div class="riddle-item">
+                <span class="riddle-text">Cuando te las hacen bien, no paras de reír. ►</span>
+                <div class="drop-zone" id="drop-1" data-answer="cosquillas" ondragover="allowDrop(event)" ondrop="drop(event)" onclick="placeSelectedWord(this)"></div>
+            </div>
+            <div class="riddle-item">
+                <span class="riddle-text">Si te la pones en la oreja, escuchas el mar. ►</span>
+                <div class="drop-zone" id="drop-2" data-answer="caracola" ondragover="allowDrop(event)" ondrop="drop(event)" onclick="placeSelectedWord(this)"></div>
+            </div>
+            <div class="riddle-item">
+                <span class="riddle-text">Allí puedes jugar y tirarte por el tobogán. ►</span>
+                <div class="drop-zone" id="drop-3" data-answer="parque" ondragover="allowDrop(event)" ondrop="drop(event)" onclick="placeSelectedWord(this)"></div>
+            </div>
+            <div class="riddle-item">
+                <span class="riddle-text">Con ella tomas el puré y la sopa. ►</span>
+                <div class="drop-zone" id="drop-4" data-answer="cuchara" ondragover="allowDrop(event)" ondrop="drop(event)" onclick="placeSelectedWord(this)"></div>
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkAct2()"><i class="fa-solid fa-check"></i> Comprobar adivinanzas</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(2)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(4)">Actividad 3 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 4: ACTIVIDAD 3 - COMPLETA CON C O QU -->
+    <div id="screen-4" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 3. Completa el texto seleccionando c o qu en cada hueco.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">3. COMPLETA CON C O CON QU.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="story-fill-container">
+            <h3 style="text-align: center; color: #1B5E20; margin-top: 0;">Un artista increíble</h3>
+            
+            Joa<select id="text-1" class="inline-select"><option value="">--</option><option value="c">c</option><option value="qu">qu</option></select>ín es un gran músi<select id="text-2" class="inline-select"><option value="">--</option><option value="c">c</option><option value="qu">qu</option></select>o. 
+
+            To<select id="text-3" class="inline-select"><option value="">--</option><option value="c">c</option><option value="qu">qu</option></select>a el a<select id="text-4" class="inline-select"><option value="">--</option><option value="c">c</option><option value="qu">qu</option></select>ordeón, la armóni<select id="text-5" class="inline-select"><option value="">--</option><option value="c">c</option><option value="qu">qu</option></select>a, los platillos y el tambor. ¡Los <select id="text-6" class="inline-select"><option value="">--</option><option value="c">c</option><option value="qu">qu</option></select>uatro instrumentos a la vez! Es un auténti<select id="text-7" class="inline-select"><option value="">--</option><option value="c">c</option><option value="qu">qu</option></select>o hombre or<select id="text-8" class="inline-select"><option value="">--</option><option value="c">c</option><option value="qu">qu</option></select>uesta.
+        </div>
+
+        <button class="btn-check" onclick="checkAct3()"><i class="fa-solid fa-check"></i> Comprobar texto</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(3)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(5)">Finalizar 🏆</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 5: FELICITACIÓN Y CONFETI -->
+    <div id="screen-5" class="screen">
+        <div class="congrats-box">
+            <div class="trophy-icon">🏆</div>
+            <h1 class="congrats-title">¡EXCELENTE TRABAJO!</h1>
+            <p style="font-size: 1.4rem; color: #1B5E20;">
+                ¡Enhorabuena, campeón/a de 2.º de Primaria! <br>
+                Has dominado el uso de <strong>ca, co, cu, que, qui</strong> a la perfección.
+            </p>
+            <button class="btn-start-main" style="margin: 25px auto;" onclick="goToScreen(0)">
+                <i class="fa-solid fa-rotate-right"></i> Volver a empezar
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<!-- VENTANA MODAL DE AYUDA -->
+<div id="helpModal" class="modal-overlay">
+    <div class="modal-card">
+        <h2 class="modal-title">💡 Recordatorio Ortográfico</h2>
+        <div class="modal-body">
+            <strong>Regla del sonido K:</strong><br><br>
+            • Usamos <strong>C</strong> con <em>a, o, u</em>: <strong>ca, co, cu</strong>.<br>
+            • Usamos <strong>QU</strong> con <em>e, i</em>: <strong>que, qui</strong>.
+            <br><br>
+            ¡Revisa bien la vocal que va después de la consonante!
+        </div>
+        <button class="btn-close-modal" onclick="closeHelpModal()">¡Entendido!</button>
+    </div>
+</div>
+
+<script>
+    // Síntesis de voz
+    function speak(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.9;
+            utterance.pitch = 1.05;
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    function goToScreen(index) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(`screen-${index}`);
+        if(target) target.classList.add('active');
+
+        if (index === 5) {
+            launchConfetti();
+            speak("¡Excelente trabajo! Has completado con éxito todas las actividades ortográficas.");
+        }
+    }
+
+    /* --- COMPROBACIÓN ACTIVIDAD 1 --- */
+    function checkAct1() {
+        const selects = {
+            'a1-s1': 'qui',
+            'a1-s2': 'co',
+            'a1-s3': 'que',
+            'a1-s4': 'cu',
+            'a1-s5': 'ca',
+            'a1-s6': 'co',
+            'a1-s7': 'cu',
+            'a1-s8': 'cu'
+        };
+
+        let ok = true;
+
+        for (let id in selects) {
+            const el = document.getElementById(id);
+            if (el.value === selects[id]) {
+                el.classList.add('correct');
+                el.classList.remove('incorrect');
+            } else {
+                el.classList.add('incorrect');
+                el.classList.remove('correct');
+                ok = false;
+            }
+        }
+
+        if (ok) {
+            alert("¡Muy bien! Has completado todas las palabras correctamente.");
+            speak("¡Muy bien! Has completado todas las palabras correctamente.");
+        } else {
+            alert("Revisa las opciones marcadas en rojo. ¡Tú puedes!");
+            speak("Revisa las respuestas marcadas en rojo. Fíjate bien en la regla de ca, co, cu, que, qui.");
+        }
+    }
+
+    /* --- ACTIVIDAD 2: LÓGICA DE DRAG & DROP Y TAP/CLICK --- */
+    let selectedElement = null;
+
+    function drag(e) {
+        e.dataTransfer.setData("text/plain", e.target.id);
+    }
+
+    function allowDrop(e) {
+        e.preventDefault();
+    }
+
+    function drop(e) {
+        e.preventDefault();
+        const data = e.dataTransfer.getData("text/plain");
+        const draggedEl = document.getElementById(data);
+        const dropZone = e.currentTarget;
+
+        if (dropZone.classList.contains('drop-zone')) {
+            // Si ya hay un elemento dentro de la zona, moverlo al banco
+            if (dropZone.children.length > 0) {
+                document.getElementById('wordsBank').appendChild(dropZone.children[0]);
+            }
+            dropZone.appendChild(draggedEl);
+            draggedEl.classList.remove('selected');
+            selectedElement = null;
+        }
+    }
+
+    function dropToBank(e) {
+        e.preventDefault();
+        const data = e.dataTransfer.getData("text/plain");
+        const draggedEl = document.getElementById(data);
+        if (draggedEl) {
+            document.getElementById('wordsBank').appendChild(draggedEl);
+            draggedEl.classList.remove('selected');
+            selectedElement = null;
+        }
+    }
+
+    // Soporte para selección al hacer clic (ideal para pantallas táctiles)
+    function selectWord(el) {
+        if (selectedElement === el) {
+            el.classList.remove('selected');
+            selectedElement = null;
+        } else {
+            document.querySelectorAll('.draggable-word').forEach(w => w.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedElement = el;
+        }
+    }
+
+    function placeSelectedWord(zone) {
+        if (selectedElement) {
+            if (zone.children.length > 0) {
+                document.getElementById('wordsBank').appendChild(zone.children[0]);
+            }
+            zone.appendChild(selectedElement);
+            selectedElement.classList.remove('selected');
+            selectedElement = null;
+        } else if (zone.children.length > 0) {
+            // Si hace clic en una casilla que tiene palabra, la devuelve al banco
+            document.getElementById('wordsBank').appendChild(zone.children[0]);
+        }
+    }
+
+    function checkAct2() {
+        const dropZones = document.querySelectorAll('.drop-zone');
+        let ok = true;
+
+        dropZones.forEach(zone => {
+            const expected = zone.getAttribute('data-answer');
+            const child = zone.children[0];
+
+            if (child && child.innerText.trim().toLowerCase() === expected) {
+                zone.classList.add('correct');
+                zone.classList.remove('incorrect');
+            } else {
+                zone.classList.add('incorrect');
+                zone.classList.remove('correct');
+                ok = false;
+            }
+        });
+
+        if (ok) {
+            alert("¡Genial! Has adivinado todas las palabras correctamente.");
+            speak("¡Genial! Has adivinado todas las palabras correctamente.");
+        } else {
+            alert("Revisa las respuestas de las adivinanzas marcadas en rojo.");
+            speak("Revisa las respuestas de las adivinanzas en rojo.");
+        }
+    }
+
+    /* --- COMPROBACIÓN ACTIVIDAD 3 --- */
+    function checkAct3() {
+        const textAnswers = {
+            'text-1': 'qu',
+            'text-2': 'c',
+            'text-3': 'c',
+            'text-4': 'c',
+            'text-5': 'c',
+            'text-6': 'c',
+            'text-7': 'c',
+            'text-8': 'qu'
+        };
+
+        let ok = true;
+
+        for (let id in textAnswers) {
+            const el = document.getElementById(id);
+            if (el.value === textAnswers[id]) {
+                el.classList.add('correct');
+                el.classList.remove('incorrect');
+            } else {
+                el.classList.add('incorrect');
+                el.classList.remove('correct');
+                ok = false;
+            }
+        }
+
+        if (ok) {
+            alert("¡Fantástico! Has completado el texto del artista correctamente.");
+            speak("¡Fantástico! Has completado el texto del artista correctamente.");
+        } else {
+            alert("Revisa los huecos en rojo del texto.");
+            speak("Revisa las opciones marcadas en rojo. Recuerda utilizar c delante de a, o, u y qu delante de e, i.");
+        }
+    }
+
+    /* FUNCIONES DE LA MODAL DE AYUDA */
+    function openHelpModal() {
+        document.getElementById('helpModal').classList.add('active');
+        speak("Recuerda: Escribimos c delante de a, o, u. Y escribimos qu delante de e, i.");
+    }
+
+    function closeHelpModal() {
+        document.getElementById('helpModal').classList.remove('active');
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    /* CONFETI */
+    function launchConfetti() {
+        if (typeof confetti === 'function') {
+            var count = 200;
+            var defaults = { origin: { y: 0.7 } };
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+        }
+    }
+</script>
+
+</body>
+</html>

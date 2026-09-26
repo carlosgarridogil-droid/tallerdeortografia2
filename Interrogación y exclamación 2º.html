@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lengua Castellana - Signos de Interrogación y Exclamación</title>
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tipografía redondeada infantil -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <!-- Librería de Confeti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-outer: #E3F2FD;
+            --border-blue: #0277BD;
+            --main-blue: #0288D1;
+            --dark-blue: #01579B;
+            --accent-blue: #0097A7;
+            --yellow-badge: #FFF59D;
+            --text-gray: #37474F;
+            --light-blue: #E1F5FE;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Fredoka', 'Quicksand', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-outer);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- MARCO Y CONTENEDOR PRINCIPAL --- */
+        .app-container {
+            width: 100%;
+            max-width: 860px;
+            background: #FFFFFF;
+            border: 14px solid var(--border-blue);
+            border-radius: 40px;
+            box-shadow: 0 12px 30px rgba(2, 119, 189, 0.25);
+            padding: 35px 30px 25px 30px;
+            position: relative;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- PANTALLA INICIAL --- */
+        .title-block {
+            text-align: center;
+            width: 100%;
+        }
+
+        .colorful-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin: 0;
+            line-height: 1.2;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2px;
+        }
+
+        .c-b1 { color: #01579B; }
+        .c-b2 { color: #0288D1; }
+        .c-b3 { color: #03A9F4; }
+        .c-b4 { color: #29B6F6; }
+        .c-b5 { color: #0097A7; }
+
+        .sub-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: var(--dark-blue);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 18px 0 12px 0;
+        }
+
+        .grade-pill {
+            background-color: var(--yellow-badge);
+            color: #37474F;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 6px 24px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+
+        .cards-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card-box {
+            width: 75px;
+            height: 75px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.2rem;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+
+        .card-blue1 { background-color: #E1F5FE; color: #01579B; }
+        .card-blue2 { background-color: #B3E5FC; color: #0288D1; }
+        .card-blue3 { background-color: #81D4FA; color: #0097A7; }
+
+        .btn-start-main {
+            background-color: var(--main-blue);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(2, 136, 209, 0.4);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-start-main:hover {
+            background-color: #01579B;
+            transform: translateY(-2px);
+        }
+
+        .footer-line {
+            width: 100%;
+            border-top: 1.5px dashed #81D4FA;
+            margin-top: 25px;
+            padding-top: 15px;
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 0.92rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .author-tag {
+            font-weight: 700;
+            color: var(--border-blue);
+            font-size: 0.98rem;
+        }
+
+        /* --- CONTENEDORES DE AUDIO Y AYUDA --- */
+        .audio-btn {
+            background: var(--yellow-badge);
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: #37474F;
+            box-shadow: 0 4px 0 #FBC02D;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .audio-btn:active { transform: scale(0.92); }
+
+        .instruction-box {
+            display: flex;
+            align-items: center;
+            background: #E1F5FE;
+            padding: 12px 20px;
+            border-radius: 20px;
+            width: 100%;
+            margin-bottom: 20px;
+            border-left: 6px solid var(--border-blue);
+        }
+
+        .instruction-text {
+            font-size: 1.15rem;
+            color: var(--dark-blue);
+            font-weight: 700;
+            flex-grow: 1;
+        }
+
+        .help-btn {
+            background: var(--main-blue);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #01579B;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        .help-btn:hover { background: #0277BD; }
+
+        /* --- MODALES PERSONALES (AYUDA Y FEEDBACK) --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal-card {
+            background: #FFFFFF;
+            border: 8px solid var(--main-blue);
+            border-radius: 35px;
+            padding: 30px;
+            max-width: 520px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: var(--dark-blue);
+            margin-top: 0;
+        }
+
+        .modal-body {
+            font-size: 1.2rem;
+            color: #01579B;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            background: #E1F5FE;
+            padding: 20px;
+            border-radius: 20px;
+            border: 2px dashed #81D4FA;
+            text-align: center;
+        }
+
+        .btn-close-modal {
+            background: var(--main-blue);
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: 12px 35px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #01579B;
+        }
+
+        .btn-close-modal:hover { background-color: #0277BD; }
+
+        /* --- SELECTS Y ELEMENTOS INTERACTIVOS --- */
+        select.custom-select {
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: 3px solid var(--main-blue);
+            border-radius: 14px;
+            padding: 8px 12px;
+            color: var(--dark-blue);
+            outline: none;
+            background: #FFF;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #B3E5FC;
+            transition: all 0.2s;
+        }
+
+        .correct { background-color: #C8E6C9 !important; border-color: #2E7D32 !important; color: #1B5E20 !important; box-shadow: none !important; }
+        .incorrect { background-color: #FFCDD2 !important; border-color: #C62828 !important; color: #B71C1C !important; box-shadow: none !important; }
+
+        /* --- ESTILOS ACTIVIDADES --- */
+        .word-badge {
+            background: #E1F5FE;
+            border: 2px solid #0288D1;
+            color: #01579B;
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 6px 14px;
+            border-radius: 12px;
+            display: inline-block;
+            margin: 3px;
+        }
+
+        .activity-card {
+            background: var(--light-blue);
+            border: 3px solid #81D4FA;
+            border-radius: 22px;
+            padding: 20px;
+            width: 100%;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .options-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .opt-btn {
+            background: #FFF;
+            border: 2px solid var(--main-blue);
+            color: var(--dark-blue);
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 1.05rem;
+            transition: all 0.2s;
+        }
+
+        .opt-btn:hover {
+            background: #B3E5FC;
+        }
+
+        .opt-btn.selected {
+            background: var(--main-blue);
+            color: white;
+            border-color: var(--dark-blue);
+            box-shadow: 0 3px 0 #01579B;
+        }
+
+        /* BOTONES Y NAVEGACIÓN */
+        .btn-check {
+            background: var(--main-blue);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #01579B;
+        }
+
+        .btn-check:hover { background-color: #0277BD; }
+
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .btn-nav {
+            background-color: #78909C;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #546E7A;
+        }
+
+        .btn-nav:hover { background-color: #90A4AE; }
+
+        .btn-next {
+            background-color: var(--border-blue);
+            box-shadow: 0 4px 0 #01579B;
+        }
+
+        .btn-next:hover { background-color: #0277BD; }
+
+        /* PANTALLA FINAL */
+        .congrats-box {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .congrats-title {
+            font-size: 2.8rem;
+            color: var(--border-blue);
+            margin-bottom: 10px;
+        }
+
+        .trophy-icon {
+            font-size: 5.5rem;
+            color: #FFD700;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+
+    <!-- PANTALLA 0: PORTADA -->
+    <div id="screen-0" class="screen active">
+        <div class="title-block">
+            <div class="colorful-title">
+                <span class="c-b1">L</span><span class="c-b2">E</span><span class="c-b3">N</span><span class="c-b4">G</span><span class="c-b5">U</span><span class="c-b1">A</span>
+                &nbsp;
+                <span class="c-b2">C</span><span class="c-b3">A</span><span class="c-b4">S</span><span class="c-b5">T</span><span class="c-b1">E</span><span class="c-b2">L</span><span class="c-b3">L</span><span class="c-b4">A</span><span class="c-b5">N</span><span class="c-b1">A</span>
+            </div>
+
+            <div class="sub-header">
+                <i class="fa-solid fa-question"></i>
+                SIGNOS DE INTERROGACIÓN Y EXCLAMACIÓN
+                <i class="fa-solid fa-exclamation"></i>
+            </div>
+
+            <div class="grade-pill">Educación Primaria - Signos de Puntuación</div>
+        </div>
+
+        <div class="cards-row">
+            <div class="card-box card-blue1">¿</div>
+            <div class="card-box card-blue2">?</div>
+            <div class="card-box card-blue3">¡</div>
+            <div class="card-box card-blue1">!</div>
+        </div>
+
+        <button class="btn-start-main" onclick="goToScreen(1)">
+            ¡COMENZAR EL RETO! <i class="fa-solid fa-angle-right"></i>
+        </button>
+
+        <div class="footer-line">
+            <span>Material didáctico interactivo adaptado de la ficha de ejercicios</span>
+            <span class="author-tag">Aplicación en tonos azulados</span>
+        </div>
+    </div>
+
+    <!-- PANTALLA 1: REGLA Y EXPLICACIÓN -->
+    <div id="screen-1" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Recuerda la regla. Los signos de interrogación se usan para hacer preguntas. Los signos de exclamación expresan emoción, sorpresa o alegría.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">¡RECUERDA CÓMO USAR LOS SIGNOS!</div>
+        </div>
+
+        <div style="background: #E1F5FE; border: 3px solid #81D4FA; padding: 25px; border-radius: 25px; text-align: center; margin: 15px 0; max-width: 680px;">
+            <p style="font-size: 1.4rem; color: #01579B; margin-top: 0;">
+                ❓ <strong>¿Cuándo los usamos?</strong>
+            </p>
+            <ul style="text-align: left; font-size: 1.25rem; color: #0288D1; line-height: 1.8;">
+                <li><strong>Signos de interrogación (¿ ?):</strong> Sirven para formular preguntas. <br><em>Ejemplo: ¿En qué calle vives?</em></li>
+                <li style="margin-top: 10px;"><strong>Signos de exclamación (¡ !):</strong> Expresan sorpresas, emociones o felicitaciones. <br><em>Ejemplo: ¡Cuánta gente hay aquí!</em></li>
+            </ul>
+        </div>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(0)">Inicio</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(2)">Actividad 1 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 2: ACTIVIDAD 1 - ORDENAR FRASES -->
+    <div id="screen-2" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 1. Ordena y elige la opción correcta para formar una pregunta y una exclamación.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">1. ORDENA Y SELECCIONA LA PREGUNTA Y LA EXCLAMACIÓN.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div>
+                <strong>A) Ordena las palabras de la Pregunta:</strong><br>
+                <span class="word-badge">calle</span><span class="word-badge">?</span><span class="word-badge">En</span><span class="word-badge">¿</span><span class="word-badge">qué</span><span class="word-badge">vives</span>
+            </div>
+            <div style="margin-top: 8px;">
+                <select id="a1-p1" class="custom-select" style="width: 100%;">
+                    <option value="">-- Elige la ordenación correcta --</option>
+                    <option value="1">En qué calle vives ¿ ?</option>
+                    <option value="2">¿En qué calle vives?</option>
+                    <option value="3">¿vives En qué calle?</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="activity-card">
+            <div>
+                <strong>B) Ordena las palabras de la Exclamación:</strong><br>
+                <span class="word-badge">aquí</span><span class="word-badge">Cuánta</span><span class="word-badge">!</span><span class="word-badge">gente</span><span class="word-badge">hay</span><span class="word-badge">¡</span>
+            </div>
+            <div style="margin-top: 8px;">
+                <select id="a1-p2" class="custom-select" style="width: 100%;">
+                    <option value="">-- Elige la ordenación correcta --</option>
+                    <option value="1">¡Cuánta gente hay aquí!</option>
+                    <option value="2">Cuánta gente hay aquí ¡ !</option>
+                    <option value="3">¡hay gente aquí Cuánta!</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkAct1()"><i class="fa-solid fa-check"></i> Comprobar respuestas</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(1)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(3)">Actividad 2 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 3: ACTIVIDAD 2 - PREGUNTAS CON PALABRAS CLAVE -->
+    <div id="screen-3" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 2. Elige la pregunta más adecuada que empiece con cada palabra.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">2. SELECCIONA LA PREGUNTA ADECUADA PARA CADA PALABRA.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div style="font-size: 1.15rem; color: #01579B;">🔴 <strong>Qué ►</strong></div>
+            <select id="a2-1" class="custom-select">
+                <option value="">-- Selecciona una pregunta --</option>
+                <option value="ok">¿Qué hora es?</option>
+                <option value="fail1">Qué hora es?</option>
+                <option value="fail2">¿Qué hora es!</option>
+            </select>
+        </div>
+
+        <div class="activity-card">
+            <div style="font-size: 1.15rem; color: #01579B;">🔴 <strong>Quién ►</strong></div>
+            <select id="a2-2" class="custom-select">
+                <option value="">-- Selecciona una pregunta --</option>
+                <option value="fail1">Quién viene hoy!</option>
+                <option value="ok">¿Quién viene a comer?</option>
+                <option value="fail2">¿Quién viene a comer</option>
+            </select>
+        </div>
+
+        <div class="activity-card">
+            <div style="font-size: 1.15rem; color: #01579B;">🔴 <strong>Dónde ►</strong></div>
+            <select id="a2-3" class="custom-select">
+                <option value="">-- Selecciona una pregunta --</option>
+                <option value="fail1">¡Dónde están las llaves!</option>
+                <option value="fail2">Dónde están las llaves?</option>
+                <option value="ok">¿Dónde están las llaves?</option>
+            </select>
+        </div>
+
+        <div class="activity-card">
+            <div style="font-size: 1.15rem; color: #01579B;">🔴 <strong>Cuándo ►</strong></div>
+            <select id="a2-4" class="custom-select">
+                <option value="">-- Selecciona una pregunta --</option>
+                <option value="ok">¿Cuándo te vas de viaje?</option>
+                <option value="fail1">Cuándo te vas de viaje</option>
+                <option value="fail2">¡Cuándo te vas de viaje!</option>
+            </select>
+        </div>
+
+        <button class="btn-check" onclick="checkAct2()"><i class="fa-solid fa-check"></i> Comprobar preguntas</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(2)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(4)">Actividad 3 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 4: ACTIVIDAD 3 - ESCRIBIR EXCLAMACIONES -->
+    <div id="screen-4" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 3. Selecciona qué exclamación dirías en cada situación.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">3. ¿QUÉ DIRÍAS? SELECCIONA LA EXCLAMACIÓN CORRECTA.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div style="font-size: 1.1rem; color: #01579B;">🎉 <strong>Para felicitar a una amiga por su cumpleaños:</strong></div>
+            <div class="options-group" id="group-ex1">
+                <button class="opt-btn" onclick="selectOption('ex1', '1', this)">¿Cumples años hoy?</button>
+                <button class="opt-btn" onclick="selectOption('ex1', '2', this)">¡Muchas felicidades!</button>
+                <button class="opt-btn" onclick="selectOption('ex1', '3', this)">¡Feliz cumpleaños</button>
+            </div>
+        </div>
+
+        <div class="activity-card">
+            <div style="font-size: 1.1rem; color: #01579B;">😃 <strong>Para decir que estás muy contento:</strong></div>
+            <div class="options-group" id="group-ex2">
+                <button class="opt-btn" onclick="selectOption('ex2', '1', this)">¿Estoy muy contento?</button>
+                <button class="opt-btn" onclick="selectOption('ex2', '2', this)">¡Estoy felicísimo!</button>
+                <button class="opt-btn" onclick="selectOption('ex2', '3', this)">Estoy alegre</button>
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkAct3()"><i class="fa-solid fa-check"></i> Comprobar exclamaciones</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(3)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(5)">Actividad 4 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 5: ACTIVIDAD 4 - COPIAR CON SIGNOS -->
+    <div id="screen-5" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 4. Selecciona los signos correctos para cada bocadillo de diálogo.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">4. AÑADE LOS SIGNOS ADECUADOS A LAS FRASES.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="activity-card" style="align-items: center; text-align: center;">
+            <div style="background: #FFF; padding: 15px; border-radius: 20px; border: 2px solid #0288D1; max-width: 320px; width: 100%;">
+                <p style="margin: 5px 0; font-size: 1.2rem; color: #01579B;">👦 "Te gustan los animales."</p>
+                <p style="margin: 5px 0; font-size: 1.2rem; color: #0097A7;">👧 "Me encantan."</p>
+            </div>
+
+            <div style="width: 100%; text-align: left; margin-top: 10px;">
+                <label style="font-weight: bold; color: #01579B;">Primera frase (Pregunta):</label>
+                <select id="a4-1" class="custom-select" style="width: 100%; margin-top: 5px;">
+                    <option value="">-- Elige la opción adecuada --</option>
+                    <option value="ok">- ¿Te gustan los animales?</option>
+                    <option value="fail1">- ¡Te gustan los animales!</option>
+                    <option value="fail2">- Te gustan los animales?</option>
+                </select>
+            </div>
+
+            <div style="width: 100%; text-align: left; margin-top: 10px;">
+                <label style="font-weight: bold; color: #01579B;">Respuesta (Exclamación):</label>
+                <select id="a4-2" class="custom-select" style="width: 100%; margin-top: 5px;">
+                    <option value="">-- Elige la opción adecuada --</option>
+                    <option value="fail1">- ¿Me encantan?</option>
+                    <option value="ok">- ¡Me encantan!</option>
+                    <option value="fail2">- ¡Me encantan</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkAct4()"><i class="fa-solid fa-check"></i> Comprobar diálogo</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(4)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(6)">Finalizar 🏆</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 6: FELICITACIÓN Y CONFETI -->
+    <div id="screen-6" class="screen">
+        <div class="congrats-box">
+            <div class="trophy-icon">🏆</div>
+            <h1 class="congrats-title">¡LO HAS LOGRADO!</h1>
+            <p style="font-size: 1.4rem; color: #01579B;">
+                ¡Enhorabuena! <br>
+                Ya sabes usar perfectamente los signos de <strong>interrogación (¿?)</strong> y <strong>exclamación (¡!)</strong>.
+            </p>
+            <button class="btn-start-main" style="margin: 25px auto;" onclick="goToScreen(0)">
+                <i class="fa-solid fa-rotate-right"></i> Volver a empezar
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<!-- VENTANA MODAL EMERGENTE GENERAL -->
+<div id="customAlertModal" class="modal-overlay">
+    <div class="modal-card">
+        <h2 id="alertModalTitle" class="modal-title">🌟 ¡Atención!</h2>
+        <div id="alertModalBody" class="modal-body">
+            Mensaje
+        </div>
+        <button class="btn-close-modal" onclick="closeAlertModal()">¡Entendido!</button>
+    </div>
+</div>
+
+<!-- VENTANA MODAL DE AYUDA -->
+<div id="helpModal" class="modal-overlay">
+    <div class="modal-card">
+        <h2 class="modal-title">💡 Recordatorio</h2>
+        <div class="modal-body">
+            • <strong>Preguntas (¿ ?):</strong> Siempre llevan un signo de apertura (¿) al inicio y uno de cierre (?) al final.<br><br>
+            • <strong>Exclamaciones (¡ !):</strong> Llevan un signo de apertura (¡) al inicio y uno de cierre (!) al final.
+        </div>
+        <button class="btn-close-modal" onclick="closeHelpModal()">¡Entendido!</button>
+    </div>
+</div>
+
+<script>
+    // Sintesis de voz
+    function speak(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.9;
+            utterance.pitch = 1.05;
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    // Modal emergente
+    function showAlertModal(title, message, audioText) {
+        document.getElementById('alertModalTitle').innerText = title;
+        document.getElementById('alertModalBody').innerHTML = message;
+        document.getElementById('customAlertModal').classList.add('active');
+        if (audioText) speak(audioText);
+    }
+
+    function closeAlertModal() {
+        document.getElementById('customAlertModal').classList.remove('active');
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    function openHelpModal() {
+        document.getElementById('helpModal').classList.add('active');
+        speak("Recuerda usar apertura y cierre para preguntas y exclamaciones.");
+    }
+
+    function closeHelpModal() {
+        document.getElementById('helpModal').classList.remove('active');
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    function goToScreen(index) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(`screen-${index}`);
+        if(target) target.classList.add('active');
+
+        if (index === 6) {
+            launchConfetti();
+            speak("¡Excelente trabajo! Has completado con éxito todas las actividades.");
+        }
+    }
+
+    /* --- COMPROBACIÓN ACTIVIDAD 1 --- */
+    function checkAct1() {
+        const p1 = document.getElementById('a1-p1');
+        const p2 = document.getElementById('a1-p2');
+
+        let ok = true;
+
+        if (p1.value === '2') {
+            p1.classList.add('correct'); p1.classList.remove('incorrect');
+        } else {
+            p1.classList.add('incorrect'); p1.classList.remove('correct'); ok = false;
+        }
+
+        if (p2.value === '1') {
+            p2.classList.add('correct'); p2.classList.remove('incorrect');
+        } else {
+            p2.classList.add('incorrect'); p2.classList.remove('correct'); ok = false;
+        }
+
+        if (ok) {
+            showAlertModal("¡Genial! 🎉", "¡Has ordenado la pregunta y la exclamación de forma impecable!", "¡Has ordenado la pregunta y la exclamación de forma impecable!");
+        } else {
+            showAlertModal("Revisa de nuevo 🧐", "Comprueba el orden y la posición de los signos.", "Revisa las respuestas marcadas en rojo.");
+        }
+    }
+
+    /* --- COMPROBACIÓN ACTIVIDAD 2 --- */
+    function checkAct2() {
+        let ok = true;
+        for (let i = 1; i <= 4; i++) {
+            const el = document.getElementById(`a2-${i}`);
+            if (el.value === 'ok') {
+                el.classList.add('correct'); el.classList.remove('incorrect');
+            } else {
+                el.classList.add('incorrect'); el.classList.remove('correct'); ok = false;
+            }
+        }
+
+        if (ok) {
+            showAlertModal("¡Excelente! ❓", "¡Todas las preguntas llevan sus signos de apertura y cierre correctamente!", "¡Todas las preguntas llevan sus signos correctamente!");
+        } else {
+            showAlertModal("Atención 💡", "Asegúrate de haber seleccionado preguntas completas con ¿ y ?.", "Revisa las respuestas marcadas en rojo.");
+        }
+    }
+
+    /* --- ACTIVIDAD 3: SELECCIÓN --- */
+    const selectedAct3 = { ex1: '', ex2: '' };
+
+    function selectOption(key, val, btn) {
+        selectedAct3[key] = val;
+        const parent = btn.parentElement;
+        parent.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+    }
+
+    function checkAct3() {
+        let ok = true;
+
+        if (selectedAct3.ex1 === '2') {
+            document.getElementById('group-ex1').parentElement.classList.add('correct');
+            document.getElementById('group-ex1').parentElement.classList.remove('incorrect');
+        } else {
+            document.getElementById('group-ex1').parentElement.classList.add('incorrect');
+            document.getElementById('group-ex1').parentElement.classList.remove('correct');
+            ok = false;
+        }
+
+        if (selectedAct3.ex2 === '2') {
+            document.getElementById('group-ex2').parentElement.classList.add('correct');
+            document.getElementById('group-ex2').parentElement.classList.remove('incorrect');
+        } else {
+            document.getElementById('group-ex2').parentElement.classList.add('incorrect');
+            document.getElementById('group-ex2').parentElement.classList.remove('correct');
+            ok = false;
+        }
+
+        if (ok) {
+            showAlertModal("¡Fantástico! 😃", "¡Has seleccionado las exclamaciones adecuadas!", "¡Has seleccionado las exclamaciones adecuadas!");
+        } else {
+            showAlertModal("Casi... 🔍", "Recuerda que las exclamaciones expresan emoción y llevan ¡ y !.", "Recuerda seleccionar la exclamación correcta.");
+        }
+    }
+
+    /* --- COMPROBACIÓN ACTIVIDAD 4 --- */
+    function checkAct4() {
+        const a1 = document.getElementById('a4-1');
+        const a2 = document.getElementById('a4-2');
+
+        let ok = true;
+
+        if (a1.value === 'ok') {
+            a1.classList.add('correct'); a1.classList.remove('incorrect');
+        } else {
+            a1.classList.add('incorrect'); a1.classList.remove('correct'); ok = false;
+        }
+
+        if (a2.value === 'ok') {
+            a2.classList.add('correct'); a2.classList.remove('incorrect');
+        } else {
+            a2.classList.add('incorrect'); a2.classList.remove('correct'); ok = false;
+        }
+
+        if (ok) {
+            showAlertModal("¡Estupendo! 👏", "¡Has completado el diálogo correctamente!", "¡Has completado el diálogo correctamente!");
+        } else {
+            showAlertModal("Revisa 🔍", "Fíjate bien cuál frase es la pregunta y cuál es la exclamación.", "Revisa las opciones elegidas.");
+        }
+    }
+
+    /* CONFETI */
+    function launchConfetti() {
+        if (typeof confetti === 'function') {
+            var count = 200;
+            var defaults = { origin: { y: 0.7 } };
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lengua Castellana - Uso de R y RR</title>
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tipografía redondeada infantil -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <!-- Librería de Confeti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-outer: #F3E5F5;
+            --border-purple: #4A148C;
+            --main-purple: #7B1FA2;
+            --dark-purple: #311B92;
+            --accent-purple: #AB47BC;
+            --yellow-badge: #EDE7F6;
+            --text-dark: #1A0033;
+            --light-purple: #F3E5F5;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Fredoka', 'Quicksand', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-outer);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- MARCO Y CONTENEDOR PRINCIPAL --- */
+        .app-container {
+            width: 100%;
+            max-width: 860px;
+            background: #FFFFFF;
+            border: 14px solid var(--border-purple);
+            border-radius: 40px;
+            box-shadow: 0 12px 30px rgba(74, 20, 140, 0.25);
+            padding: 35px 30px 25px 30px;
+            position: relative;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- PANTALLA INICIAL --- */
+        .title-block {
+            text-align: center;
+            width: 100%;
+        }
+
+        .colorful-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin: 0;
+            line-height: 1.2;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2px;
+        }
+
+        .c-p1 { color: #311B92; }
+        .c-p2 { color: #4A148C; }
+        .c-p3 { color: #7B1FA2; }
+        .c-p4 { color: #9C27B0; }
+        .c-p5 { color: #BA68C8; }
+
+        .sub-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: var(--dark-purple);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 18px 0 12px 0;
+        }
+
+        .grade-pill {
+            background-color: #E1BEE7;
+            color: var(--dark-purple);
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 6px 24px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+
+        .cards-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card-box {
+            padding: 12px 24px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+
+        .card-p1 { background-color: #E1BEE7; color: #311B92; }
+        .card-p2 { background-color: #D1C4E9; color: #4A148C; }
+        .card-p3 { background-color: #B39DDB; color: #311B92; }
+
+        .btn-start-main {
+            background-color: var(--main-purple);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(123, 31, 162, 0.4);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-start-main:hover {
+            background-color: var(--dark-purple);
+            transform: translateY(-2px);
+        }
+
+        .footer-line {
+            width: 100%;
+            border-top: 1.5px dashed #CE93D8;
+            margin-top: 25px;
+            padding-top: 15px;
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 0.92rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .author-tag {
+            font-weight: 700;
+            color: var(--border-purple);
+            font-size: 0.98rem;
+        }
+
+        /* --- CONTENEDORES DE AUDIO Y AYUDA --- */
+        .audio-btn {
+            background: #E1BEE7;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--dark-purple);
+            box-shadow: 0 4px 0 #BA68C8;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .audio-btn:active { transform: scale(0.92); }
+
+        .instruction-box {
+            display: flex;
+            align-items: center;
+            background: #F3E5F5;
+            padding: 12px 20px;
+            border-radius: 20px;
+            width: 100%;
+            margin-bottom: 20px;
+            border-left: 6px solid var(--border-purple);
+        }
+
+        .instruction-text {
+            font-size: 1.15rem;
+            color: var(--dark-purple);
+            font-weight: 700;
+            flex-grow: 1;
+        }
+
+        .help-btn {
+            background: var(--main-purple);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #4A148C;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        .help-btn:hover { background: var(--dark-purple); }
+
+        /* --- MODALES --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal-card {
+            background: #FFFFFF;
+            border: 8px solid var(--main-purple);
+            border-radius: 35px;
+            padding: 30px;
+            max-width: 520px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: var(--dark-purple);
+            margin-top: 0;
+        }
+
+        .modal-body {
+            font-size: 1.2rem;
+            color: #4A148C;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            background: #F3E5F5;
+            padding: 20px;
+            border-radius: 20px;
+            border: 2px dashed #CE93D8;
+            text-align: center;
+        }
+
+        .btn-close-modal {
+            background: var(--main-purple);
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: 12px 35px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #311B92;
+        }
+
+        .btn-close-modal:hover { background-color: var(--dark-purple); }
+
+        /* --- INPUTS Y SELECTS --- */
+        select.custom-select {
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: 3px solid var(--main-purple);
+            border-radius: 14px;
+            padding: 6px 10px;
+            color: var(--dark-purple);
+            outline: none;
+            background: #FFF;
+            box-shadow: 0 4px 0 #E1BEE7;
+        }
+
+        .correct { background-color: #C8E6C9 !important; border-color: #2E7D32 !important; color: #1B5E20 !important; box-shadow: none !important; }
+        .incorrect { background-color: #FFCDD2 !important; border-color: #C62828 !important; color: #B71C1C !important; box-shadow: none !important; }
+
+        /* --- ESTILOS ACTIVIDADES --- */
+        .activity-card {
+            background: var(--light-purple);
+            border: 3px solid #D1C4E9;
+            border-radius: 22px;
+            padding: 20px;
+            width: 100%;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* ACTIVIDAD 1: CONSTRUCTOR DE ORACIÓN INTERACTIVO */
+        .sentence-builder-zone {
+            min-height: 65px;
+            background: #FFFFFF;
+            border: 3px dashed var(--main-purple);
+            border-radius: 20px;
+            padding: 10px 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            box-shadow: inset 0 3px 6px rgba(0,0,0,0.05);
+        }
+
+        .scrambled-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+            background: #E1BEE7;
+            padding: 15px;
+            border-radius: 20px;
+            border: 2px dashed var(--main-purple);
+            min-height: 65px;
+        }
+
+        .word-pill {
+            background: #FFFFFF;
+            color: var(--dark-purple);
+            font-weight: bold;
+            font-size: 1.15rem;
+            padding: 8px 18px;
+            border-radius: 25px;
+            box-shadow: 0 4px 0 #B39DDB;
+            border: 2px solid var(--main-purple);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .word-pill:hover {
+            transform: translateY(-2px);
+            background: #F3E5F5;
+        }
+
+        .word-pill:active {
+            transform: translateY(2px);
+            box-shadow: none;
+        }
+
+        /* ACTIVIDAD 2: BANCO DE PALABRAS INTERACTIVO Y CRUCIGRAMA */
+        .word-bank {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            background: #FFFFFF;
+            padding: 12px;
+            border-radius: 16px;
+            border: 2px solid #D1C4E9;
+            margin-bottom: 10px;
+        }
+
+        .word-bank-item {
+            color: var(--dark-purple);
+            font-weight: bold;
+            font-size: 1.1rem;
+            background: #F3E5F5;
+            padding: 8px 16px;
+            border-radius: 15px;
+            border: 2px solid #CE93D8;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #B39DDB;
+            transition: all 0.2s ease;
+        }
+
+        .word-bank-item:hover {
+            background: #E1BEE7;
+            transform: translateY(-2px);
+        }
+
+        .word-bank-item.selected {
+            background: #C8E6C9;
+            border-color: #2E7D32;
+            color: #1B5E20;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .crossword-table {
+            border-collapse: collapse;
+            margin: 10px auto;
+        }
+
+        .crossword-table td {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            vertical-align: middle;
+            padding: 0;
+        }
+
+        .crossword-table td.cell-active {
+            border: 2.5px solid var(--main-purple);
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #C62828;
+            transition: all 0.3s ease;
+        }
+
+        .crossword-table td.cell-filled {
+            background-color: #E8F5E9;
+            border-color: #2E7D32;
+            color: #1B5E20;
+            font-size: 1.3rem;
+            animation: popIn 0.3s ease-in-out;
+        }
+
+        .text-reading {
+            font-size: 1.2rem;
+            line-height: 2.3;
+            color: #311B92;
+        }
+
+        /* BOTONES Y NAVEGACIÓN */
+        .btn-check {
+            background: var(--main-purple);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #311B92;
+        }
+
+        .btn-check:hover { background-color: var(--dark-purple); }
+
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .btn-nav {
+            background-color: #7E57C2;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #512DA8;
+        }
+
+        .btn-nav:hover { background-color: #5E35B1; }
+
+        .btn-next {
+            background-color: var(--border-purple);
+            box-shadow: 0 4px 0 #311B92;
+        }
+
+        .btn-next:hover { background-color: var(--dark-purple); }
+
+        /* PANTALLA FINAL */
+        .congrats-box {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .congrats-title {
+            font-size: 2.8rem;
+            color: var(--border-purple);
+            margin-bottom: 10px;
+        }
+
+        .trophy-icon {
+            font-size: 5.5rem;
+            color: #AB47BC;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+
+    <!-- PANTALLA 0: PORTADA -->
+    <div id="screen-0" class="screen active">
+        <div class="title-block">
+            <div class="colorful-title">
+                <span class="c-p1">L</span><span class="c-p2">E</span><span class="c-p3">N</span><span class="c-p4">G</span><span class="c-p5">U</span><span class="c-p1">A</span>
+                &nbsp;
+                <span class="c-p2">C</span><span class="c-p3">A</span><span class="c-p4">S</span><span class="c-p5">T</span><span class="c-p1">E</span><span class="c-p2">L</span><span class="c-p3">L</span><span class="c-p4">A</span><span class="c-p5">N</span><span class="c-p1">A</span>
+            </div>
+
+            <div class="sub-header">
+                <i class="fa-solid fa-star"></i>
+                APRENDE R Y RR
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+
+            <div class="grade-pill">Educación Primaria - Ortografía del Sonido R</div>
+        </div>
+
+        <div class="cards-row">
+            <div class="card-box card-p1">r suave</div>
+            <div class="card-box card-p2">r fuerte</div>
+            <div class="card-box card-p3">rr</div>
+        </div>
+
+        <button class="btn-start-main" onclick="goToScreen(1)">
+            ¡COMENZAR EL RETO! <i class="fa-solid fa-angle-right"></i>
+        </button>
+
+        <div class="footer-line">
+            <span>Material didáctico interactivo adaptado de la ficha de ejercicios</span>
+            <span class="author-tag">Aplicación en tonos morados</span>
+        </div>
+    </div>
+
+    <!-- PANTALLA 1: REGLA Y EXPLICACIÓN -->
+    <div id="screen-1" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Recuerda la regla. La letra R tiene sonido suave entre vocales y sonido fuerte al principio de palabra o tras consonante. Se escribe RR sólo cuando suena fuerte entre vocales.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">¡RECUERDA CÓMO SE ESCRIBE LA R Y RR!</div>
+        </div>
+
+        <div style="background: #F3E5F5; border: 3px solid #D1C4E9; padding: 25px; border-radius: 25px; text-align: center; margin: 15px 0; max-width: 680px;">
+            <p style="font-size: 1.3rem; color: #311B92; margin-top: 0;">
+                🔮 <strong>Regla ortográfica de la R / RR:</strong>
+            </p>
+            <ul style="text-align: left; font-size: 1.15rem; color: #4A148C; line-height: 1.8;">
+                <li><strong>R suave:</strong> Se escribe una sola <em>r</em> entre vocales (ejemplo: <em>sirena, cara, zanahoria</em>).</li>
+                <li><strong>R fuerte:</strong>
+                    <ul>
+                        <li>Al principio de palabra se escribe una sola <em>r</em> (ejemplo: <em>raqueta, redes, Rita</em>).</li>
+                        <li>Detrás de consonante se escribe una sola <em>r</em> (ejemplo: <em>alrededores, enredarse</em>).</li>
+                        <li>Entre vocales se escribe <em>rr</em> (ejemplo: <em>burro, aburre, pescadores</em>).</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(0)">Inicio</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(2)">Actividad 1 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 2: ACTIVIDAD 1 - SELECCIONA Y FORMA LA ORACIÓN -->
+    <div id="screen-2" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 1. Toca las palabras desordenadas de abajo para formar la oración en el recuadro superior.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">1. PULSA LAS PALABRAS Y CREA LA ORACIÓN CON "BURRO" Y "ZANAHORIA".</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div style="font-size: 1.1rem; color: #311B92; font-weight: bold;">
+                ✍️ Tu oración ordenada aparecerá aquí (pulsa una palabra para quitarla):
+            </div>
+            <!-- ZONA DONDE SE CONSTRUYE LA ORACIÓN -->
+            <div id="sentence-target" class="sentence-builder-zone"></div>
+
+            <div style="font-size: 1.05rem; color: #4A148C; margin-top: 10px; font-weight: bold;">
+                🧩 Pulsa las palabras en orden para subir la oración:
+            </div>
+            <!-- BANCO DE PALABRAS DESORDENADAS -->
+            <div id="sentence-source" class="scrambled-box">
+                <span class="word-pill" onclick="moveWord(this)">zanahoria</span>
+                <span class="word-pill" onclick="moveWord(this)">El</span>
+                <span class="word-pill" onclick="moveWord(this)">una</span>
+                <span class="word-pill" onclick="moveWord(this)">burro</span>
+                <span class="word-pill" onclick="moveWord(this)">come</span>
+                <span class="word-pill" onclick="moveWord(this)">fresca.</span>
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkAct1()"><i class="fa-solid fa-check"></i> Comprobar oración</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(1)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(3)">Actividad 2 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 3: ACTIVIDAD 2 - CRUCIGRAMA INTERACTIVO DE SÍLABAS -->
+    <div id="screen-3" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 2. Toca las palabras del banco superior para colocarlas en el crucigrama. Luego selecciona la palabra que tiene el sonido R fuerte.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">2. CRUCIGRAMA DE SÍLABAS Y PALABRA CON R FUERTE.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="activity-card" style="align-items: center;">
+            <div style="font-size: 1.05rem; font-weight: bold; color: #311B92; margin-bottom: 5px;">
+                👇 Pulsa las palabras para marcarlas en el crucigrama:
+            </div>
+            <div class="word-bank">
+                <span class="word-bank-item" onclick="selectCrosswordWord(this, 'cocinero')">👨‍🍳 cocinero</span>
+                <span class="word-bank-item" onclick="selectCrosswordWord(this, 'corona')">👑 corona</span>
+                <span class="word-bank-item" onclick="selectCrosswordWord(this, 'nevera')">🧊 nevera</span>
+                <span class="word-bank-item" onclick="selectCrosswordWord(this, 'loro')">🦜 loro</span>
+                <span class="word-bank-item" onclick="selectCrosswordWord(this, 'raqueta')">🎾 raqueta</span>
+            </div>
+
+            <!-- Tablero de Crucigrama (Sílabas) -->
+            <table class="crossword-table">
+                <!-- Fila 1 -->
+                <tr>
+                    <td></td><td></td><td></td>
+                    <td id="cell-ne" class="cell-active">?</td>
+                    <td id="cell-lo" class="cell-active">?</td>
+                </tr>
+                <!-- Fila 2 -->
+                <tr>
+                    <td></td>
+                    <td id="cell-co1" class="cell-active">?</td>
+                    <td></td>
+                    <td id="cell-ve" class="cell-active">?</td>
+                    <td id="cell-ro1" class="cell-active">?</td>
+                </tr>
+                <!-- Fila 3 -->
+                <tr>
+                    <td id="cell-co2" class="cell-active">?</td>
+                    <td id="cell-ci" class="cell-active">?</td>
+                    <td id="cell-ne2" class="cell-active">?</td>
+                    <td id="cell-ra1" class="cell-active">?</td>
+                    <td></td>
+                </tr>
+                <!-- Fila 4 -->
+                <tr>
+                    <td id="cell-ro2" class="cell-active">?</td>
+                    <td></td>
+                    <td id="cell-ra2" class="cell-active">?</td>
+                    <td id="cell-que" class="cell-active">?</td>
+                    <td id="cell-ta" class="cell-active">?</td>
+                </tr>
+            </table>
+
+            <div style="width: 100%; margin-top: 10px;">
+                <label style="font-weight: bold; color: #311B92;">Selecciona la palabra en la que la R suena fuerte:</label>
+                <select id="a2-strong-r" class="custom-select" style="width: 100%; margin-top: 5px;" onchange="autoValidateAct2()">
+                    <option value="">-- Selecciona la palabra --</option>
+                    <option value="cocinero">cocinero</option>
+                    <option value="corona">corona</option>
+                    <option value="nevera">nevera</option>
+                    <option value="loro">loro</option>
+                    <option value="raqueta">raqueta</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkAct2()"><i class="fa-solid fa-check"></i> Comprobar crucigrama</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(2)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(4)">Actividad 3 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 4: ACTIVIDAD 3 - COMPLETA EL TEXTO CON R O RR -->
+    <div id="screen-4" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 3. Completa el texto de Rita la sirena seleccionando r o rr en cada caso.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">3. COMPLETA CON R O RR.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div class="text-reading">
+                <select id="a3-1" class="custom-select"><option value="">--</option><option value="R">R</option><option value="RR">RR</option></select>ita es una si<select id="a3-2" class="custom-select"><option value="">--</option><option value="r">r</option><option value="rr">rr</option></select>ena que vive en los al<select id="a3-3" class="custom-select"><option value="">--</option><option value="r">r</option><option value="rr">rr</option></select>ededores de un puerto. Cuando se abu<select id="a3-4" class="custom-select"><option value="">--</option><option value="rr">rr</option><option value="r">r</option></select>e, juega a en<select id="a3-5" class="custom-select"><option value="">--</option><option value="r">r</option><option value="rr">rr</option></select>edarse en las <select id="a3-6" class="custom-select"><option value="">--</option><option value="r">r</option><option value="rr">rr</option></select>edes de los pescado<select id="a3-7" class="custom-select"><option value="">--</option><option value="r">r</option><option value="rr">rr</option></select>es. Todas las noches duerme acu<select id="a3-8" class="custom-select"><option value="">--</option><option value="rr">rr</option><option value="r">r</option></select>ucada en una gran concha.
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkAct3()"><i class="fa-solid fa-check"></i> Comprobar texto</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(3)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(5)">Actividad 4 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 5: ACTIVIDAD 4 - CLASIFICA LAS PALABRAS -->
+    <div id="screen-5" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 4. Clasifica las palabras que has completado según el tipo de sonido de la letra r.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">4. CLASIFICA LAS PALABRAS COMPLETADAS.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div>
+                <strong>Con r suave:</strong>
+                <select id="a4-1" class="custom-select" style="width: 100%; margin-top: 5px;">
+                    <option value="">-- Selecciona las palabras --</option>
+                    <option value="ok">sirena, puerto, pescadores</option>
+                    <option value="err">Rita, redes</option>
+                </select>
+            </div>
+            <div style="margin-top: 10px;">
+                <strong>Con r fuerte (A principio de palabra):</strong>
+                <select id="a4-2" class="custom-select" style="width: 100%; margin-top: 5px;">
+                    <option value="">-- Selecciona las palabras --</option>
+                    <option value="ok">Rita, redes</option>
+                    <option value="err">alrededores, enredarse</option>
+                </select>
+            </div>
+            <div style="margin-top: 10px;">
+                <strong>Con r fuerte (Después de consonante):</strong>
+                <select id="a4-3" class="custom-select" style="width: 100%; margin-top: 5px;">
+                    <option value="">-- Selecciona las palabras --</option>
+                    <option value="ok">alrededores, enredarse</option>
+                    <option value="err">aburre, acurrucada</option>
+                </select>
+            </div>
+            <div style="margin-top: 10px;">
+                <strong>Con r fuerte (Entre vocales - rr):</strong>
+                <select id="a4-4" class="custom-select" style="width: 100%; margin-top: 5px;">
+                    <option value="">-- Selecciona las palabras --</option>
+                    <option value="ok">aburre, acurrucada</option>
+                    <option value="err">sirena, pescadores</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkAct4()"><i class="fa-solid fa-check"></i> Comprobar clasificación</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(4)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(6)">Finalizar 🏆</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 6: FELICITACIÓN Y CONFETI -->
+    <div id="screen-6" class="screen">
+        <div class="congrats-box">
+            <div class="trophy-icon">🏆</div>
+            <h1 class="congrats-title">¡LO HAS LOGRADO!</h1>
+            <p style="font-size: 1.4rem; color: #311B92;">
+                ¡Enhorabuena! <br>
+                Has aprendido a reconocer y escribir correctamente las palabras con <br>
+                <strong>R y RR</strong>.
+            </p>
+            <button class="btn-start-main" style="margin: 25px auto;" onclick="goToScreen(0)">
+                <i class="fa-solid fa-rotate-right"></i> Volver a empezar
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<!-- VENTANA MODAL EMERGENTE GENERAL -->
+<div id="customAlertModal" class="modal-overlay">
+    <div class="modal-card">
+        <h2 id="alertModalTitle" class="modal-title">🌟 ¡Atención!</h2>
+        <div id="alertModalBody" class="modal-body">
+            Mensaje
+        </div>
+        <button class="btn-close-modal" onclick="closeAlertModal()">¡Entendido!</button>
+    </div>
+</div>
+
+<!-- VENTANA MODAL DE AYUDA -->
+<div id="helpModal" class="modal-overlay">
+    <div class="modal-card">
+        <h2 class="modal-title">💡 Recordatorio</h2>
+        <div class="modal-body">
+            • <strong>R suave:</strong> sirena, puerto, pescadores.<br>
+            • <strong>R fuerte al principio:</strong> Rita, redes.<br>
+            • <strong>R fuerte tras consonante:</strong> alrededores, enredarse.<br>
+            • <strong>RR fuerte entre vocales:</strong> aburre, acurrucada, burro.
+        </div>
+        <button class="btn-close-modal" onclick="closeHelpModal()">¡Entendido!</button>
+    </div>
+</div>
+
+<script>
+    // Síntesis de voz
+    function speak(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.9;
+            utterance.pitch = 1.05;
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    // Modales
+    function showAlertModal(title, message, audioText) {
+        document.getElementById('alertModalTitle').innerText = title;
+        document.getElementById('alertModalBody').innerHTML = message;
+        document.getElementById('customAlertModal').classList.add('active');
+        if (audioText) speak(audioText);
+    }
+
+    function closeAlertModal() {
+        document.getElementById('customAlertModal').classList.remove('active');
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    function openHelpModal() {
+        document.getElementById('helpModal').classList.add('active');
+        speak("Recuerda que la doble erre sólo se utiliza cuando el sonido es fuerte y va situado entre dos vocales.");
+    }
+
+    function closeHelpModal() {
+        document.getElementById('helpModal').classList.remove('active');
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    function goToScreen(index) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(`screen-${index}`);
+        if(target) target.classList.add('active');
+
+        if (index === 6) {
+            launchConfetti();
+            speak("¡Excelente trabajo! Has completado con éxito todas las actividades de R y RR.");
+        }
+    }
+
+    /* --- LÓGICA DE MOVER PALABRAS EN LA ACTIVIDAD 1 --- */
+    function moveWord(element) {
+        const source = document.getElementById('sentence-source');
+        const target = document.getElementById('sentence-target');
+
+        if (element.parentElement === source) {
+            target.appendChild(element);
+        } else {
+            source.appendChild(element);
+        }
+
+        target.classList.remove('correct', 'incorrect');
+    }
+
+    /* --- COMPROBACIÓN ACTIVIDAD 1 --- */
+    function checkAct1() {
+        const targetZone = document.getElementById('sentence-target');
+        const selectedWords = Array.from(targetZone.children).map(el => el.innerText.trim());
+        const resultSentence = selectedWords.join(' ');
+
+        const targetSentence1 = "El burro come una zanahoria fresca.";
+        const targetSentence2 = "El burro come una fresca zanahoria.";
+
+        if (resultSentence === targetSentence1 || resultSentence === targetSentence2) {
+            targetZone.classList.add('correct'); targetZone.classList.remove('incorrect');
+            showAlertModal("¡Magnífico! ✨", "¡Has formado la oración perfectamente: <br><strong>" + resultSentence + "</strong>!", "¡Excelente! Oración correcta.");
+        } else {
+            targetZone.classList.add('incorrect'); targetZone.classList.remove('correct');
+            showAlertModal("Revisa tu oración 🧐", "Pulsa en las palabras que quieras cambiar para corregir el orden de la frase.", "Revisa el orden de las palabras.");
+        }
+    }
+
+    /* --- LÓGICA Y COMPROBACIÓN ACTIVIDAD 2 --- */
+    const selectedWordsSet = new Set();
+
+    const wordSyllables = {
+        'nevera': [ { id: 'cell-ne', val: 'ne' }, { id: 'cell-ve', val: 've' }, { id: 'cell-ra1', val: 'ra' } ],
+        'loro': [ { id: 'cell-lo', val: 'lo' }, { id: 'cell-ro1', val: 'ro' } ],
+        'cocinero': [ { id: 'cell-co2', val: 'co' }, { id: 'cell-ci', val: 'ci' }, { id: 'cell-ne2', val: 'ne' }, { id: 'cell-ro2', val: 'ro' } ],
+        'corona': [ { id: 'cell-co1', val: 'co' }, { id: 'cell-ro2', val: 'ro' }, { id: 'cell-na', val: '' } ], // Se ajusta al mapa de celdas
+        'raqueta': [ { id: 'cell-ra2', val: 'ra' }, { id: 'cell-que', val: 'que' }, { id: 'cell-ta', val: 'ta' } ]
+    };
+
+    function selectCrosswordWord(element, word) {
+        if (!selectedWordsSet.has(word)) {
+            selectedWordsSet.add(word);
+            element.classList.add('selected');
+
+            // Rellenar las celdas asociadas en el crucigrama
+            if (word === 'nevera') {
+                fillCell('cell-ne', 'ne'); fillCell('cell-ve', 've'); fillCell('cell-ra1', 'ra');
+            } else if (word === 'loro') {
+                fillCell('cell-lo', 'lo'); fillCell('cell-ro1', 'ro');
+            } else if (word === 'cocinero') {
+                fillCell('cell-co2', 'co'); fillCell('cell-ci', 'ci'); fillCell('cell-ne2', 'ne'); fillCell('cell-ro2', 'ro');
+            } else if (word === 'corona') {
+                fillCell('cell-co1', 'co'); fillCell('cell-ro2', 'ro');
+            } else if (word === 'raqueta') {
+                fillCell('cell-ra2', 'ra'); fillCell('cell-que', 'que'); fillCell('cell-ta', 'ta');
+            }
+
+            autoValidateAct2();
+        }
+    }
+
+    function fillCell(id, text) {
+        const cell = document.getElementById(id);
+        if (cell) {
+            cell.innerText = text;
+            cell.classList.add('cell-filled');
+        }
+    }
+
+    function autoValidateAct2() {
+        const strongSelect = document.getElementById('a2-strong-r');
+        
+        // Comprobar si se han marcado las 5 palabras del banco y si ha seleccionado la opción correcta
+        if (selectedWordsSet.size === 5 && strongSelect.value === 'raqueta') {
+            strongSelect.classList.add('correct'); strongSelect.classList.remove('incorrect');
+            showAlertModal("¡Fantástico! 🧩", "¡Has completado todo el crucigrama y seleccionado <strong>raqueta</strong> correctamente!", "¡Crucigrama completado con éxito!");
+        }
+    }
+
+    function checkAct2() {
+        const strongSelect = document.getElementById('a2-strong-r');
+        const isWordsComplete = selectedWordsSet.size === 5;
+        const isStrongCorrect = strongSelect.value === 'raqueta';
+
+        if (isWordsComplete && isStrongCorrect) {
+            strongSelect.classList.add('correct'); strongSelect.classList.remove('incorrect');
+            showAlertModal("¡Fantástico! 🧩", "¡Has resuelto el crucigrama reconociendo que <strong>raqueta</strong> tiene R fuerte!", "¡Has completado el crucigrama perfectamente!");
+        } else {
+            if (!isStrongCorrect) strongSelect.classList.add('incorrect');
+            showAlertModal("Revisa la actividad 💡", "Asegúrate de pulsar sobre todas las palabras del banco superior y elegir la palabra con R fuerte.", "Revisa tus respuestas en el crucigrama.");
+        }
+    }
+
+    /* --- COMPROBACIÓN ACTIVIDAD 3 --- */
+    function checkAct3() {
+        const answers = {
+            'a3-1': 'R',   // Rita
+            'a3-2': 'r',   // sirena
+            'a3-3': 'r',   // alrededores
+            'a3-4': 'rr',  // aburre
+            'a3-5': 'r',   // enredarse
+            'a3-6': 'r',   // redes
+            'a3-7': 'r',   // pescadores
+            'a3-8': 'rr'   // acurrucada
+        };
+
+        let ok = true;
+        for (let key in answers) {
+            const el = document.getElementById(key);
+            if (el.value === answers[key]) {
+                el.classList.add('correct'); el.classList.remove('incorrect');
+            } else {
+                el.classList.add('incorrect'); el.classList.remove('correct'); ok = false;
+            }
+        }
+
+        if (ok) {
+            showAlertModal("¡Estupendo! 🧜‍♀️", "¡Has completado el texto de Rita la sirena perfectamente!", "¡Texto completado de manera excelente!");
+        } else {
+            showAlertModal("Casi... 🔍", "Revisa las casillas marcadas en rojo en la historia.", "Revisa los errores en la historia.");
+        }
+    }
+
+    /* --- COMPROBACIÓN ACTIVIDAD 4 --- */
+    function checkAct4() {
+        const answers = {
+            'a4-1': 'ok',
+            'a4-2': 'ok',
+            'a4-3': 'ok',
+            'a4-4': 'ok'
+        };
+
+        let ok = true;
+        for (let key in answers) {
+            const el = document.getElementById(key);
+            if (el.value === answers[key]) {
+                el.classList.add('correct'); el.classList.remove('incorrect');
+            } else {
+                el.classList.add('incorrect'); el.classList.remove('correct'); ok = false;
+            }
+        }
+
+        if (ok) {
+            showAlertModal("¡Excelente! 🎯", "¡Has clasificado todas las palabras según las reglas de la R y RR!", "¡Clasificación completada con éxito!");
+        } else {
+            showAlertModal("Revisa la clasificación 💡", "Asegúrate de colocar cada grupo de palabras en su categoría correcta.", "Revisa las selecciones en rojo.");
+        }
+    }
+
+    /* CONFETI */
+    function launchConfetti() {
+        if (typeof confetti === 'function') {
+            var count = 200;
+            var defaults = { origin: { y: 0.7 } };
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+        }
+    }
+</script>
+
+</body>
+</html>

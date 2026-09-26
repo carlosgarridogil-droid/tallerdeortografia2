@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lengua Castellana - Uso de Mayúsculas y Punto</title>
+    <!-- FontAwesome para iconos de la interfaz -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tipografía redondeada infantil -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <!-- Librería de Confeti para la pantalla final -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-outer: #F4EBE1;
+            --border-orange: #FF5E00;
+            --green-btn: #00BFA5;
+            --green-btn-hover: #00A892;
+            --yellow-badge: #FFC107;
+            --text-gray: #666666;
+            --blue-accent: #0288D1;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Fredoka', 'Quicksand', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-outer);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- MARCO Y CONTENEDOR PRINCIPAL --- */
+        .app-container {
+            width: 100%;
+            max-width: 860px;
+            background: #FFFFFF;
+            border: 14px solid var(--border-orange);
+            border-radius: 40px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+            padding: 35px 30px 25px 30px;
+            position: relative;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- PANTALLA INICIAL --- */
+        .title-block {
+            text-align: center;
+            width: 100%;
+        }
+
+        .colorful-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin: 0;
+            line-height: 1.2;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0px;
+        }
+
+        .c-red    { color: #FF4B4B; }
+        .c-yellow { color: #FFB300; }
+        .c-green  { color: #00E676; }
+        .c-blue   { color: #29B6F6; }
+        .c-purple { color: #AB47BC; }
+        .c-pink   { color: #FF4081; }
+
+        .sub-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: var(--blue-accent);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 18px 0 12px 0;
+        }
+
+        .grade-pill {
+            background-color: var(--yellow-badge);
+            color: #5D4037;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 6px 24px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+
+        .cards-row {
+            display: flex;
+            gap: 22px;
+            margin-bottom: 30px;
+        }
+
+        .card-box {
+            width: 95px;
+            height: 95px;
+            border-radius: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.6rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+
+        .card-yellow { background-color: #FFF8E1; color: #FFA000; }
+        .card-pink   { background-color: #FCE4EC; color: #FF4081; }
+        .card-blue   { background-color: #E1F5FE; color: #0288D1; }
+
+        .btn-start-main {
+            background-color: var(--green-btn);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(0, 191, 165, 0.35);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-start-main:hover {
+            background-color: var(--green-btn-hover);
+            transform: translateY(-2px);
+        }
+
+        .footer-line {
+            width: 100%;
+            border-top: 1.5px dashed #E0E0E0;
+            margin-top: 25px;
+            padding-top: 15px;
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 0.92rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .author-tag {
+            font-weight: 700;
+            color: var(--border-orange);
+            font-size: 0.98rem;
+        }
+
+        /* --- CONTENEDORES DE AUDIO Y AYUDA --- */
+        .audio-btn {
+            background: var(--yellow-badge);
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: #5D4037;
+            box-shadow: 0 4px 0 #FFA000;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .audio-btn:active { transform: scale(0.92); }
+
+        .instruction-box {
+            display: flex;
+            align-items: center;
+            background: #E1F5FE;
+            padding: 12px 20px;
+            border-radius: 20px;
+            width: 100%;
+            margin-bottom: 20px;
+            border-left: 6px solid #0288D1;
+        }
+
+        .instruction-text {
+            font-size: 1.2rem;
+            color: #01579B;
+            font-weight: 700;
+            flex-grow: 1;
+        }
+
+        .help-btn {
+            background: #AB47BC;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #7B1FA2;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        .help-btn:hover { background: #8E24AA; }
+
+        /* --- MODAL DE AYUDA --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal-card {
+            background: #FFFFFF;
+            border: 8px solid #AB47BC;
+            border-radius: 35px;
+            padding: 30px;
+            max-width: 520px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: #7B1FA2;
+            margin-top: 0;
+        }
+
+        .modal-body {
+            font-size: 1.25rem;
+            color: #4A148C;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            background: #F3E5F5;
+            padding: 20px;
+            border-radius: 20px;
+            border: 2px dashed #BA68C8;
+            text-align: left;
+        }
+
+        .btn-close-modal {
+            background: var(--green-btn);
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: 12px 35px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 var(--green-btn-hover);
+        }
+
+        /* --- ESTILOS ACTIVIDAD 1: ORDENAR PALABRAS --- */
+        .word-chips-container {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+            min-height: 60px;
+        }
+
+        .word-chip {
+            background: #FFFFFF;
+            border: 3px solid #FF7043;
+            color: #D84315;
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #FF7043;
+            transition: all 0.2s;
+        }
+
+        .word-chip:hover {
+            transform: translateY(-2px);
+            background: #FBE9E7;
+        }
+
+        .word-chip.used {
+            opacity: 0.3;
+            pointer-events: none;
+            box-shadow: none;
+        }
+
+        .drop-zone {
+            width: 100%;
+            min-height: 70px;
+            border: 3px dashed #29B6F6;
+            background: #E1F5FE;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 10px 15px;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .btn-check {
+            background: var(--green-btn);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 var(--green-btn-hover);
+        }
+
+        /* --- ESTILOS ACTIVIDAD 2: RODEA PUNTOS Y COPIA --- */
+        .text-story-box {
+            background: #FFFDE7;
+            border: 3px solid #FFE082;
+            border-radius: 20px;
+            padding: 20px;
+            font-size: 1.35rem;
+            line-height: 1.8;
+            color: #37474F;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .point-tag {
+            display: inline-block;
+            cursor: pointer;
+            padding: 0 6px;
+            border-radius: 50%;
+            font-weight: bold;
+            color: #D32F2F;
+            transition: all 0.2s;
+        }
+
+        .point-tag.selected {
+            background: #FFCDD2;
+            outline: 3px solid #E53935;
+        }
+
+        .inputs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .custom-input {
+            border: 2px solid #81D4FA;
+            background: #F1F8E9;
+            border-radius: 12px;
+            padding: 10px 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2E7D32;
+            outline: none;
+            text-align: center;
+        }
+
+        .custom-input.correct {
+            border-color: #4CAF50;
+            background: #C8E6C9;
+        }
+
+        .custom-input.incorrect {
+            border-color: #F44336;
+            background: #FFCDD2;
+        }
+
+        /* --- ESTILOS ACTIVIDAD 3: COMPLETA MAYÚSCULAS Y MINÚSCULAS --- */
+        .story-fill-container {
+            background: #FAFAFA;
+            border: 3px solid #CE93D8;
+            border-radius: 20px;
+            padding: 25px;
+            font-size: 1.3rem;
+            line-height: 2.2;
+            color: #4A148C;
+            width: 100%;
+            margin-bottom: 15px;
+            max-height: 320px;
+            overflow-y: auto;
+        }
+
+        .inline-select {
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: 2px solid #AB47BC;
+            border-radius: 8px;
+            background: #FFFFFF;
+            color: #6A1B9A;
+            padding: 2px 8px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .inline-select.correct { background: #C8E6C9; border-color: #388E3C; }
+        .inline-select.incorrect { background: #FFCDD2; border-color: #D32F2F; }
+
+        /* NAVEGACIÓN */
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .btn-nav {
+            background-color: #78909C;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #546E7A;
+        }
+
+        .btn-nav:hover { background-color: #90A4AE; }
+
+        .btn-next {
+            background-color: var(--border-orange);
+            box-shadow: 0 4px 0 #D84315;
+        }
+
+        .btn-next:hover { background-color: #FF7043; }
+
+        /* PANTALLA FINAL */
+        .congrats-box {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .congrats-title {
+            font-size: 2.8rem;
+            color: var(--border-orange);
+            margin-bottom: 10px;
+        }
+
+        .trophy-icon {
+            font-size: 5.5rem;
+            color: #FFD700;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+
+    <!-- PANTALLA 0: PORTADA -->
+    <div id="screen-0" class="screen active">
+        <div class="title-block">
+            <div class="colorful-title">
+                <span class="c-red">L</span><span class="c-yellow">E</span><span class="c-green">N</span><span class="c-blue">G</span><span class="c-purple">U</span><span class="c-pink">A</span>
+                &nbsp;
+                <span class="c-purple">C</span><span class="c-pink">A</span><span class="c-red">S</span><span class="c-yellow">T</span><span class="c-green">E</span><span class="c-blue">L</span><span class="c-purple">L</span><span class="c-pink">A</span><span class="c-red">N</span><span class="c-yellow">A</span>
+            </div>
+
+            <div class="sub-header">
+                <i class="fa-solid fa-pen-nib"></i>
+                MAYÚSCULA Y PUNTO
+                <i class="fa-solid fa-font"></i>
+            </div>
+
+            <div class="grade-pill">2º Educación Primaria - Ortografía</div>
+        </div>
+
+        <div class="cards-row">
+            <div class="card-box card-yellow"><i class="fa-solid fa-arrow-down-a-z"></i></div>
+            <div class="card-box card-pink"><i class="fa-solid fa-circle"></i></div>
+            <div class="card-box card-blue"><i class="fa-solid fa-book-bookmark"></i></div>
+        </div>
+
+        <button class="btn-start-main" onclick="goToScreen(1)">
+            ¡COMENZAR EL RETO! <i class="fa-solid fa-angle-right"></i>
+        </button>
+
+        <div class="footer-line">
+            <span>Material didáctico interactivo de Ortografía para 2.º de Primaria</span>
+            <span class="author-tag">Aplicación elaborada por Carlos Garrido</span>
+        </div>
+    </div>
+
+    <!-- PANTALLA 1: EXPLICACIÓN REGLA -->
+    <div id="screen-1" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Recuerda la regla ortográfica. Se escribe mayúscula al principio de un texto y después de punto.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">¡RECUERDA LA REGLA ORTOGRÁFICA!</div>
+        </div>
+
+        <div style="background: #FFF3E0; border: 3px solid #FFB74D; padding: 25px; border-radius: 25px; text-align: center; margin: 20px 0; max-width: 650px;">
+            <p style="font-size: 1.5rem; color: #E65100; margin-top: 0;">
+                ✍️ <strong>¿Cuándo usamos mayúscula?</strong>
+            </p>
+            <ul style="text-align: left; font-size: 1.3rem; color: #4E342E; line-height: 1.8;">
+                <li>Al <strong>principio</strong> de una oración o texto.</li>
+                <li>Siempre <strong>después de un punto (.)</strong>.</li>
+                <li>Al final de una oración siempre ponemos un <strong>punto (.)</strong>.</li>
+            </ul>
+        </div>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(0)">Inicio</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(2)">Actividad 1 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 2: ACTIVIDAD 1 - ORDENA LA ORACIÓN -->
+    <div id="screen-2" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 1. Ordena las palabras y forma una oración. No olvides empezar por mayúscula y poner punto al final.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">1. ORDENA LAS PALABRAS Y ESCRIBE UNA ORACIÓN.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Ayuda
+            </button>
+        </div>
+
+        <p style="font-size: 1.1rem; color: #555;">Haz clic en las palabras en orden para construir la frase:</p>
+
+        <!-- Fichas desordenadas -->
+        <div class="word-chips-container" id="chips-act1">
+            <div class="word-chip" onclick="addWord(this, 'toca')">toca</div>
+            <div class="word-chip" onclick="addWord(this, 'Mi')">Mi</div>
+            <div class="word-chip" onclick="addWord(this, 'amigo')">amigo</div>
+            <div class="word-chip" onclick="addWord(this, 'violín.')">violín.</div>
+            <div class="word-chip" onclick="addWord(this, 'el')">el</div>
+        </div>
+
+        <!-- Zona donde se va formando la oración -->
+        <div class="drop-zone" id="drop-zone-1"></div>
+
+        <div style="display: flex; gap: 10px;">
+            <button class="btn-check" onclick="checkAct1()"><i class="fa-solid fa-check"></i> Comprobar</button>
+            <button class="btn-nav" style="background:#81D4FA; color:#0277BD;" onclick="resetAct1()">Reiniciar</button>
+        </div>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(1)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(3)">Actividad 2 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 3: ACTIVIDAD 2 - RODEA PUNTOS Y COPIA PALABRAS -->
+    <div id="screen-3" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 2. Haz clic en los puntos del texto para rodearlos. Luego escribe las cuatro palabras que van justo después de ellos.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">2. RODEA LOS PUNTOS Y ESCRIBE LAS PALABRAS QUE VAN DESPUÉS.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="text-story-box">
+            Lía tiene ocho años<span class="point-tag" onclick="togglePoint(this)">.</span> Vive en una casa en el campo<span class="point-tag" onclick="togglePoint(this)">.</span> Tiene una vaca llamada Margarita<span class="point-tag" onclick="togglePoint(this)">.</span> Mientras Margarita come hierba, Lía lee historias de magos<span class="point-tag" onclick="togglePoint(this)">.</span> Son muy buenas amigas<span class="point-tag" onclick="togglePoint(this)">.</span>
+        </div>
+
+        <p style="font-size: 1.1rem; color: #555; margin: 5px 0;">Escribe las 4 palabras que van justo después de un punto (empiezan por mayúscula):</p>
+
+        <div class="inputs-grid">
+            <input type="text" id="act2-word-1" class="custom-input" placeholder="Palabra 1">
+            <input type="text" id="act2-word-2" class="custom-input" placeholder="Palabra 2">
+            <input type="text" id="act2-word-3" class="custom-input" placeholder="Palabra 3">
+            <input type="text" id="act2-word-4" class="custom-input" placeholder="Palabra 4">
+        </div>
+
+        <button class="btn-check" onclick="checkAct2()"><i class="fa-solid fa-check"></i> Comprobar respuestas</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(2)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(4)">Actividad 3 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 4: ACTIVIDAD 3 - COMPLETA MAYÚSCULAS Y MINÚSCULAS -->
+    <div id="screen-4" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 3. Selecciona cuatro letras mayúsculas y cuatro minúsculas para completar el texto.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">3. COMPLETA CON 4 MAYÚSCULAS Y 4 MINÚSCULAS.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="story-fill-container">
+            <h3 style="text-align: center; color: #E65100; margin-top: 0;">Una excursión divertida</h3>
+            
+            <!-- 1. El (mayúscula al inicio) -->
+            <select id="sel-1" class="inline-select">
+                <option value="">--</option>
+                <option value="E">E</option>
+                <option value="e">e</option>
+            </select>l verano pasado fui con mi tía a la 
+
+            <!-- 2. montaña (minúscula) -->
+            <select id="sel-2" class="inline-select">
+                <option value="">--</option>
+                <option value="M">M</option>
+                <option value="m">m</option>
+            </select>ontaña. 
+
+            <!-- 3. Caminamos (mayúscula tras punto) -->
+            <select id="sel-3" class="inline-select">
+                <option value="">--</option>
+                <option value="C">C</option>
+                <option value="c">c</option>
+            </select>aminamos mucho, 
+
+            <!-- 4. recogimos (minúscula) -->
+            <select id="sel-4" class="inline-select">
+                <option value="">--</option>
+                <option value="R">R</option>
+                <option value="r">r</option>
+            </select>ecogimos hojas, nos bañamos en el río y vimos 
+
+            <!-- 5. una (minúscula) -->
+            <select id="sel-5" class="inline-select">
+                <option value="">--</option>
+                <option value="U">U</option>
+                <option value="u">u</option>
+            </select>na ardilla. 
+
+            <!-- 6. Por (mayúscula tras punto) -->
+            <select id="sel-6" class="inline-select">
+                <option value="">--</option>
+                <option value="P">P</option>
+                <option value="p">p</option>
+            </select>or la noche dormimos en una 
+
+            <!-- 7. tienda (minúscula) -->
+            <select id="sel-7" class="inline-select">
+                <option value="">--</option>
+                <option value="T">T</option>
+                <option value="t">t</option>
+            </select>ienda de campaña. 
+
+            <!-- 8. Fue (mayúscula tras punto) -->
+            <select id="sel-8" class="inline-select">
+                <option value="">--</option>
+                <option value="F">F</option>
+                <option value="f">f</option>
+            </select>ue una excursión genial.
+        </div>
+
+        <button class="btn-check" onclick="checkAct3()"><i class="fa-solid fa-check"></i> Comprobar texto</button>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(3)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(5)">Finalizar 🏆</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 5: FELICITACIÓN Y CONFETI -->
+    <div id="screen-5" class="screen">
+        <div class="congrats-box">
+            <div class="trophy-icon">🏆</div>
+            <h1 class="congrats-title">¡LO HAS CONSEGUIDO!</h1>
+            <p style="font-size: 1.4rem; color: #444;">
+                ¡Enhorabuena, campeón/a de 2.º de Primaria! <br>
+                Has dominado el uso de la mayúscula y el punto a la perfección.
+            </p>
+            <button class="btn-start-main" style="margin: 25px auto;" onclick="goToScreen(0)">
+                <i class="fa-solid fa-rotate-right"></i> Volver a empezar
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<!-- VENTANA MODAL DE AYUDA -->
+<div id="helpModal" class="modal-overlay">
+    <div class="modal-card">
+        <h2 class="modal-title">💡 Recordatorio Ortográfico</h2>
+        <div class="modal-body">
+            <strong>Recuerda dos reglas de oro:</strong><br><br>
+            1. 🛑 Toda oración empieza con letra <strong>MAYÚSCULA</strong> y termina en <strong>PUNTO (.)</strong>.<br><br>
+            2. ✍️ Después de cada <strong>punto (.)</strong> siempre escribimos la siguiente palabra con letra <strong>MAYÚSCULA</strong>.
+            <br><br>
+            ¡Inténtalo de nuevo!
+        </div>
+        <button class="btn-close-modal" onclick="closeHelpModal()">¡Entendido!</button>
+    </div>
+</div>
+
+<script>
+    // Sintesis de Voz
+    function speak(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.9;
+            utterance.pitch = 1.05;
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    function goToScreen(index) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(`screen-${index}`);
+        if(target) target.classList.add('active');
+
+        if (index === 5) {
+            launchConfetti();
+            speak("¡Enhorabuena, campeón o campeona de segundo de primaria! Has completado todas las actividades ortográficas correctamente.");
+        }
+    }
+
+    /* --- LÓGICA ACTIVIDAD 1 --- */
+    let selectedWords = [];
+    function addWord(chipEl, word) {
+        chipEl.classList.add('used');
+        selectedWords.push({ word: word, chip: chipEl });
+        renderDropZone();
+    }
+
+    function renderDropZone() {
+        const zone = document.getElementById('drop-zone-1');
+        zone.innerHTML = '';
+        selectedWords.forEach((item, idx) => {
+            const btn = document.createElement('div');
+            btn.className = 'word-chip';
+            btn.style.background = '#00BFA5';
+            btn.style.borderColor = '#00897B';
+            btn.style.color = '#FFF';
+            btn.innerText = item.word;
+            btn.onclick = () => removeWord(idx);
+            zone.appendChild(btn);
+        });
+    }
+
+    function removeWord(index) {
+        const removed = selectedWords.splice(index, 1)[0];
+        removed.chip.classList.remove('used');
+        renderDropZone();
+    }
+
+    function resetAct1() {
+        selectedWords = [];
+        document.querySelectorAll('#chips-act1 .word-chip').forEach(c => c.classList.remove('used'));
+        renderDropZone();
+    }
+
+    function checkAct1() {
+        const currentSentence = selectedWords.map(i => i.word).join(' ');
+        const correctTarget = "Mi amigo toca el violín.";
+        
+        if (currentSentence === correctTarget) {
+            speak("¡Muy bien! ¡Has ordenado la frase correctamente!");
+        } else {
+            speak("Esa no es la posición correcta. Recuerda empezar por la palabra con mayúscula. ¡Inténtalo de nuevo!");
+        }
+    }
+
+    /* --- LÓGICA ACTIVIDAD 2 --- */
+    function togglePoint(el) {
+        el.classList.toggle('selected');
+        if(el.classList.contains('selected')) {
+            speak("Punto seleccionado");
+        }
+    }
+
+    function checkAct2() {
+        const answers = [
+            document.getElementById('act2-word-1').value.trim(),
+            document.getElementById('act2-word-2').value.trim(),
+            document.getElementById('act2-word-3').value.trim(),
+            document.getElementById('act2-word-4').value.trim()
+        ];
+
+        const correctAnswers = ["Vive", "Tiene", "Mientras", "Son"];
+        let correctCount = 0;
+        
+        answers.forEach((ans, i) => {
+            const inputEl = document.getElementById(`act2-word-${i+1}`);
+            if (correctAnswers.includes(ans)) {
+                inputEl.classList.add('correct');
+                inputEl.classList.remove('incorrect');
+                correctCount++;
+            } else {
+                inputEl.classList.add('incorrect');
+                inputEl.classList.remove('correct');
+            }
+        });
+
+        if (correctCount === 4) {
+            speak("¡Excelente! Has encontrado y copiado correctamente las palabras que van después de punto.");
+        } else {
+            speak("Revisa las palabras. Recuerda copiar las palabras que van justo después de un punto y escribirlas con Mayúscula.");
+        }
+    }
+
+    /* --- LÓGICA ACTIVIDAD 3 --- */
+    function checkAct3() {
+        const solutions = {
+            'sel-1': 'E',
+            'sel-2': 'm',
+            'sel-3': 'C',
+            'sel-4': 'r',
+            'sel-5': 'u',
+            'sel-6': 'P',
+            'sel-7': 't',
+            'sel-8': 'F'
+        };
+
+        let allCorrect = true;
+
+        for (let id in solutions) {
+            const selectEl = document.getElementById(id);
+            if (selectEl.value === solutions[id]) {
+                selectEl.classList.add('correct');
+                selectEl.classList.remove('incorrect');
+            } else {
+                selectEl.classList.add('incorrect');
+                selectEl.classList.remove('correct');
+                allCorrect = false;
+            }
+        }
+
+        if (allCorrect) {
+            speak("¡Fantástico! Has completado el texto con las cuatro letras mayúsculas y cuatro minúsculas adecuadamente.");
+        } else {
+            speak("Hay algunas letras incorrectas. Recuerda poner mayúscula solo al principio de la oración o después de un punto.");
+        }
+    }
+
+    /* FUNCIONES DE LA MODAL DE AYUDA */
+    function openHelpModal() {
+        document.getElementById('helpModal').classList.add('active');
+        speak("Recuerda: Toda oración empieza con mayúscula y termina en punto. Después de un punto siempre escribimos mayúscula. Inténtalo de nuevo.");
+    }
+
+    function closeHelpModal() {
+        document.getElementById('helpModal').classList.remove('active');
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    /* CONFETI */
+    function launchConfetti() {
+        var count = 200;
+        var defaults = { origin: { y: 0.7 } };
+        function fire(particleRatio, opts) {
+            confetti(Object.assign({}, defaults, opts, {
+                particleCount: Math.floor(count * particleRatio)
+            }));
+        }
+        fire(0.25, { spread: 26, startVelocity: 55 });
+        fire(0.2, { spread: 60 });
+        fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+        fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+        fire(0.1, { spread: 120, startVelocity: 45 });
+    }
+</script>
+
+</body>
+</html>

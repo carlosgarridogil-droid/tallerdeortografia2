@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lengua Castellana - Uso de las Mayúsculas</title>
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tipografía infantil -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <!-- Librería de Confeti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-outer: #E8F5E9;
+            --border-green: #2E7D32;
+            --main-green: #4CAF50;
+            --dark-green: #1B5E20;
+            --accent-green: #81C784;
+            --text-dark: #1B4332;
+            --light-green: #C8E6C9;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Fredoka', 'Quicksand', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-outer);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 860px;
+            background: #FFFFFF;
+            border: 14px solid var(--border-green);
+            border-radius: 40px;
+            box-shadow: 0 12px 30px rgba(46, 125, 50, 0.25);
+            padding: 35px 30px 25px 30px;
+            position: relative;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- PORTADA --- */
+        .title-block { text-align: center; width: 100%; }
+
+        .colorful-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin: 0;
+            line-height: 1.2;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2px;
+        }
+
+        .c-g1 { color: #1B5E20; }
+        .c-g2 { color: #2E7D32; }
+        .c-g3 { color: #388E3C; }
+        .c-g4 { color: #43A047; }
+        .c-g5 { color: #2E7D32; }
+
+        .sub-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: var(--dark-green);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 18px 0 12px 0;
+        }
+
+        .grade-pill {
+            background-color: #A5D6A7;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 6px 24px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+
+        .cards-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card-box {
+            padding: 12px 24px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+
+        .card-g1 { background-color: #C8E6C9; color: #1B5E20; }
+        .card-g2 { background-color: #A5D6A7; color: #2E7D32; }
+        .card-g3 { background-color: #81C784; color: #1B5E20; }
+
+        .btn-start-main {
+            background-color: var(--border-green);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(46, 125, 50, 0.4);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-start-main:hover {
+            background-color: var(--dark-green);
+            transform: translateY(-2px);
+        }
+
+        .footer-line {
+            width: 100%;
+            border-top: 1.5px dashed #A5D6A7;
+            margin-top: 25px;
+            padding-top: 15px;
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 0.92rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .author-tag {
+            font-weight: 700;
+            color: var(--border-green);
+            font-size: 0.98rem;
+        }
+
+        /* --- BARRAS DE INSTRUCCIÓN Y AUDIO --- */
+        .audio-btn {
+            background: #A5D6A7;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--text-dark);
+            box-shadow: 0 4px 0 #66BB6A;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .audio-btn:active { transform: scale(0.92); }
+
+        .instruction-box {
+            display: flex;
+            align-items: center;
+            background: #E8F5E9;
+            padding: 12px 20px;
+            border-radius: 20px;
+            width: 100%;
+            margin-bottom: 20px;
+            border-left: 6px solid var(--border-green);
+        }
+
+        .instruction-text {
+            font-size: 1.15rem;
+            color: var(--text-dark);
+            font-weight: 700;
+            flex-grow: 1;
+        }
+
+        .help-btn {
+            background: var(--border-green);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 var(--dark-green);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        .help-btn:hover { background: var(--dark-green); }
+
+        /* --- MODALES --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal-card {
+            background: #FFFFFF;
+            border: 8px solid var(--border-green);
+            border-radius: 35px;
+            padding: 30px;
+            max-width: 520px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-title { font-size: 2rem; color: var(--border-green); margin-top: 0; }
+        .modal-body {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            line-height: 1.5;
+            margin-bottom: 25px;
+            background: #E8F5E9;
+            padding: 20px;
+            border-radius: 20px;
+            border: 2px dashed #A5D6A7;
+            text-align: center;
+        }
+
+        .btn-close-modal {
+            background: var(--border-green);
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: 12px 35px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 var(--dark-green);
+        }
+
+        /* --- TARJETAS Y ACTIVIDADES --- */
+        .activity-card {
+            background: #E8F5E9;
+            border: 3px solid #A5D6A7;
+            border-radius: 22px;
+            padding: 20px;
+            width: 100%;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* ACTIVIDAD 1: UNIR/EMPAREJAR NIÑO Y PAÍS */
+        .act1-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .act1-col {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 48%;
+        }
+
+        .match-btn {
+            background: #FFF;
+            border: 3px solid #81C784;
+            border-radius: 16px;
+            padding: 12px;
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: var(--text-dark);
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 0 #A5D6A7;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .match-btn:hover { background: #F1F8E9; }
+
+        .match-btn.selected {
+            background-color: #FFF9C4;
+            border-color: #FBC02D;
+            box-shadow: 0 4px 0 #FDD835;
+        }
+
+        .match-btn.matched-green {
+            background-color: #C8E6C9 !important;
+            border-color: #2E7D32 !important;
+            color: #1B5E20 !important;
+            box-shadow: 0 4px 0 #81C784 !important;
+            cursor: default;
+        }
+
+        /* ACTIVIDAD 2: SELECTS */
+        .custom-select {
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: 3px solid var(--border-green);
+            border-radius: 14px;
+            padding: 8px 12px;
+            color: var(--text-dark);
+            outline: none;
+            background: #FFF;
+            box-shadow: 0 4px 0 #A5D6A7;
+            cursor: pointer;
+        }
+
+        .custom-select.correct { background-color: #C8E6C9 !important; border-color: #2E7D32 !important; color: #1B5E20 !important; }
+        .custom-select.incorrect { background-color: #FFCDD2 !important; border-color: #C62828 !important; color: #B71C1C !important; }
+
+        /* ACTIVIDAD 3: OPCIONES MÚLTIPLES */
+        .options-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 5px;
+        }
+
+        .opt-btn {
+            background: #FFF;
+            border: 3px solid #81C784;
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--text-dark);
+            cursor: pointer;
+            box-shadow: 0 4px 0 #A5D6A7;
+            transition: all 0.2s;
+        }
+
+        .opt-btn:hover { background: #F1F8E9; }
+        .opt-btn.correct { background-color: #C8E6C9 !important; border-color: #2E7D32 !important; color: #1B5E20 !important; box-shadow: none; }
+        .opt-btn.incorrect { background-color: #FFCDD2 !important; border-color: #C62828 !important; color: #B71C1C !important; box-shadow: none; }
+
+        /* ACTIVIDAD 4: SEÑALAR LETRAS Y COMPROBAR */
+        .text-interactive-container {
+            background: #FFF;
+            border: 3px solid #81C784;
+            border-radius: 18px;
+            padding: 22px;
+            line-height: 2.3;
+            font-size: 1.35rem;
+            color: var(--text-dark);
+            box-shadow: 0 4px 0 #A5D6A7;
+            width: 100%;
+        }
+
+        .char-span {
+            display: inline-block;
+            padding: 0 3px;
+            margin: 0 1px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .char-span:hover {
+            background-color: #E8F5E9;
+            border-color: #A5D6A7;
+        }
+
+        /* Marcado / Señalado por el alumno */
+        .char-span.marked {
+            background-color: #FFF59D;
+            border-color: #FBC02D;
+            color: #F57F17;
+            transform: scale(1.1);
+        }
+
+        /* Acertado tras comprobar (Mayúscula en verde) */
+        .char-span.validated-correct {
+            background-color: #2E7D32 !important;
+            color: #FFFFFF !important;
+            border-color: #1B5E20 !important;
+            transform: scale(1.05);
+            padding: 1px 6px;
+            box-shadow: 0 3px 6px rgba(46, 125, 50, 0.3);
+            cursor: default;
+        }
+
+        /* Marcar error si señaló una que no correspondía */
+        .char-span.validated-wrong {
+            background-color: #FFCDD2 !important;
+            border-color: #D32F2F !important;
+            color: #C62828 !important;
+        }
+
+        /* BOTONES DE NAVEGACIÓN Y COMPROBACIÓN */
+        .btn-check {
+            background: var(--border-green);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 20px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 var(--dark-green);
+            transition: all 0.2s;
+            margin-top: 5px;
+        }
+
+        .btn-check:hover { background-color: var(--dark-green); }
+
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .btn-nav {
+            background-color: #66BB6A;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #388E3C;
+        }
+
+        .btn-nav:hover { background-color: #388E3C; }
+        .btn-next { background-color: var(--border-green); box-shadow: 0 4px 0 var(--dark-green); }
+        .btn-next:hover { background-color: var(--dark-green); }
+
+        /* PANTALLA FINAL */
+        .congrats-box { text-align: center; padding: 20px; }
+        .congrats-title { font-size: 2.8rem; color: var(--border-green); margin-bottom: 10px; }
+        .trophy-icon {
+            font-size: 5.5rem;
+            color: #4CAF50;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-15px); }
+        }
+
+        @media (max-width: 600px) {
+            .act1-container { flex-direction: column; }
+            .act1-col { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+
+    <!-- PANTALLA 0: PORTADA -->
+    <div id="screen-0" class="screen active">
+        <div class="title-block">
+            <div class="colorful-title">
+                <span class="c-g1">L</span><span class="c-g2">E</span><span class="c-g3">N</span><span class="c-g4">G</span><span class="c-g5">U</span><span class="c-g1">A</span>
+                &nbsp;
+                <span class="c-g2">C</span><span class="c-g3">A</span><span class="c-g4">S</span><span class="c-g5">T</span><span class="c-g1">E</span><span class="c-g2">L</span><span class="c-g3">L</span><span class="c-g4">A</span><span class="c-g5">N</span><span class="c-g1">A</span>
+            </div>
+
+            <div class="sub-header">
+                <i class="fa-solid fa-leaf"></i>
+                USO DE LAS MAYÚSCULAS
+                <i class="fa-solid fa-star"></i>
+            </div>
+
+            <div class="grade-pill">Educación Primaria - Ortografía Básica</div>
+        </div>
+
+        <div class="cards-row">
+            <div class="card-box card-g1">Nombres de personas</div>
+            <div class="card-box card-g2">Nombres de lugares</div>
+            <div class="card-box card-g3">Después de punto</div>
+        </div>
+
+        <button class="btn-start-main" onclick="goToScreen(1)">
+            ¡COMENZAR EL RETO! <i class="fa-solid fa-angle-right"></i>
+        </button>
+
+        <div class="footer-line">
+            <span>Material didáctico interactivo adaptado de la ficha de ejercicios</span>
+            <span class="author-tag">Aplicación en tonos verdes</span>
+        </div>
+    </div>
+
+    <!-- PANTALLA 1: ACTIVIDAD 1 -->
+    <div id="screen-1" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 1. Haz clic en el personaje y luego en su lugar de origen correspondiente. Si coinciden, se marcarán en verde.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">1. ¿DÓNDE NACIÓ CADA NIÑO? RELACIONA CADA DIBUJO CON SU PAÍS.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-lightbulb"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div class="act1-container">
+                <div class="act1-col">
+                    <div class="match-btn" id="child-daniela" onclick="selectChild('daniela')">
+                        👧🏻 Daniela (Yo nací en...)
+                    </div>
+                    <div class="match-btn" id="child-elena" onclick="selectChild('elena')">
+                        👧🏼 Elena (Yo, en...)
+                    </div>
+                    <div class="match-btn" id="child-karim" onclick="selectChild('karim')">
+                        👦🏽 Karim (Y yo, en...)
+                    </div>
+                </div>
+
+                <div class="act1-col">
+                    <div class="match-btn" id="place-rumania" onclick="selectPlace('rumania')">
+                        🇷🇴 Rumanía
+                    </div>
+                    <div class="match-btn" id="place-colombia" onclick="selectPlace('colombia')">
+                        🇨🇴 Colombia
+                    </div>
+                    <div class="match-btn" id="place-marruecos" onclick="selectPlace('marruecos')">
+                        🇲🇦 Marruecos
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(0)">Inicio</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(2)">Actividad 2 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 2: ACTIVIDAD 2 -->
+    <div id="screen-2" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 2. Selecciona en el desplegable el personaje de cuento correcto.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">2. ESCRIBE EL NOMBRE DE ESTOS PERSONAJES DE CUENTO.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-lightbulb"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div style="display: flex; flex-direction: column; gap: 20px; font-size: 1.15rem; color: #1B4332; width: 100%;">
+                <div>
+                    🤥 <strong>Niño al que le creció la nariz por decir mentiras:</strong><br><br>
+                    <select id="a2-select-1" class="custom-select" onchange="checkAct2()">
+                        <option value="">-- Selecciona un personaje --</option>
+                        <option value="peter">Peter Pan</option>
+                        <option value="pinocho">Pinocho</option>
+                        <option value="aladdin">Aladdín</option>
+                        <option value="garbancito">Garbancito</option>
+                    </select>
+                </div>
+
+                <div style="border-top: 2px dashed #A5D6A7; padding-top: 15px;">
+                    🍎 <strong>Princesa que vivió con siete enanos en el bosque:</strong><br><br>
+                    <select id="a2-select-2" class="custom-select" onchange="checkAct2()">
+                        <option value="">-- Selecciona un personaje --</option>
+                        <option value="cenicienta">Cenicienta</option>
+                        <option value="rapunzel">Rapunzel</option>
+                        <option value="sirenita">La Sirenita</option>
+                        <option value="blancanieves">Blancanieves</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(1)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(3)">Actividad 3 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 3: ACTIVIDAD 3 -->
+    <div id="screen-3" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 3. Elige la opción correctamente escrita que empiece por mayúscula.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">3. INVENTA NOMBRES DE LUGAR. (ELIGE LA OPCIÓN CON MAYÚSCULA)</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-lightbulb"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div style="font-size: 1.15rem; color: #1B4332; width: 100%;">
+                🏖️ <strong>Para un pueblo en la costa:</strong>
+                <div class="options-group" id="group-a3-1">
+                    <button class="opt-btn" onclick="checkAct3Option(this, false)">costamar</button>
+                    <button class="opt-btn" onclick="checkAct3Option(this, true)">Costamar</button>
+                    <button class="opt-btn" onclick="checkAct3Option(this, false)">costa mar</button>
+                </div>
+            </div>
+
+            <div style="font-size: 1.15rem; color: #1B4332; border-top: 2px dashed #A5D6A7; padding-top: 15px; width: 100%;">
+                ❄️ <strong>Para un país donde nieva mucho:</strong>
+                <div class="options-group" id="group-a3-2">
+                    <button class="opt-btn" onclick="checkAct3Option(this, false)">nivalia</button>
+                    <button class="opt-btn" onclick="checkAct3Option(this, false)">país de nieve</button>
+                    <button class="opt-btn" onclick="checkAct3Option(this, true)">Nivalia</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(2)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(4)">Actividad 4 ➔</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 4: ACTIVIDAD 4 - SEÑALAR Y COMPROBAR CON BOTÓN -->
+    <div id="screen-4" class="screen">
+        <div class="instruction-box">
+            <button class="audio-btn" onclick="speak('Actividad 4. Haz clic sobre las letras que deban ir en mayúscula para señalarlas y luego pulsa el botón comprobar.')">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="instruction-text">4. SEÑALA LAS LETRAS QUE DEBAN IR EN MAYÚSCULA Y PULSA COMPROBAR.</div>
+            <button class="help-btn" onclick="openHelpModal()">
+                <i class="fa-solid fa-lightbulb"></i> Ayuda
+            </button>
+        </div>
+
+        <div class="activity-card">
+            <div class="text-interactive-container" id="interactive-text">
+                <!-- Se genera dinámicamente -->
+            </div>
+
+            <button class="btn-check" onclick="checkAct4()"><i class="fa-solid fa-check"></i> Comprobar texto</button>
+        </div>
+
+        <div class="nav-controls">
+            <button class="btn-nav" onclick="goToScreen(3)">Anterior</button>
+            <button class="btn-nav btn-next" onclick="goToScreen(5)">Finalizar 🏆</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 5: FELICITACIÓN -->
+    <div id="screen-5" class="screen">
+        <div class="congrats-box">
+            <div class="trophy-icon">🏆</div>
+            <h1 class="congrats-title">¡ENHORABUENA!</h1>
+            <p style="font-size: 1.4rem; color: #1B4332;">
+                ¡Has completado correctamente todos los ejercicios de <strong>mayúsculas</strong>!
+            </p>
+            <button class="btn-start-main" style="margin: 25px auto;" onclick="goToScreen(0)">
+                <i class="fa-solid fa-rotate-right"></i> Volver a empezar
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<!-- MODAL EMERGENTE -->
+<div id="customAlertModal" class="modal-overlay">
+    <div class="modal-card">
+        <h2 id="alertModalTitle" class="modal-title">🌟 ¡Atención!</h2>
+        <div id="alertModalBody" class="modal-body">Mensaje</div>
+        <button class="btn-close-modal" onclick="closeAlertModal()">¡Entendido!</button>
+    </div>
+</div>
+
+<!-- MODAL DE AYUDA -->
+<div id="helpModal" class="modal-overlay">
+    <div class="modal-card">
+        <h2 class="modal-title">💡 Recordatorio</h2>
+        <div class="modal-body">
+            • Se escribe <strong>mayúscula</strong> al principio de un texto.<br>
+            • En los <strong>nombres propios</strong> (personas, animales, ciudades, países).<br>
+            • Y siempre <strong>después de un punto</strong>.
+        </div>
+        <button class="btn-close-modal" onclick="closeHelpModal()">¡Entendido!</button>
+    </div>
+</div>
+
+<script>
+    // Síntesis de Voz
+    function speak(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.9;
+            utterance.pitch = 1.05;
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    function showAlertModal(title, message, audioText) {
+        document.getElementById('alertModalTitle').innerText = title;
+        document.getElementById('alertModalBody').innerHTML = message;
+        document.getElementById('customAlertModal').classList.add('active');
+        if (audioText) speak(audioText);
+    }
+
+    function closeAlertModal() {
+        document.getElementById('customAlertModal').classList.remove('active');
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    }
+
+    function openHelpModal() {
+        document.getElementById('helpModal').classList.add('active');
+        speak("Recuerda que se escribe mayúscula al principio de un texto, en nombres propios y después de punto.");
+    }
+
+    function closeHelpModal() {
+        document.getElementById('helpModal').classList.remove('active');
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    }
+
+    function goToScreen(index) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(`screen-${index}`);
+        if(target) target.classList.add('active');
+
+        if (index === 4) initAct4Text();
+        if (index === 5) {
+            launchConfetti();
+            speak("¡Excelente trabajo! Has completado todas las actividades sobre las mayúsculas.");
+        }
+    }
+
+    /* ===================================================
+       LÓGICA ACTIVIDAD 1
+    =================================================== */
+    let selectedChildKey = null;
+    const matches = { 'daniela': 'colombia', 'elena': 'rumania', 'karim': 'marruecos' };
+    let matchedPairs = 0;
+
+    function selectChild(childKey) {
+        const btn = document.getElementById(`child-${childKey}`);
+        if (btn.classList.contains('matched-green')) return;
+
+        document.querySelectorAll('.act1-col:first-child .match-btn').forEach(b => {
+            if(!b.classList.contains('matched-green')) b.classList.remove('selected');
+        });
+
+        selectedChildKey = childKey;
+        btn.classList.add('selected');
+    }
+
+    function selectPlace(placeKey) {
+        if (!selectedChildKey) return;
+
+        const childBtn = document.getElementById(`child-${selectedChildKey}`);
+        const placeBtn = document.getElementById(`place-${placeKey}`);
+
+        if (placeBtn.classList.contains('matched-green')) return;
+
+        if (matches[selectedChildKey] === placeKey) {
+            childBtn.classList.remove('selected');
+            childBtn.classList.add('matched-green');
+            placeBtn.classList.add('matched-green');
+            selectedChildKey = null;
+            matchedPairs++;
+
+            if (matchedPairs === 3) {
+                showAlertModal("¡Excelente! 🌍", "¡Has relacionado correctamente a todos los niños con sus países!", "¡Muy bien! Parejas correctas.");
+            }
+        } else {
+            showAlertModal("¡Inténtalo de nuevo! 💡", "Ese país no coincide con el personaje seleccionado.", "Inténtalo de nuevo.");
+            childBtn.classList.remove('selected');
+            selectedChildKey = null;
+        }
+    }
+
+    /* ===================================================
+       LÓGICA ACTIVIDAD 2
+    =================================================== */
+    function checkAct2() {
+        const sel1 = document.getElementById('a2-select-1');
+        const sel2 = document.getElementById('a2-select-2');
+
+        if (sel1.value === 'pinocho') {
+            sel1.className = 'custom-select correct';
+        } else if (sel1.value !== '') {
+            sel1.className = 'custom-select incorrect';
+        }
+
+        if (sel2.value === 'blancanieves') {
+            sel2.className = 'custom-select correct';
+        } else if (sel2.value !== '') {
+            sel2.className = 'custom-select incorrect';
+        }
+
+        if (sel1.value === 'pinocho' && sel2.value === 'blancanieves') {
+            showAlertModal("¡Fantástico! 📚", "¡Has seleccionado a Pinocho y Blancanieves correctamente!", "¡Personajes correctos!");
+        }
+    }
+
+    /* ===================================================
+       LÓGICA ACTIVIDAD 3
+    =================================================== */
+    function checkAct3Option(btn, isCorrect) {
+        const parent = btn.parentElement;
+        parent.querySelectorAll('.opt-btn').forEach(b => {
+            b.classList.remove('correct', 'incorrect');
+        });
+
+        if (isCorrect) {
+            btn.classList.add('correct');
+        } else {
+            btn.classList.add('incorrect');
+            showAlertModal("¡Recuerda! 💡", "Los nombres de lugar siempre deben comenzar con una letra MAYÚSCULA.", "Recuerda usar mayúscula.");
+        }
+    }
+
+    /* ===================================================
+       LÓGICA ACTIVIDAD 4: SEÑALAR Y COMPROBAR
+    =================================================== */
+    const originalText = "camila y abel estuvieron en portugal con su perro mambo. visitaron las ciudades de lisboa, coímbra y oporto.";
+    // Índices de los caracteres que DEBEN ser mayúsculas (c, a, p, m, v, l, c, o)
+    const targetIndices = [0, 9, 25, 43, 52, 78, 86, 96]; 
+
+    function initAct4Text() {
+        const container = document.getElementById('interactive-text');
+        container.innerHTML = '';
+
+        for (let i = 0; i < originalText.length; i++) {
+            const char = originalText[i];
+            const span = document.createElement('span');
+            span.textContent = char;
+            
+            if (char !== ' ' && char !== '.' && char !== ',') {
+                span.className = 'char-span';
+                span.dataset.index = i;
+                span.onclick = () => toggleMarkChar(span);
+            }
+            container.appendChild(span);
+        }
+    }
+
+    // El alumno señala / desmarca la letra haciendo clic
+    function toggleMarkChar(span) {
+        if (span.classList.contains('validated-correct')) return;
+        
+        span.classList.remove('validated-wrong');
+        span.classList.toggle('marked');
+    }
+
+    // Botón de Comprobar Texto de la Actividad 4
+    function checkAct4() {
+        const allSpans = document.querySelectorAll('.char-span');
+        let selectedIndices = [];
+        let errors = false;
+
+        allSpans.forEach(span => {
+            const idx = parseInt(span.dataset.index);
+            const isMarked = span.classList.contains('marked');
+
+            if (isMarked) {
+                selectedIndices.push(idx);
+            }
+        });
+
+        if (selectedIndices.length === 0) {
+            showAlertModal("Señala alguna letra 👆", "Haz clic sobre las letras que creas que deben llevar mayúscula antes de comprobar.", "Señala alguna letra.");
+            return;
+        }
+
+        // Validar selecciones
+        allSpans.forEach(span => {
+            const idx = parseInt(span.dataset.index);
+            const isMarked = span.classList.contains('marked');
+            const shouldBeUpper = targetIndices.includes(idx);
+
+            if (isMarked && shouldBeUpper) {
+                // Correcto: se quita el marcado amarillo, se cambia a mayúscula y verde
+                span.classList.remove('marked');
+                span.classList.add('validated-correct');
+                span.textContent = span.textContent.toUpperCase();
+            } else if (isMarked && !shouldBeUpper) {
+                // Se señaló pero no debía ser mayúscula
+                span.classList.remove('marked');
+                span.classList.add('validated-wrong');
+                errors = true;
+            } else if (!isMarked && shouldBeUpper) {
+                // Faltó por señalar
+                errors = true;
+            }
+        });
+
+        // Comprobar si se han acertado exactamente todas las necesarias
+        const currentCorrect = document.querySelectorAll('.char-span.validated-correct').length;
+
+        if (!errors && currentCorrect === targetIndices.length) {
+            showAlertModal("¡Texto Perfecto! ✍️", "¡Has encontrado y corregido todas las mayúsculas correctamente!", "¡Texto corregido con éxito!");
+        } else {
+            showAlertModal("Revisa tu selección 💡", "Las letras correctas marcadas se han vuelto verdes y mayúsculas. Revisa las letras que falten o estén en rojo.", "Revisa tus selecciones.");
+        }
+    }
+
+    /* CONFETI */
+    function launchConfetti() {
+        if (typeof confetti === 'function') {
+            var count = 200;
+            var defaults = { origin: { y: 0.7 } };
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+        }
+    }
+</script>
+
+</body>
+</html>
